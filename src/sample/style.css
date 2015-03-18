@@ -1,0 +1,39 @@
+.button {
+    -fx-padding: 3 10 3 10;
+    -fx-background-color: linear-gradient(#ffebcd, #deb887);
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+}
+
+.unit {
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+    -fx-background-color: linear-gradient(#ffebcd, #deb887);
+}
+
+
+.borderPane {
+    -fx-background-color: #fff5ee;
+    -fx-border-color: gray;
+    -fx-border-width: 1px
+}
+
+.borderPane:hover {
+    -fx-border-color: black;
+    -fx-border-width: 2px
+}
+
+.control-panel {
+    -fx-background-color: #708090;
+    -fx-border-color: gray;
+    -fx-border-width: 1px;
+    -fx-padding: 10px;
+}
+
+.selected {
+    -fx-border-color: yellow;
+    -fx-border-width: 2px
+}
+
+.selected:hover {
+    -fx-border-width: 3px
+}
