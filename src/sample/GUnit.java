@@ -54,6 +54,7 @@ public class GUnit extends GObject {
     public void select(GAction action) {
         super.select(action);
         Set<GameCell> cells = getCellsToGo();
+        GameModel.MODEL.showSelectionPossibility(cells);
     }
 
     private Set<GameCell> getCellsToGo() {

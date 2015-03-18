@@ -17,6 +17,7 @@ public class GameModel {
     private List<Player> players;
     private Player activePlayer;
     private int turn = 1;
+    private Collection<? extends Selectable> possibleSelection;
 
     private GameModel() {
         initPlayers();
@@ -100,6 +101,7 @@ public class GameModel {
 
     public void cancel() {
         this.setAction(GAction.DefaultAction);
+        showSelectionPossibility(null);
         selectedObj = null;
         visualize();
     }
@@ -179,5 +181,19 @@ public class GameModel {
             }
         }
         return cells;
+    }
+
+    public void showSelectionPossibility(Collection<? extends Selectable> objects) {
+        if (possibleSelection != null) {
+            for (Selectable selectable : possibleSelection) {
+                selectable.hideSelecetionPossibility();
+            }
+        }
+        this.possibleSelection = objects;
+        if (objects != null) {
+            for (Selectable object : objects) {
+                object.showSelectionPossibility();
+            }
+        }
     }
 }

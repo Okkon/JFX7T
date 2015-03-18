@@ -5,4 +5,8 @@ package sample;
  */
 public interface Selectable {
     public void select(GAction action);
+
+    void showSelectionPossibility();
+
+    void hideSelecetionPossibility();
 }

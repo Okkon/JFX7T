@@ -1,7 +1,5 @@
 package sample;
 
-import java.util.Map;
-
 public abstract class GObject implements Selectable {
     protected GameCell place;
     protected Player player;
@@ -17,6 +15,16 @@ public abstract class GObject implements Selectable {
     @Override
     public void select(GAction action) {
         GameModel.MODEL.setAction(baseAction);
+    }
+
+    @Override
+    public void showSelectionPossibility() {
+
+    }
+
+    @Override
+    public void hideSelecetionPossibility() {
+
     }
 
     public Player getPlayer() {

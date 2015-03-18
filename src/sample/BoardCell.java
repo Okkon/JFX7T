@@ -5,13 +5,14 @@ import javafx.scene.layout.BorderPane;
 
 public class BoardCell extends BorderPane implements CellVisualizer {
     public static final String SELECTED = "selected";
+    private static final String CAN_BE_SELECTED = "canBeSelected";
     private GameCell cell;
     private static BoardCell lastSelected;
 
     public BoardCell(GameCell cell) {
         this.cell = cell;
         this.getStyleClass().add("borderPane");
-        cell.setGraphics(this);
+        cell.setCellVisualizer(this);
     }
 
     public static BoardCell getLastSelected() {
@@ -36,7 +37,17 @@ public class BoardCell extends BorderPane implements CellVisualizer {
             label.getStyleClass().add("unit");
             label.setTextFill(obj.getPlayer().getColor());
             setCenter(label);
-        };
+        }
+    }
+
+    @Override
+    public void showSelectionPossibility() {
+        getStyleClass().add(CAN_BE_SELECTED);
+    }
+
+    @Override
+    public void hideSelectionPossibility() {
+        getStyleClass().remove(CAN_BE_SELECTED);
     }
 
     public GameCell getGameCell() {
