@@ -29,6 +29,11 @@ public class GameCell implements Selectable{
         }
     }
 
+    @Override
+    public String toString() {
+        return xy.getX() + ":" + xy.getY();
+    }
+
     public void setGraphics(CellVisualizer graphics) {
         this.graphics = graphics;
     }

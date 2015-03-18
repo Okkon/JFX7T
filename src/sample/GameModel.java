@@ -153,4 +153,31 @@ public class GameModel {
     public Set<GObject> getObjects() {
         return objects;
     }
+
+    public static Collection<Way> findAllWays(GUnit unit, MoveType moveType) {
+        Map<GameCell, Way> destinations = new HashMap<GameCell, Way>();
+        Way start = new Way(unit.getPlace(), unit.getMP());
+
+        Set<Way> ways = moveType.getWayPoints(start, unit);
+        for (Way way : ways) {
+            final Way shortestWay = destinations.get(way.getCell());
+            if (shortestWay == null || way.getMp() > shortestWay.getMp()) {
+                destinations.put(way.getCell(), way);
+            }
+        }
+
+        return destinations.values();
+    }
+
+
+    public List<GameCell> getNearCells(GameCell cell) {
+        List<GameCell> cells = new ArrayList<GameCell>();
+        XY xy = cell.getXy();
+        for (GameCell gameCell : board.values()) {
+            if (XY.isNear(xy, gameCell.getXy())) {
+                cells.add(gameCell);
+            }
+        }
+        return cells;
+    }
 }

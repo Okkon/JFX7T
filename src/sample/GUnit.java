@@ -1,5 +1,9 @@
 package sample;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by kondrashov on 25.02.2015.
  */
@@ -12,6 +16,7 @@ public class GUnit extends GObject {
     private int randDamage;
     protected UnitType type;
     private boolean isAlive;
+    private MoveType moveType;
 
     public GUnit(int maxHp, int maxMp, int minDamage, int randDamage) {
         this.maxHp = maxHp;
@@ -21,6 +26,7 @@ public class GUnit extends GObject {
         isAlive = true;
         baseAction = new BaseUnitAction();
         baseAction.setOwner(this);
+        moveType = MoveType.DEFAULT;
         fill();
     }
 
@@ -44,12 +50,31 @@ public class GUnit extends GObject {
         return type.toString().substring(0,2);
     }
 
+    @Override
+    public void select(GAction action) {
+        super.select(action);
+        Set<GameCell> cells = getCellsToGo();
+    }
+
+    private Set<GameCell> getCellsToGo() {
+        Set<GameCell> possibleCells = new HashSet<GameCell>();
+        final Collection<Way> allWays = GameModel.findAllWays(this, moveType);
+        for (Way way : allWays) {
+            possibleCells.add(way.getCell());
+        }
+        return possibleCells;
+    }
+
     public void setType(UnitType type) {
         this.type = type;
     }
 
     public UnitType getType() {
         return type;
+    }
+
+    public int getMP() {
+        return mp;
     }
 
     private class BaseUnitAction extends AbstractGAction {
