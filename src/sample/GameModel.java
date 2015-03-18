@@ -75,14 +75,6 @@ public class GameModel {
         }
     }
 
-    public GObject getObjAt(XY xy) {
-        final GameCell cell = board.get(xy);
-        if (cell != null) {
-            return cell.getObj();
-        }
-        return null;
-    }
-
     public GAction[] getActions() {
         return possibleActions;
     }
