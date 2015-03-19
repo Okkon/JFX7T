@@ -13,6 +13,7 @@ public class Main extends Application {
         GameModel gameModel = GameModel.MODEL;
         gameModel.setBoard(14, 8);
         GamePanel mainPane = new GamePanel(gameModel);
+        gameModel.init();
 
         final Scene scene = new Scene(mainPane);
         scene.getStylesheets().add(Main.class.getResource("style.css").toExternalForm());

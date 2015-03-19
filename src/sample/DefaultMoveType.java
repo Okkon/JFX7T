@@ -26,8 +26,14 @@ public class DefaultMoveType implements MoveType {
         final List<GameCell> wayToCell = getWayToCell(lastFoundWays, gameCell);
         for (GameCell cell : wayToCell) {
             GameModel.MODEL.log(unit + " move from " + unit.getXy() + " to " + cell.getXy());
-            unit.shift(cell);
+            step(unit, cell);
         }
+    }
+
+    private void step(GUnit unit, GameCell cell) {
+        final int distance = XY.getDistance(unit.getXy(), cell.getXy());
+        unit.shift(cell);
+        unit.looseMP(distance);
     }
 
     private List<GameCell> getWayToCell(Collection<Way> lastFoundWays, GameCell gameCell) {

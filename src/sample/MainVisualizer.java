@@ -3,7 +3,7 @@ package sample;
 /**
  * Created by kondrashov on 16.03.2015.
  */
-public interface Visualizer {
+public interface MainVisualizer {
     void refresh();
 
     GObject createUnitCreationPanel();
@@ -14,7 +14,11 @@ public interface Visualizer {
 
     void selectObj(Selectable obj);
 
-    void updateTurnNumber();
+    void showTurnNumber();
 
     void log(String s);
+
+    void showActivePlayer();
+
+    void createVisualizerFor(GObject obj);
 }

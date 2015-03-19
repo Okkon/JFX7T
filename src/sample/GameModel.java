@@ -9,19 +9,21 @@ public class GameModel {
     private static Collection<Way> lastFoundWays;
     Set<GObject> objects = new HashSet<GObject>();
     public static GameModel MODEL = new GameModel();
-    private GAction[] possibleActions = {new SelectAction(), new ShiftAction(), new CreateAction(), new EndTurnAction(), new EndHourAction()};
-
+    private GAction[] possibleActions = {new SelectAction(), new ShiftAction(), new CreateAction(), new EndTurnAction()};
     private GAction selectedAction = possibleActions[0];
     private Map<XY, GameCell> board = new HashMap<XY, GameCell>();
-    private Visualizer graphics;
-    private Selectable selectedObj;
+    private MainVisualizer graphics;
+    private GObject selectedObj;
     private List<Player> players;
     private Player activePlayer;
     private int turn = 1;
     private Collection<? extends Selectable> possibleSelection;
 
-    private GameModel() {
+    public void init() {
         initPlayers();
+        graphics.showActivePlayer();
+        graphics.showTurnNumber();
+        cancel();
     }
 
     private void initPlayers() {
@@ -33,6 +35,15 @@ public class GameModel {
 
     public void press(Selectable aim) {
         if (selectedAction != null) {
+            if (aim instanceof GameCell) {
+                GameCell gameCell = (GameCell) aim;
+                final GObject obj = gameCell.getObj();
+                if (obj != null && selectedAction.canSelect(obj)) {
+                    selectedAction.act(obj);
+                    return;
+                }
+            }
+            if (selectedAction.canSelect(aim))
             selectedAction.act(aim);
         }
     }
@@ -44,6 +55,7 @@ public class GameModel {
         obj.setPlace(cell);
         cell.setObj(obj);
         objects.add(obj);
+        graphics.createVisualizerFor(obj);
         refresh();
     }
 
@@ -61,7 +73,7 @@ public class GameModel {
         graphics.showAction(action);
     }
 
-    public void setGraphics(Visualizer graphics) {
+    public void setGraphics(MainVisualizer graphics) {
         this.graphics = graphics;
     }
 
@@ -84,7 +96,10 @@ public class GameModel {
     }
 
     public void select(Selectable obj) {
-        this.selectedObj = obj;
+        if (obj instanceof GObject) {
+            GObject gObject = (GObject) obj;
+            this.selectedObj = gObject;
+        }
         obj.select(GAction.DefaultAction);
         graphics.selectObj(obj);
         graphics.showInfo(obj);
@@ -110,11 +125,15 @@ public class GameModel {
     }
 
     public void endTurn() {
+        if (selectedObj != null) {
+            selectedObj.endTurn();
+        }
         cancel();
         if (!someoneCanAct()) {
             endHour();
         }
         passTurn();
+        graphics.showActivePlayer();
     }
 
     private void passTurn() {
@@ -144,7 +163,7 @@ public class GameModel {
 
     public void endHour() {
         turn++;
-        graphics.updateTurnNumber();
+        graphics.showTurnNumber();
     }
 
     public int getTurn() {
@@ -221,5 +240,9 @@ public class GameModel {
             }
         }
         return nearCells;
+    }
+
+    public Player getActivePlayer() {
+        return activePlayer;
     }
 }

@@ -17,6 +17,7 @@ public class GUnit extends GObject {
     protected UnitType type;
     private boolean isAlive;
     private MoveType moveType;
+    private AttackType attackType;
 
     public GUnit(int maxHp, int maxMp, int minDamage, int randDamage) {
         this.maxHp = maxHp;
@@ -27,6 +28,7 @@ public class GUnit extends GObject {
         baseAction = new BaseUnitAction();
         baseAction.setOwner(this);
         moveType = MoveType.DEFAULT;
+        attackType = AttackType.DEFAULT;
         fill();
     }
 
@@ -37,12 +39,17 @@ public class GUnit extends GObject {
 
     @Override
     public void takeHit(Hit hit) {
-        super.takeHit(hit);
+        this.hp -= hit.getDamage();
+        GameModel.MODEL.log(this + " has " + hp + " left");
+        if (hp <= 0) {
+            die();
+            GameModel.MODEL.log(this + " die!");
+        }
     }
 
     @Override
     public boolean canAct() {
-        return isAlive && mp > 0;
+        return hp > 0 && mp > 0;
     }
 
     @Override
@@ -82,6 +89,18 @@ public class GUnit extends GObject {
         return place.getXy();
     }
 
+    public int getDamage() {
+        return minDamage;
+    }
+
+    public int getRandDamage() {
+        return randDamage;
+    }
+
+    public void looseMP(int k) {
+        mp -= k;
+    }
+
     private class BaseUnitAction extends AbstractGAction {
         @Override
         public void act(Selectable obj) {
@@ -99,6 +118,12 @@ public class GUnit extends GObject {
         }
     }
 
+    @Override
+    public void endTurn() {
+        super.endTurn();
+        this.mp = 0;
+    }
+
     private void go(GameCell gameCell) {
         moveType.go(this, gameCell);
         if (canAct()) {
@@ -106,7 +131,7 @@ public class GUnit extends GObject {
         }
     }
 
-    private void attack(GObject gObject) {
-
+    private void attack(GObject obj) {
+        attackType.attack(this, obj);
     }
 }

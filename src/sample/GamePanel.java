@@ -5,7 +5,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -16,13 +19,12 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
-public class GamePanel extends GridPane implements Visualizer {
+public class GamePanel extends GridPane implements MainVisualizer {
     private GameModel model;
-    private Set<BoardCell> cells;
+    private Map<GameCell, BoardCell> cells;
     private VBox actionPanel;
     private GridPane infoPanel;
     private BorderPane controlPanel;
@@ -74,15 +76,15 @@ public class GamePanel extends GridPane implements Visualizer {
     private void initBoard() {
         boardPane = new GridPane();
         boardPane.setGridLinesVisible(true);
-        cells = new HashSet<BoardCell>();
+        cells = new HashMap<GameCell, BoardCell>();
         final Map<XY, GameCell> board = model.getBoard();
         for (Map.Entry<XY, GameCell> entry : board.entrySet()) {
-            final BoardCell cell = new BoardCell(entry.getValue());
+            final BoardCell boardCell = new BoardCell(entry.getValue());
             final int cellSize = 35;
-            cell.setMinSize(cellSize, cellSize);
-            cell.setPrefSize(cellSize, cellSize);
-            cell.setMaxSize(cellSize, cellSize);
-            cell.setOnMousePressed(new EventHandler<MouseEvent>() {
+            boardCell.setMinSize(cellSize, cellSize);
+            boardCell.setPrefSize(cellSize, cellSize);
+            boardCell.setMaxSize(cellSize, cellSize);
+            boardCell.setOnMousePressed(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
                     BoardCell selectedCell = (BoardCell) mouseEvent.getSource();
@@ -90,8 +92,8 @@ public class GamePanel extends GridPane implements Visualizer {
                     refresh();
                 }
             });
-            boardPane.add(cell, entry.getKey().getX(), entry.getKey().getY());
-            cells.add(cell);
+            boardPane.add(boardCell, entry.getKey().getX(), entry.getKey().getY());
+            cells.put(entry.getValue(), boardCell);
         }
     }
 
@@ -108,20 +110,6 @@ public class GamePanel extends GridPane implements Visualizer {
 
     @Override
     public void refresh() {
-        GameCell obj = null;
-        if (model.getSelectedObj() instanceof GameCell) {
-            obj = (GameCell) model.getSelectedObj();
-        }
-        final BoardCell lastSelected = BoardCell.getLastSelected();
-        if (lastSelected != null) {
-            lastSelected.deselect();
-        }
-        for (BoardCell cell : cells) {
-            cell.visualize();
-            if (obj != null && obj.equals(cell.getGameCell())) {
-                cell.select();
-            }
-        }
 //                cell.setGraphic(new ImageView(new Image(Main.class.getResourceAsStream("/resources/pic.png"))));
     }
 
@@ -140,7 +128,6 @@ public class GamePanel extends GridPane implements Visualizer {
                 new Scene(
                         VBoxBuilder.create().styleClass("modal-dialog").children(
                                 list,
-                                LabelBuilder.create().text("Choose Unit Type").build(),
                                 UIHelper.createUnitChoosingList(UnitType.values(), unitType, dialog)
                         ).build(),
                         Color.GRAY
@@ -172,7 +159,7 @@ public class GamePanel extends GridPane implements Visualizer {
     }
 
     @Override
-    public void updateTurnNumber() {
+    public void showTurnNumber() {
         turnLabel.setText(Integer.toString(model.getTurn()));
     }
 
@@ -181,10 +168,29 @@ public class GamePanel extends GridPane implements Visualizer {
         gameLog.appendText(s + "\n");
     }
 
+    @Override
+    public void showActivePlayer() {
+        selectedPlayer.setText(String.valueOf(GameModel.MODEL.getActivePlayer()));
+    }
+
+    @Override
+    public void createVisualizerFor(GObject obj) {
+        if (obj != null) {
+            final GObjectVisualizerImpl visualizer = new GObjectVisualizerImpl(obj, this);
+            obj.setVisualizer(visualizer);
+            final BoardCell cell = cells.get(obj.getPlace());
+            cell.setCenter(visualizer);
+        }
+    }
+
     private Stage createDialog() {
         final Stage dialog = new Stage(StageStyle.TRANSPARENT);
         dialog.initModality(Modality.WINDOW_MODAL);
         dialog.initOwner(getScene().getWindow());
         return dialog;
+    }
+
+    public BoardCell getBoardCell(GameCell currentCell) {
+        return cells.get(currentCell);
     }
 }

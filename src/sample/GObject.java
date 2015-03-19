@@ -1,15 +1,21 @@
 package sample;
 
 public abstract class GObject implements Selectable {
+    protected GObjectVisualizer visualizer;
     protected GameCell place;
     protected Player player;
-    protected AbstractGAction baseAction = new ShiftAction(this);
+    protected AbstractGAction baseAction = new SelectAction();
 
     public GObject() {
     }
 
     public void takeHit(Hit hit) {
+        die();
+    }
 
+    protected void die() {
+        GameModel.MODEL.getObjects().remove(this);
+        visualizer.die(place);
     }
 
     @Override
@@ -41,6 +47,7 @@ public abstract class GObject implements Selectable {
             currentCell.setObj(null);
             this.place = cellToGo;
             cellToGo.setObj(this);
+            visualizer.changePlace(currentCell, cellToGo);
         }
     }
 
@@ -62,5 +69,13 @@ public abstract class GObject implements Selectable {
 
     public boolean canAct() {
         return false;
+    }
+
+    public void setVisualizer(GObjectVisualizer visualizer) {
+        this.visualizer = visualizer;
+    }
+
+    public void endTurn() {
+
     }
 }

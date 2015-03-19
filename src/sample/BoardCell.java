@@ -1,6 +1,5 @@
 package sample;
 
-import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 
 public class BoardCell extends BorderPane implements CellVisualizer {
@@ -25,14 +24,7 @@ public class BoardCell extends BorderPane implements CellVisualizer {
 
     @Override
     public void visualize() {
-        setCenter(null);
-        final GObject obj = cell.getObj();
-        if (obj != null) {
-            final Label label = new Label(obj.toString());
-            label.getStyleClass().add("unit");
-            label.setTextFill(obj.getPlayer().getColor());
-            setCenter(label);
-        }
+
     }
 
     @Override
