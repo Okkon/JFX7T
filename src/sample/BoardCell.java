@@ -25,11 +25,6 @@ public class BoardCell extends BorderPane implements CellVisualizer {
 
     @Override
     public void visualize() {
-        if (GameModel.MODEL.getSelectedObj() != cell) {
-            this.getStyleClass().remove(SELECTED);
-        }else {
-            this.getStyleClass().add(SELECTED);
-        }
         setCenter(null);
         final GObject obj = cell.getObj();
         if (obj != null) {

@@ -35,7 +35,7 @@ public class GameCell implements Selectable{
     }
 
     @Override
-    public void hideSelecetionPossibility() {
+    public void hideSelectionPossibility() {
         cellVisualizer.hideSelectionPossibility();
     }
 
@@ -46,5 +46,9 @@ public class GameCell implements Selectable{
 
     public void setCellVisualizer(CellVisualizer cellVisualizer) {
         this.cellVisualizer = cellVisualizer;
+    }
+
+    public boolean isNotEmpty() {
+        return getObj() != null;
     }
 }

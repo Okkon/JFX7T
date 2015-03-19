@@ -26,6 +26,11 @@ public class XY {
         this.y = y;
     }
 
+    @Override
+    public String toString() {
+        return x + ":" + y;
+    }
+
     public static boolean isNear(XY p1, XY p2) {
         if (p1.equals(p2)) {
             return false;

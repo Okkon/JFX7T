@@ -23,7 +23,7 @@ public abstract class GObject implements Selectable {
     }
 
     @Override
-    public void hideSelecetionPossibility() {
+    public void hideSelectionPossibility() {
 
     }
 

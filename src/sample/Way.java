@@ -27,7 +27,18 @@ public class Way {
 
     public Way next(GameCell cell, int mp) {
         final Way way = new Way(cell, mp);
+        way.points.addAll(this.points);
         way.points.add(this);
         return way;
+    }
+
+    public List<GameCell> transformToCellList() {
+        List<GameCell> cells = new ArrayList<GameCell>();
+        for (Way wayPoint : points) {
+            cells.add(wayPoint.getCell());
+        }
+        cells.remove(0);
+        cells.add(getCell());
+        return cells;
     }
 }

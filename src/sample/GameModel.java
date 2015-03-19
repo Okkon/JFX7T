@@ -6,6 +6,7 @@ import java.util.*;
 
 
 public class GameModel {
+    private static Collection<Way> lastFoundWays;
     Set<GObject> objects = new HashSet<GObject>();
     public static GameModel MODEL = new GameModel();
     private GAction[] possibleActions = {new SelectAction(), new ShiftAction(), new CreateAction(), new EndTurnAction(), new EndHourAction()};
@@ -25,8 +26,8 @@ public class GameModel {
 
     private void initPlayers() {
         players = new ArrayList<Player>();
-        players.add(new Player("1", Color.AZURE));
-        players.add(new Player("2", Color.CORAL));
+        players.add(new Player("P1", Color.AZURE));
+        players.add(new Player("P2", Color.CORAL));
         activePlayer = players.get(0);
     }
 
@@ -36,13 +37,11 @@ public class GameModel {
         }
     }
 
-    public void createUnit(UnitType type, GameCell cell) {
+    public void createUnit(GObject obj, GameCell cell) {
         if (cell == null || cell.getObj() != null) {
             return;
         }
-        GObject obj = GObjectFactory.create(type);
         obj.setPlace(cell);
-        obj.setPlayer(activePlayer);
         cell.setObj(obj);
         objects.add(obj);
         refresh();
@@ -95,8 +94,8 @@ public class GameModel {
         graphics.refresh();
     }
 
-    public UnitType createUnitChooser() {
-        return graphics.createUnitChooser();
+    public GObject createUnitCreationPanel() {
+        return graphics.createUnitCreationPanel();
     }
 
     public void cancel() {
@@ -156,19 +155,30 @@ public class GameModel {
         return objects;
     }
 
+    public static Collection<Way> getLastFoundWays() {
+        return lastFoundWays;
+    }
+
     public static Collection<Way> findAllWays(GUnit unit, MoveType moveType) {
         Map<GameCell, Way> destinations = new HashMap<GameCell, Way>();
         Way start = new Way(unit.getPlace(), unit.getMP());
+        Queue<Way> wayQueue = new ArrayDeque<Way>();
+        wayQueue.add(start);
 
-        Set<Way> ways = moveType.getWayPoints(start, unit);
-        for (Way way : ways) {
-            final Way shortestWay = destinations.get(way.getCell());
-            if (shortestWay == null || way.getMp() > shortestWay.getMp()) {
-                destinations.put(way.getCell(), way);
+        while (!wayQueue.isEmpty()) {
+            Set<Way> ways = moveType.getWayPoints(wayQueue.poll(), unit);
+            for (Way way : ways) {
+                final Way shortestWay = destinations.get(way.getCell());
+                if (shortestWay == null || way.getMp() > shortestWay.getMp()) {
+                    destinations.put(way.getCell(), way);
+                    wayQueue.add(way);
+                }
             }
         }
 
-        return destinations.values();
+        final Collection<Way> wayCollection = destinations.values();
+        lastFoundWays = wayCollection;
+        return wayCollection;
     }
 
 
@@ -186,7 +196,7 @@ public class GameModel {
     public void showSelectionPossibility(Collection<? extends Selectable> objects) {
         if (possibleSelection != null) {
             for (Selectable selectable : possibleSelection) {
-                selectable.hideSelecetionPossibility();
+                selectable.hideSelectionPossibility();
             }
         }
         this.possibleSelection = objects;
@@ -195,5 +205,21 @@ public class GameModel {
                 object.showSelectionPossibility();
             }
         }
+    }
+
+    public void log(String s) {
+        graphics.log(s);
+    }
+
+    public List<GameCell> getEmptyNearCells(GameCell cell) {
+        final List<GameCell> nearCells = getNearCells(cell);
+        final Iterator<GameCell> iterator = nearCells.iterator();
+        while (iterator.hasNext()) {
+            GameCell next = iterator.next();
+            if (next.isNotEmpty()) {
+                iterator.remove();
+            }
+        }
+        return nearCells;
     }
 }

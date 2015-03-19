@@ -5,19 +5,21 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by kondrashov on 25.02.2015.
- */
 public class Player {
     public static final Player NEUTRAL = new Player("Neutral", Color.GREY);
     private String name;
     private int score;
     private Color color;
-    private Object activeUnits;
+
+    @Override
+    public String toString() {
+        return name + String.format("(%d)", score);
+    }
 
     public Player(String name, Color color) {
         this.name = name;
         this.color = color;
+        score = 0;
     }
 
     public Color getColor() {

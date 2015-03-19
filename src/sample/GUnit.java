@@ -78,6 +78,10 @@ public class GUnit extends GObject {
         return mp;
     }
 
+    public XY getXy() {
+        return place.getXy();
+    }
+
     private class BaseUnitAction extends AbstractGAction {
         @Override
         public void act(Selectable obj) {
@@ -96,7 +100,10 @@ public class GUnit extends GObject {
     }
 
     private void go(GameCell gameCell) {
-        shift(gameCell);
+        moveType.go(this, gameCell);
+        if (canAct()) {
+            select(GAction.DefaultAction);
+        }
     }
 
     private void attack(GObject gObject) {

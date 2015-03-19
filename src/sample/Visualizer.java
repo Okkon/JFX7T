@@ -6,7 +6,7 @@ package sample;
 public interface Visualizer {
     void refresh();
 
-    UnitType createUnitChooser();
+    GObject createUnitCreationPanel();
 
     void showInfo(Selectable obj);
 
@@ -15,4 +15,6 @@ public interface Visualizer {
     void selectObj(Selectable obj);
 
     void updateTurnNumber();
+
+    void log(String s);
 }

@@ -9,4 +9,6 @@ public interface MoveType {
     MoveType DEFAULT = new DefaultMoveType();
 
     Set<Way> getWayPoints(Way start, GUnit unit);
+
+    void go(GUnit unit, GameCell gameCell);
 }

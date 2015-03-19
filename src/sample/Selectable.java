@@ -8,5 +8,5 @@ public interface Selectable {
 
     void showSelectionPossibility();
 
-    void hideSelecetionPossibility();
+    void hideSelectionPossibility();
 }
