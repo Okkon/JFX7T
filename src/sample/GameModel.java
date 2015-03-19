@@ -34,16 +34,15 @@ public class GameModel {
     }
 
     public void press(Selectable aim) {
-        if (selectedAction != null) {
-            if (aim instanceof GameCell) {
-                GameCell gameCell = (GameCell) aim;
-                final GObject obj = gameCell.getObj();
-                if (obj != null && selectedAction.canSelect(obj)) {
-                    selectedAction.act(obj);
-                    return;
-                }
+        if (aim instanceof GameCell) {
+            GameCell gameCell = (GameCell) aim;
+            final GObject obj = gameCell.getObj();
+            if (obj != null && selectedAction.canSelect(obj)) {
+                selectedAction.act(obj);
+                return;
             }
-            if (selectedAction.canSelect(aim))
+        }
+        if (selectedAction.canSelect(aim)) {
             selectedAction.act(aim);
         }
     }
@@ -244,5 +243,13 @@ public class GameModel {
 
     public Player getActivePlayer() {
         return activePlayer;
+    }
+
+    public boolean isNear(GUnit attacker, GObject aim) {
+        return XY.isNear(attacker.getPlace().getXy(), aim.getPlace().getXy());
+    }
+
+    public void error(String s) {
+        graphics.error(s);
     }
 }

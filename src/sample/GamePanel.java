@@ -5,10 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -170,7 +167,9 @@ public class GamePanel extends GridPane implements MainVisualizer {
 
     @Override
     public void showActivePlayer() {
-        selectedPlayer.setText(String.valueOf(GameModel.MODEL.getActivePlayer()));
+        final Player player = GameModel.MODEL.getActivePlayer();
+        selectedPlayer.setText(String.valueOf(player));
+        selectedPlayer.setTextFill(player.getColor());
     }
 
     @Override
@@ -181,6 +180,25 @@ public class GamePanel extends GridPane implements MainVisualizer {
             final BoardCell cell = cells.get(obj.getPlace());
             cell.setCenter(visualizer);
         }
+    }
+
+    @Override
+    public void error(String s) {
+        final Stage dialog = createDialog();
+        dialog.setScene(
+                new Scene(
+                        VBoxBuilder.create().styleClass("modal-dialog").children(
+                                ButtonBuilder.create().text(s).defaultButton(true).onAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        dialog.close();
+                                    }
+                                }).build()
+                        ).build(),
+                        Color.GRAY
+                )
+        );
+        dialog.showAndWait();
     }
 
     private Stage createDialog() {

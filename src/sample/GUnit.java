@@ -4,9 +4,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by kondrashov on 25.02.2015.
- */
 public class GUnit extends GObject {
     private int hp;
     private int maxHp;

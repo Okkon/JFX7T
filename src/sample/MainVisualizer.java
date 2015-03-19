@@ -21,4 +21,6 @@ public interface MainVisualizer {
     void showActivePlayer();
 
     void createVisualizerFor(GObject obj);
+
+    void error(String s);
 }
