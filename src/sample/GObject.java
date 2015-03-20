@@ -1,10 +1,14 @@
 package sample;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class GObject implements Selectable {
     protected GObjectVisualizer visualizer;
     protected GameCell place;
     protected Player player;
     protected AbstractGAction baseAction = new SelectAction();
+    private List<GMod> mods = new ArrayList<GMod>();
 
     public GObject() {
     }
@@ -75,7 +79,19 @@ public abstract class GObject implements Selectable {
         this.visualizer = visualizer;
     }
 
+    public XY getXy() {
+        return place.getXy();
+    }
+
     public void endTurn() {
 
+    }
+
+    public List<GMod> getMods() {
+        return mods;
+    }
+
+    public void addMod(GMod mod) {
+        mods.add(mod);
     }
 }

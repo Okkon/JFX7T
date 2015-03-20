@@ -96,8 +96,7 @@ public class GameModel {
 
     public void select(Selectable obj) {
         if (obj instanceof GObject) {
-            GObject gObject = (GObject) obj;
-            this.selectedObj = gObject;
+            this.selectedObj = (GObject) obj;
         }
         obj.select(GAction.DefaultAction);
         graphics.selectObj(obj);
@@ -130,8 +129,9 @@ public class GameModel {
         cancel();
         if (!someoneCanAct()) {
             endHour();
+        } else {
+            passTurn();
         }
-        passTurn();
         graphics.showActivePlayer();
     }
 
@@ -246,10 +246,23 @@ public class GameModel {
     }
 
     public boolean isNear(GUnit attacker, GObject aim) {
-        return XY.isNear(attacker.getPlace().getXy(), aim.getPlace().getXy());
+        return XY.isNear(attacker.getXy(), aim.getXy());
     }
 
     public void error(String s) {
         graphics.error(s);
+    }
+
+    public Set<GUnit> getNearUnits(GameCell cell) {
+        Set<GUnit> unitSet = new HashSet<GUnit>();
+        for (GObject object : objects) {
+            if (object instanceof GUnit) {
+                GUnit gUnit = (GUnit) object;
+                if (XY.isNear(cell.getXy(), gUnit.getXy())) {
+                    unitSet.add(gUnit);
+                }
+            }
+        }
+        return unitSet;
     }
 }

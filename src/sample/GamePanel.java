@@ -23,7 +23,7 @@ public class GamePanel extends GridPane implements MainVisualizer {
     private GameModel model;
     private Map<GameCell, BoardCell> cells;
     private VBox actionPanel;
-    private GridPane infoPanel;
+    private GridPane gameInfoPanel;
     private BorderPane controlPanel;
     private GridPane boardPane;
     private final TextArea gameLog;
@@ -31,6 +31,7 @@ public class GamePanel extends GridPane implements MainVisualizer {
     private Label selectedActionLabel = new Label();
     private Label selectedPlayer = new Label();
     private Label turnLabel = new Label();
+    private GridPane objInfoPanel = new GridPane();
 
     public GamePanel(GameModel gameModel) {
         gameModel.setGraphics(this);
@@ -49,15 +50,15 @@ public class GamePanel extends GridPane implements MainVisualizer {
     }
 
     private void initControlPanel() {
-        infoPanel = new GridPane();
-        infoPanel.add(new Label("Selected Obj - "), 0, 0);
-        infoPanel.add(selectedObjLabel, 1, 0);
-        infoPanel.add(new Label("Selected Action - "), 0, 1);
-        infoPanel.add(selectedActionLabel, 1, 1);
-        infoPanel.add(new Label("Selected Player - "), 0, 2);
-        infoPanel.add(selectedPlayer, 1, 2);
-        infoPanel.add(new Label("Turn - "), 0, 3);
-        infoPanel.add(turnLabel, 1, 3);
+        gameInfoPanel = new GridPane();
+        gameInfoPanel.add(new Label("Selected Obj - "), 0, 0);
+        gameInfoPanel.add(selectedObjLabel, 1, 0);
+        gameInfoPanel.add(new Label("Selected Action - "), 0, 1);
+        gameInfoPanel.add(selectedActionLabel, 1, 1);
+        gameInfoPanel.add(new Label("Selected Player - "), 0, 2);
+        gameInfoPanel.add(selectedPlayer, 1, 2);
+        gameInfoPanel.add(new Label("Turn - "), 0, 3);
+        gameInfoPanel.add(turnLabel, 1, 3);
 
         actionPanel = new VBox(5);
         for (GAction action : GameModel.MODEL.getActions()) {
@@ -66,8 +67,9 @@ public class GamePanel extends GridPane implements MainVisualizer {
 
         controlPanel = new BorderPane();
         controlPanel.getStyleClass().add("control-panel");
+        controlPanel.setTop(gameInfoPanel);
+        controlPanel.setCenter(objInfoPanel);
         controlPanel.setBottom(actionPanel);
-        controlPanel.setTop(infoPanel);
     }
 
     private void initBoard() {
@@ -115,6 +117,7 @@ public class GamePanel extends GridPane implements MainVisualizer {
         final UnitType[] unitType = new UnitType[1];
         ListView<Player> list = new ListView<Player>();
         ObservableList<Player> items = FXCollections.observableArrayList(model.getPlayers());
+        items.add(Player.NEUTRAL);
         list.setItems(items);
         list.setPrefWidth(100);
         list.setPrefHeight(70);
@@ -138,8 +141,24 @@ public class GamePanel extends GridPane implements MainVisualizer {
 
     @Override
     public void showInfo(Selectable obj) {
+        if (obj instanceof GUnit) {
+            GUnit gUnit = (GUnit) obj;
+            createUnitInfoPanel(objInfoPanel, gUnit);
+        }
 
+    }
 
+    private GridPane createUnitInfoPanel(GridPane pane, GUnit unit) {
+        pane.getChildren().clear();
+        pane.add(new Label("Name: "), 0, 0);
+        pane.add(new Label(unit.toString()), 1, 0);
+        pane.add(new Label("HP:"), 0, 1);
+        pane.add(new Label(String.format("%d/%d", unit.getHP(), unit.getMaxHP())), 1, 1);
+        pane.add(new Label("MP:"), 0, 2);
+        pane.add(new Label(String.format("%d/%d", unit.getMP(), unit.getMaxMP())), 1, 2);
+        pane.add(new Label("Damage"), 0, 3);
+        pane.add(new Label(String.format("%d-%d", unit.getDamage(), unit.getRandDamage())), 1, 3);
+        return pane;
     }
 
     @Override

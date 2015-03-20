@@ -8,10 +8,13 @@ public class GObjectFactory {
         switch (type) {
             case Footman: {
                 gObject = new GUnit(4, 21, 2, 2);
+                gObject.addMod(new Armor(2));
                 break;
             }
             case Inquisitor:{
                 gObject = new GUnit(5, 24, 2, 2);
+                gObject.addMod(new MagicSword());
+                gObject.addMod(new MagicArmor(2));
                 break;
             }
             case Archer:{

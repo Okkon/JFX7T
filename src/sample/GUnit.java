@@ -82,10 +82,6 @@ public class GUnit extends GObject {
         return mp;
     }
 
-    public XY getXy() {
-        return place.getXy();
-    }
-
     public int getDamage() {
         return minDamage;
     }
@@ -96,6 +92,22 @@ public class GUnit extends GObject {
 
     public void looseMP(int k) {
         mp -= k;
+    }
+
+    public Integer getControlPower() {
+        return 1;
+    }
+
+    public int getMaxMP() {
+        return maxMp;
+    }
+
+    public int getHP() {
+        return hp;
+    }
+
+    public int getMaxHP() {
+        return maxHp;
     }
 
     private class BaseUnitAction extends AbstractGAction {

@@ -2,6 +2,8 @@ package sample;
 
 
 public class XY {
+    public static final int diagonalLength = 15;
+    public static final int straightLength = 10;
     private int x;
     private int y;
 
@@ -35,7 +37,7 @@ public class XY {
         if (p1.equals(p2)) {
             return false;
         }
-        return XY.getDistance(p1, p2) < 16;
+        return XY.getDistance(p1, p2) <= diagonalLength;
     }
 
     public static int getDistance(XY p1, XY p2) {
@@ -46,6 +48,6 @@ public class XY {
         final int dx = Math.abs(x2 - x1);
         final int dy = Math.abs(y2 - y1);
         final int notDiagonal = Math.abs(dx - dy);
-        return (Math.max(dx, dy) - notDiagonal) * 15 + notDiagonal * 10;
+        return (Math.max(dx, dy) - notDiagonal) * diagonalLength + notDiagonal * straightLength;
     }
 }

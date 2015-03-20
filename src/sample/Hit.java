@@ -59,4 +59,23 @@ public class Hit {
         }
         return d;
     }
+
+    public void setDamageType(DamageType damageType) {
+        this.damageType = damageType;
+    }
+
+    public static int reduceDamage(Hit hit, int val, DamageType damageType) {
+        if (hit.damageType != damageType) {
+            return val;
+        }
+        final int hitDamage = hit.getDamage();
+        int reducedDamage = Math.min(hitDamage, val);
+        hit.setDamage(hitDamage - reducedDamage);
+        return reducedDamage;
+    }
+
+
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
 }
