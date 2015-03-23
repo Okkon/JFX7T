@@ -26,6 +26,20 @@ public class GameModel {
         cancel();
     }
 
+    public void locateUnits(){
+        final GObject tower1 = GObjectFactory.create(UnitType.Tower);
+        tower1.setPlayer(players.get(0));
+        createUnit(tower1, board.get(new XY(3, 4)));
+        final GObject object = GObjectFactory.create(UnitType.Inquisitor);
+        object.setPlayer(players.get(0));
+        createUnit(object, board.get(new XY(4, 4)));
+
+
+        final GObject tower2 = GObjectFactory.create(UnitType.Tower);
+        final GObject tower3 = GObjectFactory.create(UnitType.Tower);
+        final GObject tower4 = GObjectFactory.create(UnitType.Tower);
+    }
+
     private void initPlayers() {
         players = new ArrayList<Player>();
         players.add(new Player("P1", Color.AZURE));
@@ -33,17 +47,14 @@ public class GameModel {
         activePlayer = players.get(0);
     }
 
-    public void press(Selectable aim) {
-        if (aim instanceof GameCell) {
-            GameCell gameCell = (GameCell) aim;
-            final GObject obj = gameCell.getObj();
-            if (obj != null && selectedAction.canSelect(obj)) {
-                selectedAction.act(obj);
-                return;
-            }
+    public void press(GameCell cell) {
+        final GObject obj = cell.getObj();
+        if (obj != null && selectedAction.canSelect(obj)) {
+            selectedAction.act(obj);
+            return;
         }
-        if (selectedAction.canSelect(aim)) {
-            selectedAction.act(aim);
+        if (selectedAction.canSelect(cell)) {
+            selectedAction.act(cell);
         }
     }
 

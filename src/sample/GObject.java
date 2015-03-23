@@ -9,6 +9,8 @@ public abstract class GObject implements Selectable {
     protected Player player;
     protected AbstractGAction baseAction = new SelectAction();
     private List<GMod> mods = new ArrayList<GMod>();
+    protected List<GAction> skills = new ArrayList<GAction>();
+
 
     public GObject() {
     }
@@ -93,5 +95,13 @@ public abstract class GObject implements Selectable {
 
     public void addMod(GMod mod) {
         mods.add(mod);
+    }
+
+    public void addSkill(GAction skill) {
+        this.skills.add(0, skill);
+    }
+
+    public List<GAction> getSkills() {
+        return skills;
     }
 }

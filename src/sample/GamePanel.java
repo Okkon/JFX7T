@@ -3,7 +3,9 @@ package sample;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -149,6 +151,23 @@ public class GamePanel extends GridPane implements MainVisualizer {
     }
 
     private GridPane createUnitInfoPanel(GridPane pane, GUnit unit) {
+        ListView<GMod> list = new ListView<GMod>();
+        ObservableList<GMod> items = FXCollections.observableArrayList(unit.getMods());
+        list.setItems(items);
+
+        VBox vBox = new VBox();
+        for (final GAction skill : unit.getSkills()) {
+            final Button button = new Button();
+            button.setText(skill.getName());
+            button.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    GameModel.MODEL.setAction(skill);
+                }
+            });
+            vBox.getChildren().add(button);
+        }
+
         pane.getChildren().clear();
         pane.add(new Label("Name: "), 0, 0);
         pane.add(new Label(unit.toString()), 1, 0);
@@ -156,8 +175,11 @@ public class GamePanel extends GridPane implements MainVisualizer {
         pane.add(new Label(String.format("%d/%d", unit.getHP(), unit.getMaxHP())), 1, 1);
         pane.add(new Label("MP:"), 0, 2);
         pane.add(new Label(String.format("%d/%d", unit.getMP(), unit.getMaxMP())), 1, 2);
-        pane.add(new Label("Damage"), 0, 3);
+        pane.add(new Label("Damage: "), 0, 3);
         pane.add(new Label(String.format("%d-%d", unit.getDamage(), unit.getRandDamage())), 1, 3);
+        pane.add(vBox, 0, 4, 2 ,1);
+        pane.add(list, 0, 5, 2 ,1);
+
         return pane;
     }
 

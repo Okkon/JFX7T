@@ -26,6 +26,7 @@ public class GUnit extends GObject {
         baseAction.setOwner(this);
         moveType = MoveType.DEFAULT;
         attackType = AttackType.DEFAULT;
+        skills.add(new EndTurnAction());
         fill();
     }
 
@@ -37,7 +38,7 @@ public class GUnit extends GObject {
     @Override
     public void takeHit(Hit hit) {
         this.hp -= hit.getDamage();
-        GameModel.MODEL.log(this + " has " + hp + " left");
+        GameModel.MODEL.log(this + " has " + hp + " hp left");
         if (hp <= 0) {
             die();
             GameModel.MODEL.log(this + " die!");

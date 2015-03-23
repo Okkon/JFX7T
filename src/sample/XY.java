@@ -7,6 +7,15 @@ public class XY {
     private int x;
     private int y;
 
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof XY) {
+            XY xy = (XY) o;
+            return xy.x == x && xy.y == y;
+        }
+        return false;
+    }
+
     public XY(int x, int y) {
         this.x = x;
         this.y = y;

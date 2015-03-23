@@ -18,7 +18,8 @@ public class GObjectFactory {
                 break;
             }
             case Archer:{
-                gObject = new GUnit(2, 24, 1, 1);
+                gObject = new GUnit(2, 21, 1, 1);
+                gObject.addSkill(new Crossbow(2, 2, 60));
                 break;
             }
             case Mage:{
