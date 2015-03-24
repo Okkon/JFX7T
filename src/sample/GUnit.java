@@ -56,8 +56,8 @@ public class GUnit extends GObject {
     }
 
     @Override
-    public void select(GAction action) {
-        super.select(action);
+    public void select() {
+        super.select();
         Set<GameCell> cells = getCellsToGo();
         GameModel.MODEL.showSelectionPossibility(cells);
     }
@@ -83,7 +83,7 @@ public class GUnit extends GObject {
         return mp;
     }
 
-    public int getDamage() {
+    public int getMinDamage() {
         return minDamage;
     }
 
@@ -137,7 +137,7 @@ public class GUnit extends GObject {
     private void go(GameCell gameCell) {
         moveType.go(this, gameCell);
         if (canAct()) {
-            select(GAction.DefaultAction);
+            select();
         }
     }
 

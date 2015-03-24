@@ -3,9 +3,7 @@ package sample;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -79,20 +77,21 @@ public class GamePanel extends GridPane implements MainVisualizer {
         boardPane.setGridLinesVisible(true);
         cells = new HashMap<GameCell, BoardCell>();
         final Map<XY, GameCell> board = model.getBoard();
+        final EventHandler<MouseEvent> handler = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                BoardCell selectedCell = (BoardCell) mouseEvent.getSource();
+                model.press(selectedCell.getGameCell());
+                refresh();
+            }
+        };
         for (Map.Entry<XY, GameCell> entry : board.entrySet()) {
             final BoardCell boardCell = new BoardCell(entry.getValue());
             final int cellSize = 35;
             boardCell.setMinSize(cellSize, cellSize);
             boardCell.setPrefSize(cellSize, cellSize);
             boardCell.setMaxSize(cellSize, cellSize);
-            boardCell.setOnMousePressed(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    BoardCell selectedCell = (BoardCell) mouseEvent.getSource();
-                    model.press(selectedCell.getGameCell());
-                    refresh();
-                }
-            });
+            boardCell.setOnMousePressed(handler);
             boardPane.add(boardCell, entry.getKey().getX(), entry.getKey().getY());
             cells.put(entry.getValue(), boardCell);
         }
@@ -146,11 +145,18 @@ public class GamePanel extends GridPane implements MainVisualizer {
         if (obj instanceof GUnit) {
             GUnit gUnit = (GUnit) obj;
             createUnitInfoPanel(objInfoPanel, gUnit);
+        } else {
+            createUnitInfoPanel(objInfoPanel, null);
         }
 
     }
 
-    private GridPane createUnitInfoPanel(GridPane pane, GUnit unit) {
+    private void createUnitInfoPanel(GridPane pane, GUnit unit) {
+        pane.getChildren().clear();
+        if (unit == null) {
+            return;
+        }
+
         ListView<GMod> list = new ListView<GMod>();
         ObservableList<GMod> items = FXCollections.observableArrayList(unit.getMods());
         list.setItems(items);
@@ -168,7 +174,6 @@ public class GamePanel extends GridPane implements MainVisualizer {
             vBox.getChildren().add(button);
         }
 
-        pane.getChildren().clear();
         pane.add(new Label("Name: "), 0, 0);
         pane.add(new Label(unit.toString()), 1, 0);
         pane.add(new Label("HP:"), 0, 1);
@@ -176,11 +181,9 @@ public class GamePanel extends GridPane implements MainVisualizer {
         pane.add(new Label("MP:"), 0, 2);
         pane.add(new Label(String.format("%d/%d", unit.getMP(), unit.getMaxMP())), 1, 2);
         pane.add(new Label("Damage: "), 0, 3);
-        pane.add(new Label(String.format("%d-%d", unit.getDamage(), unit.getRandDamage())), 1, 3);
+        pane.add(new Label(String.format("%d-%d", unit.getMinDamage(), unit.getRandDamage())), 1, 3);
         pane.add(vBox, 0, 4, 2 ,1);
         pane.add(list, 0, 5, 2 ,1);
-
-        return pane;
     }
 
     @Override

@@ -25,7 +25,7 @@ public abstract class GObject implements Selectable {
     }
 
     @Override
-    public void select(GAction action) {
+    public void select() {
         GameModel.MODEL.setAction(baseAction);
     }
 

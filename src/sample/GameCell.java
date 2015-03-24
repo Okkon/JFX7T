@@ -22,10 +22,10 @@ public class GameCell implements Selectable{
     }
 
     @Override
-    public void select(GAction action) {
+    public void select() {
         final GObject object = getObj();
         if (object != null && action.canSelect(object)) {
-            object.select(action);
+            object.select();
         }
     }
 

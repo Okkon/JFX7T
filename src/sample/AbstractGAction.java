@@ -1,9 +1,12 @@
 package sample;
 
-/**
- * Created by kondrashov on 18.02.2015.
- */
+import java.util.ArrayList;
+import java.util.List;
+
+
 public abstract class AbstractGAction implements GAction {
+    protected List<GFilter> aimFilters = new ArrayList<GFilter>();
+    protected List<GFilter> ownerFilters = new ArrayList<GFilter>();
     protected GObject owner;
 
     @Override
@@ -27,11 +30,21 @@ public abstract class AbstractGAction implements GAction {
 
     @Override
     public boolean canSelect(Selectable obj) {
+        for (GFilter filter : aimFilters) {
+            if (!filter.isOk(obj)) {
+                return false;
+            }
+        }
         return true;
     }
 
     @Override
     public boolean canBeSelected() {
+        for (GFilter filter : ownerFilters) {
+            if (!filter.isOk(getOwner())) {
+                return false;
+            }
+        }
         return true;
     }
 

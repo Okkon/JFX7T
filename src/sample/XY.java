@@ -38,6 +38,11 @@ public class XY {
     }
 
     @Override
+    public int hashCode() {
+        return x * 10000 + y;
+    }
+
+    @Override
     public String toString() {
         return x + ":" + y;
     }
@@ -58,5 +63,29 @@ public class XY {
         final int dy = Math.abs(y2 - y1);
         final int notDiagonal = Math.abs(dx - dy);
         return (Math.max(dx, dy) - notDiagonal) * diagonalLength + notDiagonal * straightLength;
+    }
+
+    public static boolean isOnOneLine(XY p1, XY p2) {
+        final int x1 = p1.getX();
+        final int y1 = p1.getY();
+        final int x2 = p2.getX();
+        final int y2 = p2.getY();
+        if (x1 == x2 || y1 == y2) {
+            return true;
+        }
+        final int dx = Math.abs(x2 - x1);
+        final int dy = Math.abs(y2 - y1);
+        if (dx == dy) {
+            return true;
+        }
+        return false;
+    }
+
+    public XY step(Direction direction) {
+        return new XY(x + direction.getX(), y + direction.getY());
+    }
+
+    public static XY step(XY currentPlace, Direction direction) {
+        return new XY(currentPlace.x + direction.getX(), currentPlace.y + direction.getY());
     }
 }

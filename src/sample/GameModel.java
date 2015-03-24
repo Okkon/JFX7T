@@ -9,7 +9,7 @@ public class GameModel {
     private static Collection<Way> lastFoundWays;
     Set<GObject> objects = new HashSet<GObject>();
     public static GameModel MODEL = new GameModel();
-    private GAction[] possibleActions = {new SelectAction(), new ShiftAction(), new CreateAction(), new EndTurnAction()};
+    private GAction[] possibleActions = {new SelectAction(), new ShiftAction(), new CreateAction()};
     private GAction selectedAction = possibleActions[0];
     private Map<XY, GameCell> board = new HashMap<XY, GameCell>();
     private MainVisualizer graphics;
@@ -27,23 +27,38 @@ public class GameModel {
     }
 
     public void locateUnits(){
-        final GObject tower1 = GObjectFactory.create(UnitType.Tower);
-        tower1.setPlayer(players.get(0));
-        createUnit(tower1, board.get(new XY(3, 4)));
-        final GObject object = GObjectFactory.create(UnitType.Inquisitor);
-        object.setPlayer(players.get(0));
-        createUnit(object, board.get(new XY(4, 4)));
+        generateUnit(UnitType.Tower, 3, 4, 0);
+        generateUnit(UnitType.Tower, 4, 7, 0);
+        generateUnit(UnitType.Tower, 5, 1, 2);
+        generateUnit(UnitType.Tower, 7, 4, 2);
+        generateUnit(UnitType.Tower, 8, 1, 1);
+        generateUnit(UnitType.Tower, 8, 7, 1);
+        generateUnit(UnitType.Tower, 10, 3, 1);
 
+        generateUnit(UnitType.Archer, 3, 1, 0);
+        generateUnit(UnitType.Assassin, 4, 4, 0);
+        generateUnit(UnitType.Mage, 4, 6, 0);
+        generateUnit(UnitType.Inquisitor, 5, 3, 0);
+        generateUnit(UnitType.Footman, 6, 6, 0);
 
-        final GObject tower2 = GObjectFactory.create(UnitType.Tower);
-        final GObject tower3 = GObjectFactory.create(UnitType.Tower);
-        final GObject tower4 = GObjectFactory.create(UnitType.Tower);
+        generateUnit(UnitType.Archer, 9, 1, 1);
+        generateUnit(UnitType.Assassin, 7, 1, 1);
+        generateUnit(UnitType.Mage, 10, 4, 1);
+        generateUnit(UnitType.Inquisitor, 8, 6, 1);
+        generateUnit(UnitType.Footman, 7, 2, 1);
+    }
+
+    private void generateUnit(UnitType unitType, int x, int y, int playerCode) {
+        final GObject obj = GObjectFactory.create(unitType);
+        obj.setPlayer(players.get(playerCode));
+        createUnit(obj, board.get(new XY(x, y)));
     }
 
     private void initPlayers() {
         players = new ArrayList<Player>();
         players.add(new Player("P1", Color.AZURE));
         players.add(new Player("P2", Color.CORAL));
+        players.add(Player.NEUTRAL);
         activePlayer = players.get(0);
     }
 
@@ -109,9 +124,10 @@ public class GameModel {
         if (obj instanceof GObject) {
             this.selectedObj = (GObject) obj;
         }
-        obj.select(GAction.DefaultAction);
+        obj.select();
         graphics.selectObj(obj);
         graphics.showInfo(obj);
+        visualize();
     }
 
     public void visualize() {
@@ -256,8 +272,8 @@ public class GameModel {
         return activePlayer;
     }
 
-    public boolean isNear(GUnit attacker, GObject aim) {
-        return XY.isNear(attacker.getXy(), aim.getXy());
+    public boolean isNear(GObject obj1, GObject obj2) {
+        return XY.isNear(obj1.getXy(), obj2.getXy());
     }
 
     public void error(String s) {
@@ -275,5 +291,19 @@ public class GameModel {
             }
         }
         return unitSet;
+    }
+
+    public boolean canSee(GObject observer, GObject aim) {
+        return true;
+    }
+
+    public boolean onOneLine(GObject obj, GObject obj1) {
+        return XY.isOnOneLine(obj.getXy(), obj1.getXy());
+    }
+
+    public GameCell getNextCell(GameCell cell, Direction direction) {
+        final XY currentPlace = cell.getXy();
+        final XY newPlace = XY.step(currentPlace, direction);
+        return board.get(newPlace);
     }
 }

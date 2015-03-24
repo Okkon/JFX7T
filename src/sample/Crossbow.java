@@ -1,13 +1,19 @@
 package sample;
 
-public class Crossbow extends AbstractGAction{
-    private final int minDamage;
-    private final int maxDamage;
-    private final int distance;
+import static sample.FilterFactory.FilterType.*;
+
+public class Crossbow extends ShotAction {
 
     public Crossbow(int minDamage, int maxDamage, int distance) {
-        this.minDamage = minDamage;
-        this.maxDamage = maxDamage;
-        this.distance = distance;
+        super(distance, minDamage, maxDamage);
+        aimFilters.add(FilterFactory.getFilter(IS_UNIT));
+        aimFilters.add(FilterFactory.getFilter(CAN_SEE, getOwner()));
+        aimFilters.add(FilterFactory.getFilter(IS_ON_ONE_LINE, getOwner()));
+    }
+
+    @Override
+    public void act(Selectable obj) {
+        Shell shell = new Shell();
+        shell.fire();
     }
 }

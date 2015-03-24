@@ -1,13 +1,6 @@
 package sample;
 
-/**
- * Created by kondrashov on 25.02.2015.
- */
 public class ShiftAction extends AbstractGAction {
-    public ShiftAction(GObject gObject) {
-        owner = gObject;
-    }
-
     public ShiftAction() {
     }
 
