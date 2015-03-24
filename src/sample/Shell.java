@@ -9,10 +9,20 @@ public class Shell {
     protected int maxDistance;
     protected GUnit attacker;
     protected String name;
-    private boolean stopable;
+    private boolean stoppable;
+    private boolean stopped;
+
+    public Shell() {
+        this.coveredDistance = 0;
+        this.stoppable = true;
+        this.stopped = false;
+        cell = attacker.getPlace();
+    }
 
     public void fire() {
-        step();
+        while (!stopped) {
+            step();
+        }
     }
 
     private void step() {
@@ -20,12 +30,15 @@ public class Shell {
         int stepPrice = direction.isDiagonal() ? XY.diagonalLength : XY.straightLength;
         if (nextCell != null && coveredDistance + stepPrice < maxDistance) {
             coveredDistance += stepPrice;
+            GameModel.MODEL.log(name + " moves from " + cell.getXy() + " to " + nextCell.getXy());
             cell = nextCell;
             final GObject obj = cell.getObj();
             if (obj != null) {
                 bumpInto(obj);
-                if (stopable) return;
+                stopped = stoppable;
             }
+        } else {
+            stopped = true;
         }
     }
 
@@ -35,4 +48,35 @@ public class Shell {
     }
 
 
+    public void setMinDamage(int minDamage) {
+        this.minDamage = minDamage;
+    }
+
+    public void setMaxDamage(int maxDamage) {
+        this.maxDamage = maxDamage;
+    }
+
+    public int getMaxDamage() {
+        return maxDamage;
+    }
+
+    public void setAttacker(GObject attacker) {
+        this.attacker = (GUnit) attacker;
+    }
+
+    public GUnit getAttacker() {
+        return attacker;
+    }
+
+    public void setMaxDistance(int maxDistance) {
+        this.maxDistance = maxDistance;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
 }

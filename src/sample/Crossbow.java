@@ -13,7 +13,16 @@ public class Crossbow extends ShotAction {
 
     @Override
     public void act(Selectable obj) {
+        GUnit unit = ((GUnit) obj);
+        final Direction direction = Direction.findDirection(getOwner().getXy(), unit.getXy());
         Shell shell = new Shell();
+        shell.setMinDamage(getMinDamage());
+        shell.setMaxDamage(getMaxDamage());
+        shell.setAttacker(getOwner());
+        shell.setMaxDistance(getDistance());
+        shell.setDirection(direction);
+        shell.setName("Arrow");
         shell.fire();
     }
+
 }
