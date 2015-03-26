@@ -32,15 +32,16 @@ public abstract class ShotAction extends Skill {
 
     protected Shell createShell() {
         final Shell shell = new Shell();
+        return shell;
+    }
+
+    protected void aimAt(Shell shell, Selectable obj) {
         shell.setMinDamage(getMinDamage());
         shell.setMaxDamage(getMaxDamage());
         shell.setMaxDistance(getDistance());
         shell.setAttacker(getOwner());
         shell.setCell(getOwner().getPlace());
-        return shell;
-    }
 
-    protected void aimAt(Shell shell, Selectable obj) {
         GUnit aim = ((GUnit) obj);
         final Direction direction = Direction.findDirection(getOwner().getXy(), aim.getXy());
         shell.setDirection(direction);

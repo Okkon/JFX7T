@@ -10,7 +10,7 @@ public class Shell {
     protected GUnit attacker;
     protected String name;
     private boolean stopped;
-    private DamageType damageType;
+    protected DamageType damageType;
 
     public Shell() {
         this.coveredDistance = 0;
@@ -46,11 +46,11 @@ public class Shell {
         stopCheck(obj);
     }
 
-    private void stopCheck(GObject obj) {
+    public void stopCheck(GObject obj) {
         stopped = true;
     }
 
-    private void hit(GObject obj) {
+    public void hit(GObject obj) {
         final Hit hit = Hit.createHit(attacker, obj, minDamage, maxDamage, damageType);
         obj.takeHit(hit);
     }

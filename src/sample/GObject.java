@@ -112,4 +112,8 @@ public abstract class GObject implements Selectable {
     public void endHour() {
 
     }
+
+    public void push(Direction direction) {
+
+    }
 }

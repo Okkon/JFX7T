@@ -7,6 +7,16 @@ public class Crossbow extends ShotAction {
     }
 
     @Override
+    protected Shell createShell() {
+        return new Shell() {
+            @Override
+            public void stopCheck(GObject obj) {
+
+            }
+        };
+    }
+
+    @Override
     protected void configureShell(Shell shell) {
         shell.setName("Arrow");
     }

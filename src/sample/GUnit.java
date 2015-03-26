@@ -12,6 +12,21 @@ public class GUnit extends GObject {
     private int minDamage;
     private int randDamage;
     protected UnitType type;
+
+    @Override
+    public void push(Direction direction) {
+        super.push(direction);
+        final GameCell nextCell = GameModel.MODEL.getNextCell(place, direction);
+        if (nextCell != null) {
+            final GObject obj = nextCell.getObj();
+            if (obj == null) {
+                shift(nextCell);
+            } else {
+
+            }
+        }
+    }
+
     private boolean isAlive;
     private MoveType moveType;
     private AttackType attackType;
