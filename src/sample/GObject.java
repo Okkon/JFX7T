@@ -16,11 +16,14 @@ public abstract class GObject implements Selectable {
     }
 
     public void takeHit(Hit hit) {
-        die();
+        for (GMod mod : getMods()) {
+            mod.onTakeHit(hit);
+        }
     }
 
     protected void die() {
         GameModel.MODEL.getObjects().remove(this);
+        place.setObj(null);
         visualizer.die(place);
     }
 
@@ -103,5 +106,9 @@ public abstract class GObject implements Selectable {
 
     public List<GAction> getSkills() {
         return skills;
+    }
+
+    public void endHour() {
+
     }
 }

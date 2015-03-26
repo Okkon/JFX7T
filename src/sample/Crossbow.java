@@ -4,11 +4,11 @@ import static sample.FilterFactory.FilterType.*;
 
 public class Crossbow extends ShotAction {
 
-    public Crossbow(int minDamage, int maxDamage, int distance) {
-        super(distance, minDamage, maxDamage);
+    public Crossbow(GObject obj, int minDamage, int maxDamage, int distance) {
+        super(obj, distance, minDamage, maxDamage);
         aimFilters.add(FilterFactory.getFilter(IS_UNIT));
-        aimFilters.add(FilterFactory.getFilter(CAN_SEE, getOwner()));
-        aimFilters.add(FilterFactory.getFilter(IS_ON_ONE_LINE, getOwner()));
+        aimFilters.add(FilterFactory.getFilter(CAN_SEE, obj));
+        aimFilters.add(FilterFactory.getFilter(IS_ON_ONE_LINE, obj));
     }
 
     @Override
@@ -19,6 +19,7 @@ public class Crossbow extends ShotAction {
         shell.setMinDamage(getMinDamage());
         shell.setMaxDamage(getMaxDamage());
         shell.setAttacker(getOwner());
+        shell.setCell(getOwner().getPlace());
         shell.setMaxDistance(getDistance());
         shell.setDirection(direction);
         shell.setName("Arrow");

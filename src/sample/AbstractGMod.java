@@ -13,4 +13,9 @@ public class AbstractGMod implements GMod {
     public void onTakeHit(Hit hit) {
 
     }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName();
+    }
 }

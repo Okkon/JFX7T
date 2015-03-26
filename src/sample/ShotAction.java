@@ -8,7 +8,8 @@ public class ShotAction extends AbstractGAction {
     protected int maxDamage;
     protected int distance;
 
-    public ShotAction(int distance, int minDamage, int maxDamage) {
+    public ShotAction(GObject obj, int distance, int minDamage, int maxDamage) {
+        setOwner(obj);
         this.distance = distance;
         this.minDamage = minDamage;
         this.maxDamage = maxDamage;

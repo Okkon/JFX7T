@@ -11,26 +11,26 @@ public class GObjectFactory {
                 gObject.addMod(new Armor(2));
                 break;
             }
-            case Inquisitor:{
+            case Inquisitor: {
                 gObject = new GUnit(5, 24, 2, 2);
                 gObject.addMod(new MagicSword());
                 gObject.addMod(new MagicArmor(2));
                 break;
             }
-            case Archer:{
+            case Archer: {
                 gObject = new GUnit(2, 21, 1, 1);
-                gObject.addSkill(new Crossbow(2, 2, 60));
+                gObject.addSkill(new Crossbow(gObject, 2, 2, 60));
                 break;
             }
-            case Mage:{
+            case Mage: {
                 gObject = new GUnit(2, 24, 0, 2);
                 break;
             }
-            case Assassin:{
+            case Assassin: {
                 gObject = new GUnit(4, 31, 1, 2);
                 break;
             }
-            case Tower:{
+            case Tower: {
                 gObject = new Tower();
                 break;
             }

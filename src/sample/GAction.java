@@ -17,4 +17,7 @@ public interface GAction {
     void act(Selectable aim);
 
     void onSelect();
+
+
+    void perform(Selectable obj);
 }

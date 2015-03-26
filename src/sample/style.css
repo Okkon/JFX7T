@@ -6,10 +6,18 @@
 
 .unit {
     -fx-border-color: black;
+    -fx-font-weight: normal;
     -fx-border-width: 1px;
     -fx-border-radius: 5;
-    -fx-background-color: linear-gradient(#ffebcd, #deb887);
     -fx-padding: 3;
+}
+
+.tower {
+    -fx-border-color: black;
+    -fx-font-weight: normal;
+    -fx-border-width: 3px;
+    -fx-border-radius: 10;
+    -fx-padding: 5;
 }
 
 
@@ -29,6 +37,10 @@
     -fx-border-color: gray;
     -fx-border-width: 1px;
     -fx-padding: 10px;
+}
+
+.ready {
+    -fx-font-weight: bold;
 }
 
 .selected {

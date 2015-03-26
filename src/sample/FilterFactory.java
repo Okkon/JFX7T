@@ -13,14 +13,19 @@ public class FilterFactory {
         } else switch (type) {
             case IS_UNIT:
                 gFilter = new UnitFilter();
+                break;
             case IS_NEAR:
                 gFilter = new IsNearFilter();
+                break;
             case CAN_SEE:
                 gFilter = new CanSeeFilter();
+                break;
             case CAN_ACT:
                 gFilter = new CanActFilter();
+                break;
             case IS_ON_ONE_LINE:
                 gFilter = new OneLineFilter();
+                break;
         }
         if (obj != null) {
             gFilter.setObj(obj);

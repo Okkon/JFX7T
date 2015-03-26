@@ -1,6 +1,6 @@
 package sample;
 
-public class GameCell implements Selectable{
+public class GameCell implements Selectable {
     private XY xy;
     private GObject obj;
     private CellVisualizer cellVisualizer;
@@ -23,10 +23,6 @@ public class GameCell implements Selectable{
 
     @Override
     public void select() {
-        final GObject object = getObj();
-        if (object != null && action.canSelect(object)) {
-            object.select();
-        }
     }
 
     @Override

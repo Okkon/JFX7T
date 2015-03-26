@@ -16,7 +16,6 @@ public class Shell {
         this.coveredDistance = 0;
         this.stoppable = true;
         this.stopped = false;
-        cell = attacker.getPlace();
     }
 
     public void fire() {
@@ -78,5 +77,9 @@ public class Shell {
 
     public void setDirection(Direction direction) {
         this.direction = direction;
+    }
+
+    public void setCell(GameCell cell) {
+        this.cell = cell;
     }
 }

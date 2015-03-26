@@ -71,7 +71,7 @@ public class Hit {
 
     public static int reduceDamage(Hit hit, int val, DamageType damageType) {
         if (hit.damageType != damageType) {
-            return val;
+            return 0;
         }
         final int hitDamage = hit.getDamage();
         int reducedDamage = Math.min(hitDamage, val);

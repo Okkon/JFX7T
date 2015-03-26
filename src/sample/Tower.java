@@ -18,8 +18,13 @@ public class Tower extends GObject{
     }
 
     @Override
-    public void endTurn() {
+    public void endHour() {
+        super.endHour();
         checkControl();
+    }
+
+    @Override
+    public void endTurn() {
     }
 
     private void checkControl() {
@@ -40,8 +45,8 @@ public class Tower extends GObject{
         for (Map.Entry<Player, Integer> entry : controlPower.entrySet()) {
             final Integer playerPower = entry.getValue();
             if (playerPower > maxPower) {
-                maxPower = playerPower;
                 overPower = playerPower - maxPower;
+                maxPower = playerPower;
                 dominator = entry.getKey();
             } else if (maxPower - playerPower < overPower) {
                 overPower = maxPower - playerPower;

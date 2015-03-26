@@ -65,11 +65,11 @@ public class GameModel {
     public void press(GameCell cell) {
         final GObject obj = cell.getObj();
         if (obj != null && selectedAction.canSelect(obj)) {
-            selectedAction.act(obj);
+            selectedAction.perform(obj);
             return;
         }
         if (selectedAction.canSelect(cell)) {
-            selectedAction.act(cell);
+            selectedAction.perform(cell);
         }
     }
 
@@ -121,10 +121,12 @@ public class GameModel {
     }
 
     public void select(Selectable obj) {
-        if (obj instanceof GObject) {
-            this.selectedObj = (GObject) obj;
+        if (obj != null) {
+            if (obj instanceof GObject) {
+                this.selectedObj = (GObject) obj;
+            }
+            obj.select();
         }
-        obj.select();
         graphics.selectObj(obj);
         graphics.showInfo(obj);
         visualize();
@@ -141,7 +143,7 @@ public class GameModel {
     public void cancel() {
         this.setAction(GAction.DefaultAction);
         showSelectionPossibility(null);
-        selectedObj = null;
+        select(null);
         visualize();
     }
 
@@ -150,6 +152,7 @@ public class GameModel {
     }
 
     public void endTurn() {
+        log("-----------------");
         if (selectedObj != null) {
             selectedObj.endTurn();
         }
@@ -188,6 +191,11 @@ public class GameModel {
     }
 
     public void endHour() {
+        List<GObject> gObjects = new ArrayList<GObject>();
+        gObjects.addAll(getObjects());
+        for (GObject gObject : gObjects) {
+            gObject.endHour();
+        }
         turn++;
         graphics.showTurnNumber();
     }

@@ -15,6 +15,19 @@ public abstract class AbstractGAction implements GAction {
     }
 
     @Override
+    public void perform(Selectable obj) {
+        act(obj);
+        if (owner != null) {
+            owner.endTurn();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
+
+    @Override
     public GObject getOwner() {
         return owner;
     }

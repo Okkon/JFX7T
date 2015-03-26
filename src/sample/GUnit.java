@@ -37,6 +37,7 @@ public class GUnit extends GObject {
 
     @Override
     public void takeHit(Hit hit) {
+        super.takeHit(hit);
         this.hp -= hit.getDamage();
         GameModel.MODEL.log(this + " has " + hp + " hp left");
         if (hp <= 0) {
@@ -129,9 +130,17 @@ public class GUnit extends GObject {
     }
 
     @Override
+    public void endHour() {
+        super.endHour();
+        this.mp = maxMp;
+        visualizer.setReady(true);
+    }
+
+    @Override
     public void endTurn() {
         super.endTurn();
         this.mp = 0;
+        visualizer.setReady(false);
     }
 
     private void go(GameCell gameCell) {

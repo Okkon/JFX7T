@@ -7,4 +7,8 @@ public interface GObjectVisualizer {
     void changePlace(GameCell currentCell, GameCell cellToGo);
 
     void die(GameCell place);
+
+    void setPlayer(Player player);
+
+    void setReady(boolean isReady);
 }
