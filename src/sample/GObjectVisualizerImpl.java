@@ -8,7 +8,7 @@ public class GObjectVisualizerImpl extends Label implements GObjectVisualizer {
 
     public GObjectVisualizerImpl(GObject obj, GamePanel gamePanel) {
         this.gamePanel = gamePanel;
-        setText(obj.toString());
+        setText(obj.toString().substring(0, 2));
         if (obj instanceof GUnit) {
             GUnit unit = (GUnit) obj;
             getStyleClass().add("unit");
@@ -19,7 +19,6 @@ public class GObjectVisualizerImpl extends Label implements GObjectVisualizer {
         }
         setPlayer(obj.getPlayer());
         setReady(obj.canAct());
-
     }
 
     @Override

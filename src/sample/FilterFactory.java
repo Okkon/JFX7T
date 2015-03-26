@@ -26,6 +26,12 @@ public class FilterFactory {
             case IS_ON_ONE_LINE:
                 gFilter = new OneLineFilter();
                 break;
+            case IS_NOT_ENEMY:
+                gFilter = new NotEnemyFilter();
+                break;
+            case BELONG_TO_PLAYER:
+                gFilter = new BelongToPlayerFilter();
+                break;
         }
         if (obj != null) {
             gFilter.setObj(obj);
@@ -38,7 +44,7 @@ public class FilterFactory {
     }
 
     public enum FilterType {
-        IS_NEAR, CAN_SEE, CAN_ACT, IS_ON_ONE_LINE, IS_UNIT
+        IS_NEAR, CAN_SEE, CAN_ACT, IS_ON_ONE_LINE, IS_NOT_ENEMY, BELONG_TO_PLAYER, IS_UNIT
     }
 
     private static class UnitFilter extends AbstractGFilter {
@@ -85,12 +91,34 @@ public class FilterFactory {
         }
     }
 
+    private static class NotEnemyFilter extends AbstractGFilter {
+        @Override
+        public boolean isOk(Selectable obj) {
+            final boolean b = model.isNotEnemy(getObj(), (GObject) obj);
+            if (!b) {
+                model.error("Selected unit is enemy!");
+            }
+            return b;
+        }
+    }
+
     private static class OneLineFilter extends AbstractGFilter {
         @Override
         public boolean isOk(Selectable obj) {
             final boolean b = model.onOneLine(getObj(), (GObject) obj);
             if (!b) {
                 model.error("Aim is not on the same line!");
+            }
+            return b;
+        }
+    }
+
+    private static class BelongToPlayerFilter extends AbstractGFilter {
+        @Override
+        public boolean isOk(Selectable obj) {
+            final boolean b = model.getActivePlayer().equals(((GObject) obj).getPlayer());
+            if (!b) {
+                model.error("Can't choose action of other player's unit!");
             }
             return b;
         }

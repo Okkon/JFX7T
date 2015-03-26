@@ -163,6 +163,7 @@ public class GamePanel extends GridPane implements MainVisualizer {
 
         VBox vBox = new VBox();
         for (final GAction skill : unit.getSkills()) {
+            skill.setOwner(unit);
             final Button button = new Button();
             button.setText(skill.getName());
             button.setOnAction(new EventHandler<ActionEvent>() {

@@ -93,9 +93,11 @@ public class GameModel {
     }
 
     public void setAction(GAction action) {
-        this.selectedAction = action;
-        action.onSelect();
-        graphics.showAction(action);
+        if (action.canBeSelected()){
+            this.selectedAction = action;
+            action.onSelect();
+            graphics.showAction(action);
+        }
     }
 
     public void setGraphics(MainVisualizer graphics) {
@@ -152,16 +154,18 @@ public class GameModel {
     }
 
     public void endTurn() {
-        log("-----------------");
         if (selectedObj != null) {
             selectedObj.endTurn();
+            log(String.format("%s ends turn", selectedObj));
         }
+        log("-----------------");
         cancel();
         if (!someoneCanAct()) {
             endHour();
         } else {
             passTurn();
         }
+        log(String.format("%s starts turn", activePlayer));
         graphics.showActivePlayer();
     }
 
@@ -313,5 +317,12 @@ public class GameModel {
         final XY currentPlace = cell.getXy();
         final XY newPlace = XY.step(currentPlace, direction);
         return board.get(newPlace);
+    }
+
+    public boolean isNotEnemy(GObject obj1, GObject obj2) {
+        if (obj1 == null || obj2 == null) {
+            return true;
+        }
+        return obj1.getPlayer().isEnemyFor(obj2.getPlayer());
     }
 }

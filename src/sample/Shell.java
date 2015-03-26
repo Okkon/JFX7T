@@ -9,13 +9,13 @@ public class Shell {
     protected int maxDistance;
     protected GUnit attacker;
     protected String name;
-    private boolean stoppable;
     private boolean stopped;
+    private DamageType damageType;
 
     public Shell() {
         this.coveredDistance = 0;
-        this.stoppable = true;
         this.stopped = false;
+        damageType = DamageType.PHYSICAL;
     }
 
     public void fire() {
@@ -27,14 +27,14 @@ public class Shell {
     private void step() {
         final GameCell nextCell = GameModel.MODEL.getNextCell(cell, direction);
         int stepPrice = direction.isDiagonal() ? XY.diagonalLength : XY.straightLength;
-        if (nextCell != null && coveredDistance + stepPrice < maxDistance) {
+        if (nextCell != null && coveredDistance + stepPrice <= maxDistance) {
             coveredDistance += stepPrice;
             GameModel.MODEL.log(name + " moves from " + cell.getXy() + " to " + nextCell.getXy());
             cell = nextCell;
             final GObject obj = cell.getObj();
             if (obj != null) {
+                GameModel.MODEL.log(String.format("%s hits %s!", name, obj));
                 bumpInto(obj);
-                stopped = stoppable;
             }
         } else {
             stopped = true;
@@ -42,7 +42,16 @@ public class Shell {
     }
 
     private void bumpInto(GObject obj) {
-        final Hit hit = Hit.createHit(attacker, obj, minDamage, maxDamage);
+        hit(obj);
+        stopCheck(obj);
+    }
+
+    private void stopCheck(GObject obj) {
+        stopped = true;
+    }
+
+    private void hit(GObject obj) {
+        final Hit hit = Hit.createHit(attacker, obj, minDamage, maxDamage, damageType);
         obj.takeHit(hit);
     }
 
@@ -81,5 +90,9 @@ public class Shell {
 
     public void setCell(GameCell cell) {
         this.cell = cell;
+    }
+
+    public void setDamageType(DamageType damageType) {
+        this.damageType = damageType;
     }
 }

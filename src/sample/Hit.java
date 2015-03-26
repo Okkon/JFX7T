@@ -38,14 +38,14 @@ public class Hit {
     }
 
     public static Hit createHit(GUnit attacker, GObject aim) {
-        return createHit(attacker, aim, attacker.getMinDamage(), attacker.getRandDamage());
+        return createHit(attacker, aim, attacker.getMinDamage(), attacker.getRandDamage(), DamageType.PHYSICAL);
     }
 
-    public static Hit createHit(GUnit attacker, GObject aim, int minDamage, int randDamage) {
+    public static Hit createHit(GUnit attacker, GObject aim, int minDamage, int randDamage, DamageType damageType) {
         final Hit hit = new Hit();
         hit.attacker = attacker;
         hit.aim = aim;
-        hit.damageType = DamageType.PHYSICAL;
+        hit.damageType = damageType;
         hit.damage = generateDamage(minDamage, randDamage);
         hit.from = attacker.getPlace();
         hit.to = aim.getPlace();

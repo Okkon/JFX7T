@@ -53,7 +53,7 @@ public class GUnit extends GObject {
 
     @Override
     public String toString() {
-        return type.toString().substring(0,2);
+        return type.toString() + getXy().toString();
     }
 
     @Override
@@ -112,17 +112,18 @@ public class GUnit extends GObject {
         return maxHp;
     }
 
-    private class BaseUnitAction extends AbstractGAction {
+    private class BaseUnitAction extends Skill {
         @Override
         public void act(Selectable obj) {
+            endsTurn = false;
             if (obj instanceof GObject) {
                 GObject gObject = (GObject) obj;
-                if (isFriendly(gObject)){
+                if (isFriendly(gObject)) {
                     DefaultAction.act(gObject);
-                }else {
+                } else {
                     attack(gObject);
                 }
-            }else if (obj instanceof GameCell) {
+            } else if (obj instanceof GameCell) {
                 GameCell gameCell = (GameCell) obj;
                 go(gameCell);
             }

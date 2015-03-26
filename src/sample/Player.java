@@ -48,4 +48,8 @@ public class Player {
         }
         return units;
     }
+
+    public boolean isEnemyFor(Player player) {
+        return equals(player);
+    }
 }

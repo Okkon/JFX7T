@@ -8,6 +8,7 @@ public abstract class AbstractGAction implements GAction {
     protected List<GFilter> aimFilters = new ArrayList<GFilter>();
     protected List<GFilter> ownerFilters = new ArrayList<GFilter>();
     protected GObject owner;
+    protected boolean endsTurn = false;
 
     @Override
     public void onSelect() {
@@ -17,8 +18,8 @@ public abstract class AbstractGAction implements GAction {
     @Override
     public void perform(Selectable obj) {
         act(obj);
-        if (owner != null) {
-            owner.endTurn();
+        if (endsTurn) {
+            GameModel.MODEL.endTurn();
         }
     }
 
@@ -44,6 +45,9 @@ public abstract class AbstractGAction implements GAction {
     @Override
     public boolean canSelect(Selectable obj) {
         for (GFilter filter : aimFilters) {
+            if (filter.getObj() == null) {
+                filter.setObj(getOwner());
+            }
             if (!filter.isOk(obj)) {
                 return false;
             }
