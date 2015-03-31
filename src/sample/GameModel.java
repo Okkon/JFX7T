@@ -26,7 +26,7 @@ public class GameModel {
         cancel();
     }
 
-    public void locateUnits(){
+    public void locateUnits() {
         generateUnit(UnitType.Tower, 3, 4, 0);
         generateUnit(UnitType.Tower, 4, 7, 0);
         generateUnit(UnitType.Tower, 5, 1, 2);
@@ -50,8 +50,8 @@ public class GameModel {
 
     private void generateUnit(UnitType unitType, int x, int y, int playerCode) {
         final GObject obj = GObjectFactory.create(unitType);
-        obj.setPlayer(players.get(playerCode));
         createUnit(obj, board.get(new XY(x, y)));
+        obj.setPlayer(players.get(playerCode));
     }
 
     private void initPlayers() {
@@ -93,7 +93,7 @@ public class GameModel {
     }
 
     public void setAction(GAction action) {
-        if (action.canBeSelected()){
+        if (action.canBeSelected()) {
             this.selectedAction = action;
             action.onSelect();
             graphics.showAction(action);
@@ -306,6 +306,11 @@ public class GameModel {
     }
 
     public boolean canSee(GObject observer, GObject aim) {
+        for (GMod mod : aim.getMods()) {
+            if (mod.isInvisible()) {
+                return false;
+            }
+        }
         return true;
     }
 

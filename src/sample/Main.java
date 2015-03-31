@@ -2,6 +2,8 @@ package sample;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -12,10 +14,55 @@ public class Main extends Application {
         primaryStage.setTitle("7T");
         GameModel gameModel = GameModel.MODEL;
         gameModel.setBoard(14, 8);
-        GamePanel mainPane = new GamePanel(gameModel);
+        final GamePanel mainPane = new GamePanel(gameModel);
         gameModel.init();
+        Pane pane = new Pane();
+        Canvas canvas = new Canvas();
+        GraphicsHelper.getInstance().setCanvas(canvas);
+        pane.getChildren().addAll(mainPane, canvas);
 
-        final Scene scene = new Scene(mainPane);
+        final Scene scene = new Scene(pane);
+        /*Line redLine = LineBuilder.create()
+                .startX(296)
+                .startY(128)
+                .endX(401)
+                .endY(233)
+                *//*.fill(Color.RED)
+                .stroke(Color.RED)*//*
+                .strokeWidth(10.0f)
+                .build();
+
+        StrokeTransition ft = new StrokeTransition(Duration.millis(3000), redLine, Color.RED, Color.BLUE);
+        ft.setCycleCount(4);
+        ft.setAutoReverse(true);
+        ft.play();
+        mainPane.getChildren().add(redLine);
+
+        final Circle circle = new Circle(30,30,15);
+        mainPane.getChildren().add(circle);
+        circle.setFill(Color.PERU);
+        circle.setEffect(new Glow(15));
+
+        Path path = new Path();
+        path.getElements().add (new MoveTo(50f, 50f));
+        path.getElements().add (new CubicCurveTo (10, 10, 400, 10, 400, 400));
+
+        PathTransition pathTransition = new PathTransition();
+        pathTransition.setDuration(Duration.millis(10000));
+        pathTransition.setNode(circle);
+        pathTransition.setPath(path);
+        pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+        pathTransition.setCycleCount(1);
+        pathTransition.setAutoReverse(true);
+        pathTransition.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                mainPane.getChildren().remove(circle);
+            }
+        });
+
+        pathTransition.play();*/
+
         scene.getStylesheets().add(Main.class.getResource("style.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();

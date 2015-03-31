@@ -17,7 +17,7 @@ public class GObjectVisualizerImpl extends Label implements GObjectVisualizer {
             Tower tower = (Tower) obj;
             getStyleClass().add("tower");
         }
-        setPlayer(obj.getPlayer());
+//        setPlayer(obj.getPlayer());
         setReady(obj.canAct());
     }
 

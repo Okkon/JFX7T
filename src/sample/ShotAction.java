@@ -15,6 +15,7 @@ public abstract class ShotAction extends Skill {
         aimFilters.add(FilterFactory.getFilter(IS_UNIT));
         aimFilters.add(FilterFactory.getFilter(CAN_SEE));
         aimFilters.add(FilterFactory.getFilter(IS_ON_ONE_LINE));
+        aimFilters.add(FilterFactory.getFilter(NOT_ME));
     }
 
     public int getMinDamage() {

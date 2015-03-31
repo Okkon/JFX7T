@@ -47,4 +47,8 @@ public class GameCell implements Selectable {
     public boolean isNotEmpty() {
         return getObj() != null;
     }
+
+    public CellVisualizer getVisualizer() {
+        return cellVisualizer;
+    }
 }

@@ -14,7 +14,7 @@ public class BaseAttackType implements AttackType {
         for (GMod mod : mods) {
             mod.onHit(hit);
         }
-        GameModel.MODEL.log(attacker + " hit " + aim + " with power = " + hit.getDamage());
+        GameModel.MODEL.log(attacker + " hits " + aim);
         aim.takeHit(hit);
         GameModel.MODEL.endTurn();
     }

@@ -7,4 +7,6 @@ public interface GMod {
     void onHit(Hit hit);
 
     void onTakeHit(Hit hit);
+
+    boolean isInvisible();
 }

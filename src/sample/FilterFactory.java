@@ -32,6 +32,9 @@ public class FilterFactory {
             case BELONG_TO_PLAYER:
                 gFilter = new BelongToPlayerFilter();
                 break;
+            case NOT_ME:
+                gFilter = new NotMeFilter();
+                break;
         }
         if (obj != null) {
             gFilter.setObj(obj);
@@ -44,7 +47,7 @@ public class FilterFactory {
     }
 
     public enum FilterType {
-        IS_NEAR, CAN_SEE, CAN_ACT, IS_ON_ONE_LINE, IS_NOT_ENEMY, BELONG_TO_PLAYER, IS_UNIT
+        IS_NEAR, CAN_SEE, CAN_ACT, IS_ON_ONE_LINE, IS_NOT_ENEMY, BELONG_TO_PLAYER, IS_UNIT, NOT_ME
     }
 
     private static class UnitFilter extends AbstractGFilter {
@@ -119,6 +122,17 @@ public class FilterFactory {
             final boolean b = model.getActivePlayer().equals(((GObject) obj).getPlayer());
             if (!b) {
                 model.error("Can't choose action of other player's unit!");
+            }
+            return b;
+        }
+    }
+
+    private static class NotMeFilter extends AbstractGFilter {
+        @Override
+        public boolean isOk(Selectable obj) {
+            final boolean b = !getObj().equals(obj);
+            if (!b) {
+                model.error("Actor can't be the aim!");
             }
             return b;
         }

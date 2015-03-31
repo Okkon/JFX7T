@@ -9,8 +9,9 @@ public class Shell {
     protected int maxDistance;
     protected GUnit attacker;
     protected String name;
-    private boolean stopped;
+    protected boolean stopped;
     protected DamageType damageType;
+    protected ShellVisualizer visualizer;
 
     public Shell() {
         this.coveredDistance = 0;
@@ -19,6 +20,9 @@ public class Shell {
     }
 
     public void fire() {
+        if (visualizer != null) {
+            visualizer.step(cell, cell);
+        }
         while (!stopped) {
             step();
         }
@@ -30,6 +34,9 @@ public class Shell {
         if (nextCell != null && coveredDistance + stepPrice <= maxDistance) {
             coveredDistance += stepPrice;
             GameModel.MODEL.log(name + " moves from " + cell.getXy() + " to " + nextCell.getXy());
+            /*if (visualizer != null) {
+                visualizer.step(cell, nextCell);
+            }*/
             cell = nextCell;
             final GObject obj = cell.getObj();
             if (obj != null) {
@@ -94,5 +101,9 @@ public class Shell {
 
     public void setDamageType(DamageType damageType) {
         this.damageType = damageType;
+    }
+
+    public void setVisualizer(ShellVisualizer visualizer) {
+        this.visualizer = visualizer;
     }
 }

@@ -5,6 +5,11 @@ package sample;
  */
 public class AbstractGMod implements GMod {
     @Override
+    public boolean isInvisible() {
+        return false;
+    }
+
+    @Override
     public void onHit(Hit hit) {
 
     }

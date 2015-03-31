@@ -29,6 +29,7 @@ public class GObjectFactory {
             }
             case Assassin: {
                 gObject = new GUnit(4, 31, 1, 2);
+                gObject.addMod(new Masking());
                 break;
             }
             case Tower: {

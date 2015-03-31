@@ -55,10 +55,16 @@ public abstract class GObject implements Selectable {
         if (cellToGo != null && cellToGo.getObj() == null) {
             final GameCell currentCell = getPlace();
             currentCell.setObj(null);
-            this.place = cellToGo;
-            cellToGo.setObj(this);
-            visualizer.changePlace(currentCell, cellToGo);
+            if (this.isAlive()) {
+                this.place = cellToGo;
+                cellToGo.setObj(this);
+                visualizer.changePlace(currentCell, cellToGo);
+            }
         }
+    }
+
+    public boolean isAlive() {
+        return true;
     }
 
     public AbstractGAction getBaseAction() {

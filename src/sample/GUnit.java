@@ -14,6 +14,11 @@ public class GUnit extends GObject {
     protected UnitType type;
 
     @Override
+    public boolean isAlive() {
+        return hp > 0;
+    }
+
+    @Override
     public void push(Direction direction) {
         super.push(direction);
         final GameCell nextCell = GameModel.MODEL.getNextCell(place, direction);
@@ -54,6 +59,7 @@ public class GUnit extends GObject {
     public void takeHit(Hit hit) {
         super.takeHit(hit);
         this.hp -= hit.getDamage();
+        GameModel.MODEL.log(String.format("%s take %s hit with power = %s", this, hit.getDamageType(), hit.getDamage()));
         GameModel.MODEL.log(this + " has " + hp + " hp left");
         if (hp <= 0) {
             die();

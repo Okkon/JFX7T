@@ -2,8 +2,8 @@ package sample;
 
 public class Crossbow extends ShotAction {
 
-    public Crossbow(int minDamage, int maxDamage, int distance) {
-        super(distance, minDamage, maxDamage);
+    public Crossbow(int minDamage, int randDamage, int distance) {
+        super(distance, minDamage, randDamage);
     }
 
     @Override
@@ -11,7 +11,9 @@ public class Crossbow extends ShotAction {
         return new Shell() {
             @Override
             public void stopCheck(GObject obj) {
-
+                if (obj instanceof Tower || minDamage < 0) {
+                    this.stopped = true;
+                }
             }
         };
     }
