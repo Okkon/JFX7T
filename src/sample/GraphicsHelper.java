@@ -1,28 +1,34 @@
 package sample;
 
-import javafx.scene.canvas.Canvas;
+import javafx.scene.Node;
+import javafx.scene.layout.Pane;
 
-/**
- * Created by Олег on 31.03.2015.
- */
+
 public class GraphicsHelper {
     private static GraphicsHelper INSTANCE;
-    private Canvas canvas;
+    private Pane pane;
 
     private GraphicsHelper() {
 
     }
 
     public static GraphicsHelper getInstance() {
-        return INSTANCE == null ? new GraphicsHelper() : INSTANCE;
+        if (INSTANCE == null) {
+            INSTANCE = new GraphicsHelper();
+        }
+        return INSTANCE;
     }
 
 
-    public void setCanvas(Canvas canvas) {
-        this.canvas = canvas;
+    public void setPane(Pane pane) {
+        this.pane = pane;
     }
 
-    public Canvas getCanvas() {
-        return canvas;
+    public Pane getPane() {
+        return pane;
+    }
+
+    public static void add(Node node) {
+        INSTANCE.getPane().getChildren().add(node);
     }
 }

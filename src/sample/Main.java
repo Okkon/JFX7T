@@ -2,7 +2,6 @@ package sample;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -17,9 +16,9 @@ public class Main extends Application {
         final GamePanel mainPane = new GamePanel(gameModel);
         gameModel.init();
         Pane pane = new Pane();
-        Canvas canvas = new Canvas();
-        GraphicsHelper.getInstance().setCanvas(canvas);
-        pane.getChildren().addAll(mainPane, canvas);
+        Pane effectsPane = new Pane();
+        GraphicsHelper.getInstance().setPane(effectsPane);
+        pane.getChildren().addAll(mainPane, effectsPane);
 
         final Scene scene = new Scene(pane);
         /*Line redLine = LineBuilder.create()

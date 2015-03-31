@@ -5,4 +5,8 @@ package sample;
  */
 public interface ShellVisualizer {
     void step(GameCell cell, GameCell nextCell);
+
+    void create(GameCell cell);
+
+    void destroy(GameCell cell);
 }

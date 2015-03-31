@@ -21,7 +21,8 @@ public class Shell {
 
     public void fire() {
         if (visualizer != null) {
-            visualizer.step(cell, cell);
+            visualizer.create(cell);
+            visualizer.step(cell, GameModel.MODEL.getNextCell(cell, direction));
         }
         while (!stopped) {
             step();
