@@ -12,6 +12,7 @@ import javafx.util.Duration;
 
 public class AbstractShellVisualizer implements ShellVisualizer {
     Shape shape;
+    private Shell shell;
 
     @Override
     public void step(GameCell cell, GameCell nextCell) {
@@ -25,7 +26,7 @@ public class AbstractShellVisualizer implements ShellVisualizer {
         path.getElements().add(new LineTo(bounds2.getMinX() + bounds2.getWidth() / 2, bounds2.getMinY() + bounds2.getHeight() / 2));
 
         PathTransition pathTransition = new PathTransition();
-        pathTransition.setDuration(Duration.millis(2000));
+        pathTransition.setDuration(Duration.millis(1000));
         pathTransition.setNode(shape);
         pathTransition.setPath(path);
         pathTransition.setCycleCount(1);
@@ -35,6 +36,9 @@ public class AbstractShellVisualizer implements ShellVisualizer {
         pathTransition.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                if (!shell.stopped) {
+                    shell.step();
+                }
             }
         });
 
@@ -42,7 +46,8 @@ public class AbstractShellVisualizer implements ShellVisualizer {
     }
 
     @Override
-    public void create(GameCell cell) {
+    public void create(GameCell cell, Shell shell) {
+        this.shell = shell;
         final BoardCell fromCell = (BoardCell) cell.getVisualizer();
         shape = new Circle(
                 fromCell.getWidth() / 2,

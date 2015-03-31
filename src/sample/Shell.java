@@ -21,25 +21,18 @@ public class Shell {
 
     public void fire() {
         if (visualizer != null) {
-            visualizer.create(cell);
-            visualizer.step(cell, GameModel.MODEL.getNextCell(cell, direction));
+            visualizer.create(cell, this);
         }
-        while (!stopped) {
-            step();
-        }
+        step();
     }
 
-    private void step() {
+    public void step() {
         final GameCell nextCell = GameModel.MODEL.getNextCell(cell, direction);
         int stepPrice = direction.isDiagonal() ? XY.diagonalLength : XY.straightLength;
         if (nextCell != null && coveredDistance + stepPrice <= maxDistance) {
             coveredDistance += stepPrice;
             GameModel.MODEL.log(name + " moves from " + cell.getXy() + " to " + nextCell.getXy());
-            /*if (visualizer != null) {
-                visualizer.step(cell, nextCell);
-            }*/
-            cell = nextCell;
-            final GObject obj = cell.getObj();
+            final GObject obj = nextCell.getObj();
             if (obj != null) {
                 GameModel.MODEL.log(String.format("%s hits %s!", name, obj));
                 bumpInto(obj);
@@ -47,6 +40,8 @@ public class Shell {
         } else {
             stopped = true;
         }
+        visualizer.step(cell, nextCell);
+        cell = nextCell;
     }
 
     private void bumpInto(GObject obj) {
