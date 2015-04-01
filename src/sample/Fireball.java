@@ -31,6 +31,6 @@ public class Fireball extends ShotAction {
     protected void configureShell(Shell shell) {
         shell.setName("Fireball");
         shell.setDamageType(DamageType.MAGIC);
-        shell.setVisualizer(new AbstractShellVisualizer());
+        shell.setVisualizer(new FireballShell());
     }
 }

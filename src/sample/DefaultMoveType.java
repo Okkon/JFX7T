@@ -2,13 +2,10 @@ package sample;
 
 import java.util.*;
 
-/**
- * Created by kondrashov on 18.03.2015.
- */
 public class DefaultMoveType implements MoveType {
 
     @Override
-    public Set<Way> getWayPoints(Way point, GUnit unit) {
+    public Set<Way> getWayFromCell(Way point, GUnit unit) {
         Set<Way> possibleWays = new HashSet<Way>();
         List<GameCell> cells = GameModel.MODEL.getEmptyNearCells(point.getCell());
         for (GameCell cell : cells) {
@@ -50,11 +47,11 @@ public class DefaultMoveType implements MoveType {
         return Collections.EMPTY_LIST;
     }
 
-    private Way createWay(GUnit unit, Way point, GameCell cell) {
-        int mp = point.getMp();
-        final int distance = XY.getDistance(point.getCell().getXy(), cell.getXy());
+    private Way createWay(GUnit unit, Way way, GameCell cell) {
+        int mp = way.getMp();
+        final int distance = XY.getDistance(way.getCell().getXy(), cell.getXy());
         return mp >= distance
-                ? point.next(cell, mp - distance)
+                ? way.next(cell, mp - distance)
                 : null;
     }
 }

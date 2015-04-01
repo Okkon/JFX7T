@@ -48,7 +48,7 @@ public abstract class AbstractGAction implements GAction {
             if (filter.getObj() == null) {
                 filter.setObj(getOwner());
             }
-            if (!filter.isOk(obj)) {
+            if (!filter.check(obj)) {
                 return false;
             }
         }
@@ -58,7 +58,7 @@ public abstract class AbstractGAction implements GAction {
     @Override
     public boolean canBeSelected() {
         for (GFilter filter : ownerFilters) {
-            if (!filter.isOk(getOwner())) {
+            if (!filter.check(getOwner())) {
                 return false;
             }
         }

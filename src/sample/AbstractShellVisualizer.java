@@ -4,15 +4,13 @@ import javafx.animation.PathTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
-import javafx.scene.effect.Glow;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.util.Duration;
 
 
-public class AbstractShellVisualizer implements ShellVisualizer {
-    Shape shape;
-    private Shell shell;
+public abstract class AbstractShellVisualizer implements ShellVisualizer {
+    protected Shape shape;
+    protected Shell shell;
 
     @Override
     public void step(GameCell cell, GameCell nextCell) {
@@ -53,13 +51,11 @@ public class AbstractShellVisualizer implements ShellVisualizer {
                 fromCell.getWidth() / 2,
                 fromCell.getHeight() / 2,
                 Math.max(fromCell.getWidth(), fromCell.getHeight()) / 3);
-        GraphicsHelper.add(shape);
-        shape.setFill(Color.PERU);
-        shape.setEffect(new Glow(15));
+        GraphicsHelper.getInstance().add(shape);
     }
 
     @Override
     public void destroy(GameCell cell) {
-
+        GraphicsHelper.getInstance().remove(shape);
     }
 }

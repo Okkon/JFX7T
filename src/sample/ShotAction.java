@@ -12,10 +12,10 @@ public abstract class ShotAction extends Skill {
         this.distance = distance;
         this.minDamage = minDamage;
         this.maxDamage = maxDamage;
-        aimFilters.add(FilterFactory.getFilter(IS_UNIT));
-        aimFilters.add(FilterFactory.getFilter(CAN_SEE));
-        aimFilters.add(FilterFactory.getFilter(IS_ON_ONE_LINE));
-        aimFilters.add(FilterFactory.getFilter(NOT_ME));
+        aimFilters.add(FilterFactory.getFilter(IS_UNIT, "You must select unit!"));
+        aimFilters.add(FilterFactory.getFilter(CAN_SEE, "Selected unit don't see the aim!"));
+        aimFilters.add(FilterFactory.getFilter(IS_ON_ONE_LINE, "Aim is not on the same line!"));
+        aimFilters.add(FilterFactory.getFilter(NOT_ME, "Actor can't be the aim!"));
     }
 
     public int getMinDamage() {

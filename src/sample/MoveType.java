@@ -8,7 +8,7 @@ import java.util.Set;
 public interface MoveType {
     MoveType DEFAULT = new DefaultMoveType();
 
-    Set<Way> getWayPoints(Way start, GUnit unit);
+    Set<Way> getWayFromCell(Way start, GUnit unit);
 
     void go(GUnit unit, GameCell gameCell);
 }

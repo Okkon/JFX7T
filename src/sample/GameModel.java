@@ -131,7 +131,6 @@ public class GameModel {
         }
         graphics.selectObj(obj);
         graphics.showInfo(obj);
-        visualize();
     }
 
     public void visualize() {
@@ -223,7 +222,7 @@ public class GameModel {
         wayQueue.add(start);
 
         while (!wayQueue.isEmpty()) {
-            Set<Way> ways = moveType.getWayPoints(wayQueue.poll(), unit);
+            Set<Way> ways = moveType.getWayFromCell(wayQueue.poll(), unit);
             for (Way way : ways) {
                 final Way shortestWay = destinations.get(way.getCell());
                 if (shortestWay == null || way.getMp() > shortestWay.getMp()) {

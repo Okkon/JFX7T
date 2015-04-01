@@ -6,7 +6,7 @@ public class FilterFactory {
     private static final GameModel model = GameModel.MODEL;
     private static HashMap<FilterType, GFilter> hashMap = new HashMap<FilterType, GFilter>();
 
-    public static GFilter getFilter(FilterType type, GObject obj) {
+    public static GFilter getFilter(FilterType type, GObject obj, String error) {
         GFilter gFilter = hashMap.get(type);
         if (gFilter != null) {
             return gFilter;
@@ -39,11 +39,17 @@ public class FilterFactory {
         if (obj != null) {
             gFilter.setObj(obj);
         }
+        gFilter.setType(type);
+        gFilter.setErrorText(error);
         return gFilter;
     }
 
     public static GFilter getFilter(FilterType type) {
-        return getFilter(type, null);
+        return getFilter(type, null, null);
+    }
+
+    public static GFilter getFilter(FilterType type, String error) {
+        return getFilter(type, null, error);
     }
 
     public enum FilterType {
@@ -53,88 +59,56 @@ public class FilterFactory {
     private static class UnitFilter extends AbstractGFilter {
         @Override
         public boolean isOk(Selectable obj) {
-            final boolean b = obj instanceof GUnit;
-            if (!b) {
-                model.error("You must select unit!");
-            }
-            return b;
+            return obj instanceof GUnit;
         }
     }
 
     private static class IsNearFilter extends AbstractGFilter {
         @Override
         public boolean isOk(Selectable obj) {
-            final boolean b = model.isNear(getObj(), (GObject) obj);
-            if (!b) {
-                model.error("Aim is not b!");
-            }
-            return b;
+            return model.isNear(getObj(), (GObject) obj);
         }
     }
 
     private static class CanSeeFilter extends AbstractGFilter {
         @Override
         public boolean isOk(Selectable obj) {
-            final boolean b = model.canSee(getObj(), (GObject) obj);
-            if (!b) {
-                model.error("Selected unit don't see the aim!");
-            }
-            return b;
+            return model.canSee(getObj(), (GObject) obj);
         }
     }
 
     private static class CanActFilter extends AbstractGFilter {
         @Override
         public boolean isOk(Selectable obj) {
-            final boolean b = ((GUnit) obj).canAct();
-            if (!b) {
-                model.error("Selected unit can't act!");
-            }
-            return b;
+            return ((GUnit) obj).canAct();
         }
     }
 
     private static class NotEnemyFilter extends AbstractGFilter {
         @Override
         public boolean isOk(Selectable obj) {
-            final boolean b = model.isNotEnemy(getObj(), (GObject) obj);
-            if (!b) {
-                model.error("Selected unit is enemy!");
-            }
-            return b;
+            return model.isNotEnemy(getObj(), (GObject) obj);
         }
     }
 
     private static class OneLineFilter extends AbstractGFilter {
         @Override
         public boolean isOk(Selectable obj) {
-            final boolean b = model.onOneLine(getObj(), (GObject) obj);
-            if (!b) {
-                model.error("Aim is not on the same line!");
-            }
-            return b;
+            return model.onOneLine(getObj(), (GObject) obj);
         }
     }
 
     private static class BelongToPlayerFilter extends AbstractGFilter {
         @Override
         public boolean isOk(Selectable obj) {
-            final boolean b = model.getActivePlayer().equals(((GObject) obj).getPlayer());
-            if (!b) {
-                model.error("Can't choose action of other player's unit!");
-            }
-            return b;
+            return model.getActivePlayer().equals(((GObject) obj).getPlayer());
         }
     }
 
     private static class NotMeFilter extends AbstractGFilter {
         @Override
         public boolean isOk(Selectable obj) {
-            final boolean b = !getObj().equals(obj);
-            if (!b) {
-                model.error("Actor can't be the aim!");
-            }
-            return b;
+            return !getObj().equals(obj);
         }
     }
 }

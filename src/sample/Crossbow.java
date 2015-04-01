@@ -21,5 +21,6 @@ public class Crossbow extends ShotAction {
     @Override
     protected void configureShell(Shell shell) {
         shell.setName("Arrow");
+        shell.setVisualizer(new ArrowShell());
     }
 }

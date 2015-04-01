@@ -2,6 +2,7 @@ package sample;
 
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Shape;
 
 
 public class GraphicsHelper {
@@ -28,7 +29,11 @@ public class GraphicsHelper {
         return pane;
     }
 
-    public static void add(Node node) {
-        INSTANCE.getPane().getChildren().add(node);
+    public void add(Node node) {
+        getPane().getChildren().add(node);
+    }
+
+    public void remove(Shape shape) {
+        getPane().getChildren().remove(shape);
     }
 }
