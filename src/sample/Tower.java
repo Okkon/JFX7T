@@ -1,6 +1,7 @@
 package sample;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -20,7 +21,23 @@ public class Tower extends GObject{
     @Override
     public void endHour() {
         super.endHour();
+        attack();
         checkControl();
+    }
+
+    private void attack() {
+        if (getPlayer().equals(Player.NEUTRAL)) {
+            return;
+        } else {
+            final List<GUnit> enemies = GameModel.MODEL.getEnemiesNear(getPlace(), getPlayer());
+            for (GUnit nearUnit : enemies) {
+                for (GMod mod : nearUnit.getMods()) {
+                    if (mod.blocksTower()) {
+                        return;
+                    }
+                }
+            }
+        }
     }
 
     @Override

@@ -9,4 +9,6 @@ public interface GMod {
     void onTakeHit(Hit hit);
 
     boolean isInvisible();
+
+    boolean blocksTower();
 }

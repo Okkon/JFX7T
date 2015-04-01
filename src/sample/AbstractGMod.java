@@ -1,11 +1,14 @@
 package sample;
 
-/**
- * Created by kondrashov on 20.03.2015.
- */
+
 public class AbstractGMod implements GMod {
     @Override
     public boolean isInvisible() {
+        return false;
+    }
+
+    @Override
+    public boolean blocksTower() {
         return false;
     }
 

@@ -329,4 +329,15 @@ public class GameModel {
         }
         return obj1.getPlayer().isEnemyFor(obj2.getPlayer());
     }
+
+    public List<GUnit> getEnemiesNear(GameCell place, Player player) {
+        List<GUnit> list = new ArrayList<GUnit>();
+        final Set<GUnit> nearUnits = getNearUnits(place);
+        for (GUnit nearUnit : nearUnits) {
+            if (player.isEnemyFor(nearUnit.player)) {
+                list.add(nearUnit);
+            }
+        }
+        return list;
+    }
 }
