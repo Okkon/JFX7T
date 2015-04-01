@@ -13,6 +13,9 @@ public class GUnit extends GObject {
     private int randDamage;
     protected UnitType type;
 
+    private MoveType moveType;
+    private AttackType attackType;
+
     @Override
     public boolean isAlive() {
         return hp > 0;
@@ -27,21 +30,17 @@ public class GUnit extends GObject {
             if (obj == null) {
                 shift(nextCell);
             } else {
-
+                obj.takeHit(Hit.createHit(this, obj, 1));
+                this.takeHit(Hit.createHit(obj, this, 1));
             }
         }
     }
-
-    private boolean isAlive;
-    private MoveType moveType;
-    private AttackType attackType;
 
     public GUnit(int maxHp, int maxMp, int minDamage, int randDamage) {
         this.maxHp = maxHp;
         this.maxMp = maxMp;
         this.minDamage = minDamage;
         this.randDamage = randDamage;
-        isAlive = true;
         baseAction = new BaseUnitAction();
         baseAction.setOwner(this);
         moveType = MoveType.DEFAULT;
@@ -140,7 +139,7 @@ public class GUnit extends GObject {
             if (obj instanceof GObject) {
                 GObject gObject = (GObject) obj;
                 if (isFriendly(gObject)) {
-                    DefaultAction.act(gObject);
+                    GameModel.DefaultAction.act(gObject);
                 } else {
                     attack(gObject);
                 }

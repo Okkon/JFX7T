@@ -2,9 +2,6 @@ package sample;
 
 import java.util.Random;
 
-/**
- * Created by kondrashov on 25.02.2015.
- */
 public class Hit {
     private int damage;
     private DamageType damageType;
@@ -41,7 +38,11 @@ public class Hit {
         return createHit(attacker, aim, attacker.getMinDamage(), attacker.getRandDamage(), DamageType.PHYSICAL);
     }
 
-    public static Hit createHit(GUnit attacker, GObject aim, int minDamage, int randDamage, DamageType damageType) {
+    public static Hit createHit(GObject attacker, GObject aim, int damage) {
+        return createHit(attacker, aim, damage, 0, DamageType.PHYSICAL);
+    }
+
+    public static Hit createHit(GObject attacker, GObject aim, int minDamage, int randDamage, DamageType damageType) {
         final Hit hit = new Hit();
         hit.attacker = attacker;
         hit.aim = aim;

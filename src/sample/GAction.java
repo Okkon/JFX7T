@@ -2,7 +2,6 @@ package sample;
 
 
 public interface GAction {
-    GAction DefaultAction = new SelectAction();
 
     boolean canSelect(Selectable obj);
 

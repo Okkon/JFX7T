@@ -160,6 +160,7 @@ public class GamePanel extends GridPane implements MainVisualizer {
         ListView<GMod> list = new ListView<GMod>();
         ObservableList<GMod> items = FXCollections.observableArrayList(unit.getMods());
         list.setItems(items);
+        list.setMinHeight(150);
 
         VBox vBox = new VBox();
         for (final GAction skill : unit.getSkills()) {

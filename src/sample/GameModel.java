@@ -6,6 +6,7 @@ import java.util.*;
 
 
 public class GameModel {
+    public static final GAction DefaultAction = new SelectAction();
     private static Collection<Way> lastFoundWays;
     Set<GObject> objects = new HashSet<GObject>();
     public static GameModel MODEL = new GameModel();
@@ -81,7 +82,6 @@ public class GameModel {
         cell.setObj(obj);
         objects.add(obj);
         graphics.createVisualizerFor(obj);
-        refresh();
     }
 
     private void refresh() {
@@ -142,7 +142,7 @@ public class GameModel {
     }
 
     public void cancel() {
-        this.setAction(GAction.DefaultAction);
+        this.setAction(DefaultAction);
         showSelectionPossibility(null);
         select(null);
         visualize();
