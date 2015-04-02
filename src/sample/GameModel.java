@@ -7,7 +7,7 @@ import java.util.*;
 
 public class GameModel {
     public static final GAction DefaultAction = new SelectAction();
-    private static Collection<Way> lastFoundWays;
+    private Collection<Way> lastFoundWays;
     Set<GObject> objects = new HashSet<GObject>();
     public static GameModel MODEL = new GameModel();
     private GAction[] possibleActions = {new SelectAction(), new ShiftAction(), new CreateAction()};
@@ -211,11 +211,11 @@ public class GameModel {
         return objects;
     }
 
-    public static Collection<Way> getLastFoundWays() {
+    public Collection<Way> getLastFoundWays() {
         return lastFoundWays;
     }
 
-    public static Collection<Way> findAllWays(GUnit unit, MoveType moveType) {
+    public Collection<Way> findAllWays(GUnit unit, MoveType moveType) {
         Map<GameCell, Way> destinations = new HashMap<GameCell, Way>();
         Way start = new Way(unit.getPlace(), unit.getMP());
         Queue<Way> wayQueue = new ArrayDeque<Way>();
