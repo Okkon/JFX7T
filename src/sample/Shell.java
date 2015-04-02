@@ -104,4 +104,8 @@ public class Shell {
     public void setVisualizer(ShellVisualizer visualizer) {
         this.visualizer = visualizer;
     }
+
+    public Direction getDirection() {
+        return direction;
+    }
 }

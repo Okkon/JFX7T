@@ -35,4 +35,41 @@ public class Direction {
         if (i == 0) return 0;
         return i > 0 ? 1 : -1;
     }
+
+    public double toAngle() {
+        if (x < 0) {
+            if (y > 0) {
+                return 315d;
+            }
+            if (y == 0) {
+                return 270d;
+            }
+            if (y < 0) {
+                return 225d;
+            }
+        }
+        if (x > 0) {
+            if (y > 0) {
+                return 45;
+            }
+            if (y == 0) {
+                return 90d;
+            }
+            if (y < 0) {
+                return 135d;
+            }
+        }
+        if (x == 0) {
+            if (y > 0) {
+                return 0d;
+            }
+            if (y < 0) {
+                return 180d;
+            }
+            if (y == 0) {
+                return -1;
+            }
+        }
+        return -1;
+    }
 }

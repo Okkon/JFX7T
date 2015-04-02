@@ -48,11 +48,15 @@ public abstract class AbstractShellVisualizer implements ShellVisualizer {
     public void create(GameCell cell, Shell shell) {
         this.shell = shell;
         final BoardCell fromCell = (BoardCell) cell.getVisualizer();
-        shape = new Circle(
-                fromCell.getWidth() / 2,
-                fromCell.getHeight() / 2,
-                Math.max(fromCell.getWidth(), fromCell.getHeight()) / 3);
+        configureShell(fromCell, shell);
         GraphicsHelper.getInstance().add(shape);
+    }
+
+    protected void configureShell(BoardCell cell, Shell shell) {
+        shape = new Circle(
+                cell.getWidth() / 2,
+                cell.getHeight() / 2,
+                Math.max(cell.getWidth(), cell.getHeight()) / 3);
     }
 
     @Override
