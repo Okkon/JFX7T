@@ -223,8 +223,7 @@ public class GamePanel extends GridPane implements MainVisualizer {
         if (obj != null) {
             final GObjectVisualizerImpl visualizer = new GObjectVisualizerImpl(obj, this);
             obj.setVisualizer(visualizer);
-            final BoardCell cell = cells.get(obj.getPlace());
-            cell.setCenter(visualizer);
+            visualizer.create(obj.getPlace());
         }
     }
 
@@ -256,5 +255,9 @@ public class GamePanel extends GridPane implements MainVisualizer {
 
     public BoardCell getBoardCell(GameCell currentCell) {
         return cells.get(currentCell);
+    }
+
+    public GridPane getBoardPane() {
+        return boardPane;
     }
 }

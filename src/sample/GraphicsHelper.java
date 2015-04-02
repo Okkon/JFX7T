@@ -2,20 +2,20 @@ package sample;
 
 import javafx.animation.SequentialTransition;
 import javafx.animation.Transition;
+import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.layout.Pane;
-import javafx.scene.shape.Shape;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class GraphicsHelper {
     private static GraphicsHelper INSTANCE;
-    private Pane pane;
+    private Group canvas;
     private List<Transition> transitions;
 
     private GraphicsHelper() {
-
+        transitions = new ArrayList<Transition>();
     }
 
     public static GraphicsHelper getInstance() {
@@ -26,20 +26,20 @@ public class GraphicsHelper {
     }
 
 
-    public void setPane(Pane pane) {
-        this.pane = pane;
+    public void setCanvas(Group pane) {
+        this.canvas = pane;
     }
 
-    public Pane getPane() {
-        return pane;
+    public Group getCanvas() {
+        return canvas;
     }
 
     public void add(Node node) {
-        getPane().getChildren().add(node);
+        getCanvas().getChildren().add(node);
     }
 
-    public void remove(Shape shape) {
-        getPane().getChildren().remove(shape);
+    public void remove(Node node) {
+        getCanvas().getChildren().remove(node);
     }
 
     public void addTransition(Transition transition) {
@@ -52,5 +52,6 @@ public class GraphicsHelper {
             transition.getChildren().add(subTransition);
         }
         transition.play();
+        transitions.clear();
     }
 }

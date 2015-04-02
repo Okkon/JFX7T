@@ -1,8 +1,8 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -15,12 +15,10 @@ public class Main extends Application {
         gameModel.setBoard(14, 8);
         final GamePanel mainPane = new GamePanel(gameModel);
         gameModel.init();
-        Pane pane = new Pane();
-        Pane effectsPane = new Pane();
-        GraphicsHelper.getInstance().setPane(effectsPane);
-        pane.getChildren().addAll(mainPane, effectsPane);
-
-        final Scene scene = new Scene(pane);
+        Group canvas = new Group();
+        GraphicsHelper.getInstance().setCanvas(canvas);
+        canvas.getChildren().add(mainPane);
+        final Scene scene = new Scene(canvas);
         /*Line redLine = LineBuilder.create()
                 .startX(296)
                 .startY(128)

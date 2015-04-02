@@ -1,7 +1,16 @@
 package sample;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.PathTransition;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Bounds;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
+import javafx.util.Duration;
 
 public class GObjectVisualizerImpl extends Label implements GObjectVisualizer {
     private final GamePanel gamePanel;
@@ -22,16 +31,38 @@ public class GObjectVisualizerImpl extends Label implements GObjectVisualizer {
 
     @Override
     public void changePlace(GameCell currentCell, GameCell cellToGo) {
-        BoardCell previousCell = gamePanel.getBoardCell(currentCell);
-        BoardCell newCell = gamePanel.getBoardCell(cellToGo);
-        previousCell.setCenter(null);
-        newCell.setCenter(this);
+        final BoardCell fromCell = (BoardCell) currentCell.getVisualizer();
+        final BoardCell toCell = (BoardCell) cellToGo.getVisualizer();
+        final Bounds bounds = fromCell.getBoundsInParent();
+        final Bounds bounds2 = toCell.getBoundsInParent();
+
+        Path path = new Path();
+        path.getElements().add(new MoveTo(bounds.getMinX(), bounds.getMinY()));
+        path.getElements().add(new LineTo(bounds2.getMinX(), bounds2.getMinY()));
+
+        PathTransition pathTransition = new PathTransition();
+        pathTransition.setDuration(Duration.millis(1000));
+        pathTransition.setNode(this);
+        pathTransition.setPath(path);
+
+        GraphicsHelper.getInstance().addTransition(pathTransition);
     }
 
     @Override
     public void die(GameCell place) {
         final BoardCell cell = gamePanel.getBoardCell(place);
-        cell.setCenter(null);
+        FadeTransition transition = new FadeTransition();
+        transition.setDuration(Duration.millis(1000));
+        transition.setNode(this);
+        transition.setFromValue(100);
+        transition.setToValue(0);
+        transition.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                GraphicsHelper.getInstance().remove(GObjectVisualizerImpl.this);
+            }
+        });
+
     }
 
     @Override
@@ -48,5 +79,14 @@ public class GObjectVisualizerImpl extends Label implements GObjectVisualizer {
         } else {
             getStyleClass().remove("ready");
         }
+    }
+
+    @Override
+    public void create(GameCell gameCell) {
+        final BoardCell cell = gamePanel.getBoardCell(gameCell);
+        final Bounds b = cell.getBoundsInParent();
+        this.setLayoutX(b.getMinX());
+        this.setLayoutY(b.getMinY());
+        GraphicsHelper.getInstance().add(this);
     }
 }
