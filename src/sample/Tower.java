@@ -37,6 +37,10 @@ public class Tower extends GObject{
                     }
                 }
             }
+            for (GUnit enemy : enemies) {
+                final Hit hit = Hit.createHit(this, enemy, 1, 2);
+                enemy.takeHit(hit);
+            }
         }
     }
 
