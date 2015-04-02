@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.animation.FadeTransition;
 import javafx.animation.PathTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -13,7 +14,7 @@ public abstract class AbstractShellVisualizer implements ShellVisualizer {
     protected Shell shell;
 
     @Override
-    public void step(GameCell cell, GameCell nextCell) {
+    public void step(GameCell cell, final GameCell nextCell) {
         final BoardCell fromCell = (BoardCell) cell.getVisualizer();
         final BoardCell toCell = (BoardCell) nextCell.getVisualizer();
         final Bounds bounds = fromCell.getBoundsInParent();
@@ -31,16 +32,16 @@ public abstract class AbstractShellVisualizer implements ShellVisualizer {
 
         pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         pathTransition.setAutoReverse(true);
+
         pathTransition.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                if (!shell.stopped) {
-                    shell.step();
+                if (shell.stopped) {
+                    destroy(nextCell);
                 }
             }
         });
-
-        pathTransition.play();
+        GraphicsHelper.getInstance().addTransition(pathTransition);
     }
 
     @Override
@@ -56,6 +57,16 @@ public abstract class AbstractShellVisualizer implements ShellVisualizer {
 
     @Override
     public void destroy(GameCell cell) {
-        GraphicsHelper.getInstance().remove(shape);
+        FadeTransition transition = new FadeTransition();
+        transition.setNode(shape);
+        transition.setDuration(Duration.millis(1000));
+        transition.setFromValue(100);
+        transition.setToValue(0);
+        transition.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                GraphicsHelper.getInstance().remove(shape);
+            }
+        });
     }
 }

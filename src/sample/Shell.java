@@ -23,7 +23,9 @@ public class Shell {
         if (visualizer != null) {
             visualizer.create(cell, this);
         }
-        step();
+        while (!stopped) {
+            step();
+        }
     }
 
     public void step() {
@@ -32,6 +34,8 @@ public class Shell {
         if (nextCell != null && coveredDistance + stepPrice <= maxDistance) {
             coveredDistance += stepPrice;
             GameModel.MODEL.log(name + " moves from " + cell.getXy() + " to " + nextCell.getXy());
+            visualizer.step(cell, nextCell);
+            cell = nextCell;
             final GObject obj = nextCell.getObj();
             if (obj != null) {
                 GameModel.MODEL.log(String.format("%s hits %s!", name, obj));
@@ -40,8 +44,6 @@ public class Shell {
         } else {
             stopped = true;
         }
-        visualizer.step(cell, nextCell);
-        cell = nextCell;
     }
 
     private void bumpInto(GObject obj) {
