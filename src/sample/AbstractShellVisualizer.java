@@ -13,7 +13,7 @@ public abstract class AbstractShellVisualizer implements ShellVisualizer {
     protected Shell shell;
 
     @Override
-    public void step(GameCell cell, GameCell nextCell) {
+    public void step(GameCell cell, final GameCell nextCell) {
         final BoardCell fromCell = (BoardCell) cell.getVisualizer();
         final BoardCell toCell = (BoardCell) nextCell.getVisualizer();
         final Bounds bounds = fromCell.getBoundsInParent();
@@ -36,6 +36,8 @@ public abstract class AbstractShellVisualizer implements ShellVisualizer {
             public void handle(ActionEvent actionEvent) {
                 if (!shell.stopped) {
                     shell.step();
+                } else {
+                    destroy(nextCell);
                 }
             }
         });
