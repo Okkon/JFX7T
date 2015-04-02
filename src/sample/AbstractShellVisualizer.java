@@ -13,7 +13,7 @@ public abstract class AbstractShellVisualizer implements ShellVisualizer {
     protected Shell shell;
 
     @Override
-    public void step(GameCell cell, final GameCell nextCell) {
+    public void step(GameCell cell, GameCell nextCell) {
         final BoardCell fromCell = (BoardCell) cell.getVisualizer();
         final BoardCell toCell = (BoardCell) nextCell.getVisualizer();
         final Bounds bounds = fromCell.getBoundsInParent();
@@ -31,33 +31,45 @@ public abstract class AbstractShellVisualizer implements ShellVisualizer {
 
         pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         pathTransition.setAutoReverse(true);
+
         pathTransition.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                if (!shell.stopped) {
-                    shell.step();
-                } else {
+                if (shell.stopped) {
                     destroy(nextCell);
                 }
             }
         });
-
-        pathTransition.play();
+        GraphicsHelper.getInstance().addTransition(pathTransition);
     }
 
     @Override
     public void create(GameCell cell, Shell shell) {
         this.shell = shell;
         final BoardCell fromCell = (BoardCell) cell.getVisualizer();
-        shape = new Circle(
-                fromCell.getWidth() / 2,
-                fromCell.getHeight() / 2,
-                Math.max(fromCell.getWidth(), fromCell.getHeight()) / 3);
+        configureShell(fromCell, shell);
         GraphicsHelper.getInstance().add(shape);
+    }
+
+    protected void configureShell(BoardCell cell, Shell shell) {
+        shape = new Circle(
+                cell.getWidth() / 2,
+                cell.getHeight() / 2,
+                Math.max(cell.getWidth(), cell.getHeight()) / 3);
     }
 
     @Override
     public void destroy(GameCell cell) {
-        GraphicsHelper.getInstance().remove(shape);
+        FadeTransition transition = new FadeTransition();
+        transition.setNode(shape);
+        transition.setDuration(Duration.millis(1000));
+        transition.setFromValue(100);
+        transition.setToValue(0);
+        transition.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                GraphicsHelper.getInstance().remove(shape);
+            }
+        });
     }
 }

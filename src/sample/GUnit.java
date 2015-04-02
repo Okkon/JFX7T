@@ -85,7 +85,7 @@ public class GUnit extends GObject {
 
     private Set<GameCell> getCellsToGo() {
         Set<GameCell> possibleCells = new HashSet<GameCell>();
-        final Collection<Way> allWays = GameModel.findAllWays(this, moveType);
+        final Collection<Way> allWays = GameModel.MODEL.findAllWays(this, moveType);
         for (Way way : allWays) {
             possibleCells.add(way.getCell());
         }

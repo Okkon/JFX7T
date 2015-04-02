@@ -10,7 +10,7 @@ public class BoardCell extends BorderPane implements CellVisualizer {
 
     public BoardCell(GameCell cell) {
         this.cell = cell;
-        this.getStyleClass().add("borderPane");
+        this.getStyleClass().add("cell");
         cell.setCellVisualizer(this);
     }
 

@@ -21,13 +21,13 @@
 }
 
 
-.borderPane {
+.cell {
     -fx-background-color: #fff5ee;
     -fx-border-color: gray;
     -fx-border-width: 1px
 }
 
-.borderPane:hover {
+.cell:hover {
     -fx-border-color: black;
     -fx-border-width: 2px
 }

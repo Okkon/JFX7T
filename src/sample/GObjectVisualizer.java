@@ -11,4 +11,6 @@ public interface GObjectVisualizer {
     void setPlayer(Player player);
 
     void setReady(boolean isReady);
+
+    void create(GameCell cell);
 }
