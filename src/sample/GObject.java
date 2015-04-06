@@ -48,7 +48,9 @@ public abstract class GObject implements Selectable {
 
     public void setPlayer(Player player) {
         this.player = player;
-        visualizer.setPlayer(player);
+        if (visualizer != null) {
+            visualizer.setPlayer(player);
+        }
     }
 
     public void shift(GameCell cellToGo) {

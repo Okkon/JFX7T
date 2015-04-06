@@ -87,7 +87,7 @@ public class GamePanel extends GridPane implements MainVisualizer {
         };
         for (Map.Entry<XY, GameCell> entry : board.entrySet()) {
             final BoardCell boardCell = new BoardCell(entry.getValue());
-            final int cellSize = 35;
+            final int cellSize = 40;
             boardCell.setMinSize(cellSize, cellSize);
             boardCell.setPrefSize(cellSize, cellSize);
             boardCell.setMaxSize(cellSize, cellSize);
@@ -118,7 +118,6 @@ public class GamePanel extends GridPane implements MainVisualizer {
         final UnitType[] unitType = new UnitType[1];
         ListView<Player> list = new ListView<Player>();
         ObservableList<Player> items = FXCollections.observableArrayList(model.getPlayers());
-        items.add(Player.NEUTRAL);
         list.setItems(items);
         list.setPrefWidth(100);
         list.setPrefHeight(70);
@@ -160,7 +159,7 @@ public class GamePanel extends GridPane implements MainVisualizer {
         ListView<GMod> list = new ListView<GMod>();
         ObservableList<GMod> items = FXCollections.observableArrayList(unit.getMods());
         list.setItems(items);
-        list.setMinHeight(150);
+        list.setMaxHeight(150);
 
         VBox vBox = new VBox();
         for (final GAction skill : unit.getSkills()) {

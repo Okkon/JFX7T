@@ -7,6 +7,7 @@ public class CreateAction extends AbstractGAction {
         if (aim instanceof GameCell) {
             GameCell gameCell = (GameCell) aim;
             GameModel.MODEL.createUnit(obj, gameCell);
+            obj.setPlayer(obj.getPlayer());
             GameModel.MODEL.cancel();
         }
     }

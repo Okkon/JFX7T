@@ -26,6 +26,7 @@ public class Shell {
         while (!stopped) {
             step();
         }
+        visualizer.destroy(cell);
     }
 
     public void step() {

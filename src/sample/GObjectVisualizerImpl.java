@@ -17,14 +17,16 @@ public class GObjectVisualizerImpl extends Label implements GObjectVisualizer {
 
     public GObjectVisualizerImpl(GObject obj, GamePanel gamePanel) {
         this.gamePanel = gamePanel;
-        setText(obj.toString().substring(0, 2));
+        setPrefSize(28, 28);
         if (obj instanceof GUnit) {
             GUnit unit = (GUnit) obj;
             getStyleClass().add("unit");
+            setText(obj.toString().substring(0, 2));
         }
         if (obj instanceof Tower) {
             Tower tower = (Tower) obj;
             getStyleClass().add("tower");
+            setText("T");
         }
         setReady(obj.canAct());
     }
@@ -37,12 +39,14 @@ public class GObjectVisualizerImpl extends Label implements GObjectVisualizer {
         final Bounds bounds2 = toCell.getBoundsInParent();
 
         Path path = new Path();
-        path.getElements().add(new MoveTo(bounds.getMinX(), bounds.getMinY()));
-        path.getElements().add(new LineTo(bounds2.getMinX(), bounds2.getMinY()));
+        final double w = bounds.getWidth() / 2;
+        final double h = bounds.getHeight() / 2;
+        path.getElements().add(new MoveTo(bounds.getMinX() + w, bounds.getMinY() + h));
+        path.getElements().add(new LineTo(bounds2.getMinX() + w, bounds2.getMinY() + h));
 
         PathTransition pathTransition = new PathTransition();
         pathTransition.setDuration(Duration.millis(1000));
-        pathTransition.setNode(this);
+        pathTransition.setNode(GObjectVisualizerImpl.this);
         pathTransition.setPath(path);
 
         GraphicsHelper.getInstance().addTransition(pathTransition);
@@ -62,7 +66,7 @@ public class GObjectVisualizerImpl extends Label implements GObjectVisualizer {
                 GraphicsHelper.getInstance().remove(GObjectVisualizerImpl.this);
             }
         });
-
+        GraphicsHelper.getInstance().addTransition(transition);
     }
 
     @Override
@@ -85,8 +89,10 @@ public class GObjectVisualizerImpl extends Label implements GObjectVisualizer {
     public void create(GameCell gameCell) {
         final BoardCell cell = gamePanel.getBoardCell(gameCell);
         final Bounds b = cell.getBoundsInParent();
-        this.setLayoutX(b.getMinX());
-        this.setLayoutY(b.getMinY());
-        GraphicsHelper.getInstance().add(this);
+        final double w = (b.getWidth() - getPrefWidth()) / 2;
+        final double h = (b.getHeight() - getPrefHeight()) / 2;
+        this.setTranslateX(b.getMinX() + w);
+        this.setTranslateY(b.getMinY() + h);
+        GraphicsHelper.getInstance().add(GObjectVisualizerImpl.this);
     }
 }
