@@ -11,4 +11,6 @@ public interface GMod {
     boolean isInvisible();
 
     boolean blocksTower();
+
+    void onTakeShot(Shell shell);
 }

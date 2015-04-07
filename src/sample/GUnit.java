@@ -14,7 +14,7 @@ public class GUnit extends GObject {
     protected UnitType type;
 
     private MoveType moveType;
-    private AttackType attackType;
+    private AttackStyle attackStyle;
 
     @Override
     public boolean isAlive() {
@@ -30,8 +30,8 @@ public class GUnit extends GObject {
             if (obj == null) {
                 shift(nextCell);
             } else {
-                obj.takeHit(Hit.createHit(this, obj, 1));
-                this.takeHit(Hit.createHit(obj, this, 1));
+                obj.takeHit(Hit.createHit(this, obj, 1, 0, DamageType.PHYSICAL));
+                this.takeHit(Hit.createHit(obj, this, 1, 0, DamageType.PHYSICAL));
             }
         }
     }
@@ -44,7 +44,7 @@ public class GUnit extends GObject {
         baseAction = new BaseUnitAction();
         baseAction.setOwner(this);
         moveType = MoveType.DEFAULT;
-        attackType = AttackType.DEFAULT;
+        attackStyle = AttackStyle.DEFAULT;
         skills.add(new EndTurnAction());
         fill();
     }
@@ -76,14 +76,7 @@ public class GUnit extends GObject {
         return type.toString() + getXy().toString();
     }
 
-    @Override
-    public void select() {
-        super.select();
-        Set<GameCell> cells = getCellsToGo();
-        GameModel.MODEL.showSelectionPossibility(cells);
-    }
-
-    private Set<GameCell> getCellsToGo() {
+    public Set<GameCell> getCellsToGo() {
         Set<GameCell> possibleCells = new HashSet<GameCell>();
         final Collection<Way> allWays = GameModel.MODEL.findAllWays(this, moveType);
         for (Way way : allWays) {
@@ -151,8 +144,8 @@ public class GUnit extends GObject {
     }
 
     @Override
-    public void endHour() {
-        super.endHour();
+    public void startHour() {
+        super.startHour();
         this.mp = maxMp;
         visualizer.setReady(true);
     }
@@ -167,11 +160,12 @@ public class GUnit extends GObject {
     private void go(GameCell gameCell) {
         moveType.go(this, gameCell);
         if (canAct()) {
-            select();
+            Set<GameCell> cells = getCellsToGo();
+            GameModel.MODEL.showSelectionPossibility(cells);
         }
     }
 
     private void attack(GObject obj) {
-        attackType.attack(this, obj);
+        attackStyle.attack(this, obj);
     }
 }

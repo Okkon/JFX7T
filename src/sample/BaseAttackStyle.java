@@ -1,12 +1,13 @@
 package sample;
 
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class BaseAttackType implements AttackType {
+public class BaseAttackStyle implements AttackStyle {
     @Override
     public void attack(GUnit attacker, GObject aim) {
         if (!GameModel.MODEL.isNear(attacker, aim)) {
-            GameModel.MODEL.error("aim is too far!");
+            GameModel.MODEL.error(ResourceBundle.getBundle("errorText").getString("AimIsTooFar"));
             return;
         }
         Hit hit = Hit.createHit(attacker, aim);
@@ -14,7 +15,7 @@ public class BaseAttackType implements AttackType {
         for (GMod mod : mods) {
             mod.onHit(hit);
         }
-        GameModel.MODEL.log(attacker + " hits " + aim);
+        GameModel.MODEL.log(attacker + ResourceBundle.getBundle("base").getString("Hits") + aim);
         aim.takeHit(hit);
         GameModel.MODEL.endTurn();
     }

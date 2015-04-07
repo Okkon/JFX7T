@@ -4,6 +4,13 @@
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
 }
 
+.control-panel {
+    -fx-background-color: #708090;
+    -fx-border-color: gray;
+    -fx-border-width: 1px;
+    -fx-padding: 10px;
+}
+
 .unit {
     -fx-border-color: black;
     -fx-font-weight: normal;
@@ -32,13 +39,6 @@
     -fx-border-width: 2px
 }
 
-.control-panel {
-    -fx-background-color: #708090;
-    -fx-border-color: gray;
-    -fx-border-width: 1px;
-    -fx-padding: 10px;
-}
-
 .ready {
     -fx-font-weight: bold;
 }
@@ -48,10 +48,11 @@
     -fx-border-width: 2px
 }
 
+.selected:hover {
+    -fx-border-width: 3px
+}
+
 .canBeSelected {
     -fx-border-width: 2px
 }
 
-.selected:hover {
-    -fx-border-width: 3px
-}

@@ -87,7 +87,7 @@ public class GamePanel extends GridPane implements MainVisualizer {
         };
         for (Map.Entry<XY, GameCell> entry : board.entrySet()) {
             final BoardCell boardCell = new BoardCell(entry.getValue());
-            final int cellSize = 40;
+            final int cellSize = MyConst.CELL_SIZE;
             boardCell.setMinSize(cellSize, cellSize);
             boardCell.setPrefSize(cellSize, cellSize);
             boardCell.setMaxSize(cellSize, cellSize);
@@ -140,7 +140,7 @@ public class GamePanel extends GridPane implements MainVisualizer {
     }
 
     @Override
-    public void showInfo(Selectable obj) {
+    public void showObjInfo(Selectable obj) {
         if (obj instanceof GUnit) {
             GUnit gUnit = (GUnit) obj;
             createUnitInfoPanel(objInfoPanel, gUnit);
@@ -162,16 +162,19 @@ public class GamePanel extends GridPane implements MainVisualizer {
         list.setMaxHeight(150);
 
         VBox vBox = new VBox();
+        final boolean belongsToActivePlayer = GameModel.MODEL.getActivePlayer().isOwnerFor(unit);
         for (final GAction skill : unit.getSkills()) {
             skill.setOwner(unit);
             final Button button = new Button();
             button.setText(skill.getName());
-            button.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    GameModel.MODEL.setAction(skill);
-                }
-            });
+            if (belongsToActivePlayer) {
+                button.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        GameModel.MODEL.setAction(skill);
+                    }
+                });
+            }
             vBox.getChildren().add(button);
         }
 
@@ -193,7 +196,7 @@ public class GamePanel extends GridPane implements MainVisualizer {
     }
 
     @Override
-    public void selectObj(Selectable obj) {
+    public void showObjName(Selectable obj) {
         String s = obj != null
                 ? obj.toString()
                 : " - ";
@@ -202,7 +205,7 @@ public class GamePanel extends GridPane implements MainVisualizer {
 
     @Override
     public void showTurnNumber() {
-        turnLabel.setText(Integer.toString(model.getTurn()));
+        turnLabel.setText(Integer.toString(model.getHour()));
     }
 
     @Override

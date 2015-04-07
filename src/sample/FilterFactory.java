@@ -26,8 +26,8 @@ public class FilterFactory {
             case IS_ON_ONE_LINE:
                 gFilter = new OneLineFilter();
                 break;
-            case IS_NOT_ENEMY:
-                gFilter = new NotEnemyFilter();
+            case OBSTACLE_ON_ONE_LINE:
+                gFilter = new ObstacleOnLineFilter();
                 break;
             case BELONG_TO_PLAYER:
                 gFilter = new BelongToPlayerFilter();
@@ -53,7 +53,7 @@ public class FilterFactory {
     }
 
     public enum FilterType {
-        IS_NEAR, CAN_SEE, CAN_ACT, IS_ON_ONE_LINE, IS_NOT_ENEMY, BELONG_TO_PLAYER, IS_UNIT, NOT_ME
+        IS_NEAR, CAN_SEE, CAN_ACT, IS_ON_ONE_LINE, BELONG_TO_PLAYER, IS_UNIT, OBSTACLE_ON_ONE_LINE, NOT_ME
     }
 
     private static class UnitFilter extends AbstractGFilter {
@@ -84,17 +84,17 @@ public class FilterFactory {
         }
     }
 
-    private static class NotEnemyFilter extends AbstractGFilter {
-        @Override
-        public boolean isOk(Selectable obj) {
-            return model.isNotEnemy(getObj(), (GObject) obj);
-        }
-    }
-
     private static class OneLineFilter extends AbstractGFilter {
         @Override
         public boolean isOk(Selectable obj) {
             return model.onOneLine(getObj(), (GObject) obj);
+        }
+    }
+
+    private static class ObstacleOnLineFilter extends AbstractGFilter {
+        @Override
+        public boolean isOk(Selectable obj) {
+            return !model.seesObstacle(getObj(), (GObject) obj);
         }
     }
 

@@ -1,7 +1,6 @@
 package sample;
 
 public class MagicArmor extends AbstractGMod {
-    private final int value;
 
     @Override
     public void onTakeHit(Hit hit) {

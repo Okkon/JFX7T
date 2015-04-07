@@ -52,4 +52,8 @@ public class Player {
     public boolean isEnemyFor(Player player) {
         return equals(player);
     }
+
+    public boolean isOwnerFor(GObject object) {
+        return object.getPlayer().equals(this);
+    }
 }

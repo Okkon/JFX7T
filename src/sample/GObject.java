@@ -7,7 +7,7 @@ public abstract class GObject implements Selectable {
     protected GObjectVisualizer visualizer;
     protected GameCell place;
     protected Player player;
-    protected AbstractGAction baseAction = new SelectAction();
+    protected GAction baseAction = GameModel.DefaultAction;
     private List<GMod> mods = new ArrayList<GMod>();
     protected List<GAction> skills = new ArrayList<GAction>();
 
@@ -27,21 +27,6 @@ public abstract class GObject implements Selectable {
         visualizer.die(place);
     }
 
-    @Override
-    public void select() {
-        GameModel.MODEL.setAction(baseAction);
-    }
-
-    @Override
-    public void showSelectionPossibility() {
-
-    }
-
-    @Override
-    public void hideSelectionPossibility() {
-
-    }
-
     public Player getPlayer() {
         return player;
     }
@@ -57,10 +42,10 @@ public abstract class GObject implements Selectable {
         if (cellToGo != null && cellToGo.getObj() == null) {
             final GameCell currentCell = getPlace();
             currentCell.setObj(null);
-            if (this.isAlive()) {
-                this.place = cellToGo;
+            this.place = cellToGo;
+            visualizer.changePlace(currentCell, cellToGo);
+            if (isAlive()) {
                 cellToGo.setObj(this);
-                visualizer.changePlace(currentCell, cellToGo);
             }
         }
     }
@@ -69,7 +54,7 @@ public abstract class GObject implements Selectable {
         return true;
     }
 
-    public AbstractGAction getBaseAction() {
+    public GAction getBaseAction() {
         return baseAction;
     }
 
@@ -122,6 +107,14 @@ public abstract class GObject implements Selectable {
     }
 
     public void push(Direction direction) {
+
+    }
+
+    public GObjectVisualizer getVisualizer() {
+        return visualizer;
+    }
+
+    public void startHour() {
 
     }
 }

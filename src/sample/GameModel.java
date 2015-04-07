@@ -17,14 +17,12 @@ public class GameModel {
     private GObject selectedObj;
     private List<Player> players;
     private Player activePlayer;
-    private int turn = 1;
+    private int hour = 0;
     private Collection<? extends Selectable> possibleSelection;
 
     public void init() {
         initPlayers();
-        graphics.showActivePlayer();
-        graphics.showTurnNumber();
-        cancel();
+        setBoard(14, 8);
     }
 
     public void locateUnits() {
@@ -60,7 +58,6 @@ public class GameModel {
         players.add(new Player("P1", Color.AZURE));
         players.add(new Player("P2", Color.CORAL));
         players.add(Player.NEUTRAL);
-        activePlayer = players.get(0);
     }
 
     public void press(GameCell cell) {
@@ -84,9 +81,6 @@ public class GameModel {
         graphics.createVisualizerFor(obj);
     }
 
-    private void refresh() {
-        this.graphics.refresh();
-    }
 
     public Map<XY, GameCell> getBoard() {
         return board;
@@ -104,7 +98,7 @@ public class GameModel {
         this.graphics = graphics;
     }
 
-    public void setBoard(int x, int y) {
+    private void setBoard(int x, int y) {
         board.clear();
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
@@ -118,23 +112,27 @@ public class GameModel {
         return possibleActions;
     }
 
-    public Selectable getSelectedObj() {
-        return selectedObj;
-    }
-
     public void select(Selectable obj) {
         if (obj != null) {
             if (obj instanceof GObject) {
-                this.selectedObj = (GObject) obj;
+                final GObject gObject = (GObject) obj;
+                if (activePlayer.equals(gObject.getPlayer())) {
+                    if (selectedObj != null) {
+                        selectedObj.getVisualizer().setSelected(false);
+                    }
+                    selectedObj = gObject;
+                    selectedObj.getVisualizer().setSelected(true);
+                    setAction(selectedObj.getBaseAction());
+                    if (gObject instanceof GUnit) {
+                        GUnit unit = (GUnit) gObject;
+                        Set<GameCell> cells = unit.getCellsToGo();
+                        showSelectionPossibility(cells);
+                    }
+                }
             }
-            obj.select();
         }
-        graphics.selectObj(obj);
-        graphics.showInfo(obj);
-    }
-
-    public void visualize() {
-        graphics.refresh();
+        graphics.showObjName(obj);
+        graphics.showObjInfo(obj);
     }
 
     public GObject createUnitCreationPanel() {
@@ -145,7 +143,9 @@ public class GameModel {
         this.setAction(DefaultAction);
         showSelectionPossibility(null);
         select(null);
-        visualize();
+        if (selectedObj != null) {
+            selectedObj.getVisualizer().setSelected(false);
+        }
     }
 
     public List<Player> getPlayers() {
@@ -161,10 +161,16 @@ public class GameModel {
         cancel();
         if (!someoneCanAct()) {
             endHour();
+            startHour();
         } else {
             passTurn();
+            setActivePlayer(activePlayer);
         }
-        log(String.format("%s starts turn", activePlayer));
+    }
+
+    protected void setActivePlayer(Player player) {
+        activePlayer = player;
+        log(String.format("%s starts turn", player));
         graphics.showActivePlayer();
     }
 
@@ -199,12 +205,10 @@ public class GameModel {
         for (GObject gObject : gObjects) {
             gObject.endHour();
         }
-        turn++;
-        graphics.showTurnNumber();
     }
 
-    public int getTurn() {
-        return turn;
+    public int getHour() {
+        return hour;
     }
 
     public Set<GObject> getObjects() {
@@ -252,13 +256,13 @@ public class GameModel {
     public void showSelectionPossibility(Collection<? extends Selectable> objects) {
         if (possibleSelection != null) {
             for (Selectable selectable : possibleSelection) {
-                selectable.hideSelectionPossibility();
+                selectable.getVisualizer().setSelectionPossibility(false);
             }
         }
         this.possibleSelection = objects;
         if (objects != null) {
             for (Selectable object : objects) {
-                object.showSelectionPossibility();
+                object.getVisualizer().setSelectionPossibility(true);
             }
         }
     }
@@ -323,13 +327,6 @@ public class GameModel {
         return board.get(newPlace);
     }
 
-    public boolean isNotEnemy(GObject obj1, GObject obj2) {
-        if (obj1 == null || obj2 == null) {
-            return true;
-        }
-        return obj1.getPlayer().isEnemyFor(obj2.getPlayer());
-    }
-
     public List<GUnit> getEnemiesNear(GameCell place, Player player) {
         List<GUnit> list = new ArrayList<GUnit>();
         final Set<GUnit> nearUnits = getNearUnits(place);
@@ -339,5 +336,40 @@ public class GameModel {
             }
         }
         return list;
+    }
+
+    public boolean seesObstacle(GObject observer, GObject aim) {
+        List<GObject> gObjects = getObjBetween(observer, aim);
+        for (GObject object : gObjects) {
+            if (canSee(observer, object)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private List<GObject> getObjBetween(GObject observer, GObject aim) {
+        List<GObject> list = new ArrayList<GObject>();
+        final Direction direction = Direction.findDirection(observer.getXy(), aim.getXy());
+        GameCell currentCell = getNextCell(observer.getPlace(), direction);
+        while (!aim.getPlace().equals(currentCell)) {
+            final GObject obj = currentCell.getObj();
+            if (obj != null) {
+                list.add(obj);
+            }
+            currentCell = getNextCell(currentCell, direction);
+        }
+        return list;
+    }
+
+    public void startHour() {
+        hour++;
+        for (GObject object : objects) {
+            object.startHour();
+        }
+        Random r = new Random();
+        setActivePlayer(players.get(r.nextInt(players.size() - 1)));
+        graphics.showTurnNumber();
+        cancel();
     }
 }

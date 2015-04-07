@@ -12,21 +12,23 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
 
-public class GObjectVisualizerImpl extends Label implements GObjectVisualizer {
+public class GObjectVisualizerImpl implements GObjectVisualizer {
     private final GamePanel gamePanel;
+    private final Label token = new Label();
 
     public GObjectVisualizerImpl(GObject obj, GamePanel gamePanel) {
         this.gamePanel = gamePanel;
-        setPrefSize(28, 28);
+        final int size = MyConst.OBJECT_VISUALIZER_SIZE;
+        token.setPrefSize(size, size);
         if (obj instanceof GUnit) {
             GUnit unit = (GUnit) obj;
-            getStyleClass().add("unit");
-            setText(obj.toString().substring(0, 2));
+            token.getStyleClass().add("unit");
+            token.setText(obj.toString().substring(0, 2));
         }
         if (obj instanceof Tower) {
             Tower tower = (Tower) obj;
-            getStyleClass().add("tower");
-            setText("T");
+            token.getStyleClass().add("tower");
+            token.setText("T");
         }
         setReady(obj.canAct());
     }
@@ -45,8 +47,8 @@ public class GObjectVisualizerImpl extends Label implements GObjectVisualizer {
         path.getElements().add(new LineTo(bounds2.getMinX() + w, bounds2.getMinY() + h));
 
         PathTransition pathTransition = new PathTransition();
-        pathTransition.setDuration(Duration.millis(1000));
-        pathTransition.setNode(GObjectVisualizerImpl.this);
+        pathTransition.setDuration(Duration.millis(MyConst.ANIMATION_DURATION));
+        pathTransition.setNode(token);
         pathTransition.setPath(path);
 
         GraphicsHelper.getInstance().addTransition(pathTransition);
@@ -56,14 +58,14 @@ public class GObjectVisualizerImpl extends Label implements GObjectVisualizer {
     public void die(GameCell place) {
         final BoardCell cell = gamePanel.getBoardCell(place);
         FadeTransition transition = new FadeTransition();
-        transition.setDuration(Duration.millis(1000));
-        transition.setNode(this);
+        transition.setDuration(Duration.millis(MyConst.ANIMATION_DURATION));
+        transition.setNode(token);
         transition.setFromValue(100);
         transition.setToValue(0);
         transition.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                GraphicsHelper.getInstance().remove(GObjectVisualizerImpl.this);
+                GraphicsHelper.getInstance().remove(token);
             }
         });
         GraphicsHelper.getInstance().addTransition(transition);
@@ -73,15 +75,15 @@ public class GObjectVisualizerImpl extends Label implements GObjectVisualizer {
     public void setPlayer(Player player) {
         final Color color = player.getColor();
         String hex = "#" + Integer.toHexString(color.hashCode());
-        setStyle("-fx-background-color: " + hex);
+        token.setStyle("-fx-background-color: " + hex);
     }
 
     @Override
     public void setReady(boolean isReady) {
         if (isReady) {
-            getStyleClass().add("ready");
+            token.getStyleClass().add("ready");
         } else {
-            getStyleClass().remove("ready");
+            token.getStyleClass().remove("ready");
         }
     }
 
@@ -89,10 +91,28 @@ public class GObjectVisualizerImpl extends Label implements GObjectVisualizer {
     public void create(GameCell gameCell) {
         final BoardCell cell = gamePanel.getBoardCell(gameCell);
         final Bounds b = cell.getBoundsInParent();
-        final double w = (b.getWidth() - getPrefWidth()) / 2;
-        final double h = (b.getHeight() - getPrefHeight()) / 2;
-        this.setTranslateX(b.getMinX() + w);
-        this.setTranslateY(b.getMinY() + h);
-        GraphicsHelper.getInstance().add(GObjectVisualizerImpl.this);
+        final double w = (b.getWidth() - token.getPrefWidth()) / 2;
+        final double h = (b.getHeight() - token.getPrefHeight()) / 2;
+        token.setTranslateX(b.getMinX() + w);
+        token.setTranslateY(b.getMinY() + h);
+        GraphicsHelper.getInstance().add(token);
+    }
+
+    @Override
+    public void setSelected(boolean b) {
+        if (b) {
+            token.getStyleClass().add("selected");
+        } else {
+            token.getStyleClass().remove("selected");
+        }
+    }
+
+    @Override
+    public void setSelectionPossibility(boolean b) {
+        if (b) {
+            token.getStyleClass().add("ready");
+        } else {
+            token.getStyleClass().remove("ready");
+        }
     }
 }

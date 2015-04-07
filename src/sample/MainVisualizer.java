@@ -5,11 +5,11 @@ public interface MainVisualizer {
 
     GObject createUnitCreationPanel();
 
-    void showInfo(Selectable obj);
+    void showObjInfo(Selectable obj);
 
     void showAction(GAction action);
 
-    void selectObj(Selectable obj);
+    void showObjName(Selectable obj);
 
     void showTurnNumber();
 

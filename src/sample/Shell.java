@@ -48,6 +48,9 @@ public class Shell {
     }
 
     private void bumpInto(GObject obj) {
+        for (GMod mod : obj.getMods()) {
+            mod.onTakeShot(this);
+        }
         hit(obj);
         stopCheck(obj);
     }
@@ -108,5 +111,15 @@ public class Shell {
 
     public Direction getDirection() {
         return direction;
+    }
+
+    public int reduceDamage(int value, DamageType damageType) {
+        if (this.damageType != damageType) {
+            return 0;
+        }
+        final int shellDamage = minDamage;
+        int reducedDamage = Math.min(shellDamage, value);
+        minDamage = minDamage - reducedDamage;
+        return reducedDamage;
     }
 }

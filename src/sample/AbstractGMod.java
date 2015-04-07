@@ -2,6 +2,8 @@ package sample;
 
 
 public class AbstractGMod implements GMod {
+    protected int value;
+
     @Override
     public boolean isInvisible() {
         return false;
@@ -10,6 +12,11 @@ public class AbstractGMod implements GMod {
     @Override
     public boolean blocksTower() {
         return false;
+    }
+
+    @Override
+    public void onTakeShot(Shell shell) {
+
     }
 
     @Override

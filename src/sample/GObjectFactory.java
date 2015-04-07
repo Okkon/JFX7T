@@ -9,6 +9,7 @@ public class GObjectFactory {
             case Footman: {
                 gObject = new GUnit(4, 21, 2, 2);
                 gObject.addMod(new Armor(2));
+                gObject.addMod(new Shield(2));
                 break;
             }
             case Inquisitor: {

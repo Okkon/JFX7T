@@ -8,9 +8,7 @@ import javafx.scene.control.ButtonBuilder;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-/**
- * Created by kondrashov on 17.03.2015.
- */
+
 public class UIHelper {
     public static Node createUnitChoosingList(UnitType[] values, final UnitType[] unitType, final Stage dialog) {
         VBox vBox = new VBox(5);

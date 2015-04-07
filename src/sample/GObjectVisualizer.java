@@ -3,7 +3,7 @@ package sample;
 /**
  * Created by kondrashov on 19.03.2015.
  */
-public interface GObjectVisualizer {
+public interface GObjectVisualizer extends Visualizer {
     void changePlace(GameCell currentCell, GameCell cellToGo);
 
     void die(GameCell place);
@@ -13,4 +13,6 @@ public interface GObjectVisualizer {
     void setReady(boolean isReady);
 
     void create(GameCell cell);
+
+    void setSelected(boolean b);
 }

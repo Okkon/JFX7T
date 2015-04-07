@@ -19,10 +19,10 @@ public class Fireball extends ShotAction {
                 list.addAll(GameModel.MODEL.getNearUnits(obj.getPlace()));
                 for (GObject object : list) {
                     final Hit hit = Hit.createHit(attacker, object, minDamage, maxDamage, damageType);
+                    hit.setAttackType(AttackType.RANGE);
                     object.takeHit(hit);
                 }
                 obj.push(direction);
-
             }
         };
     }

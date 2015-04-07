@@ -5,6 +5,7 @@ import java.util.Random;
 public class Hit {
     private int damage;
     private DamageType damageType;
+    private AttackType attackType;
     private GObject attacker;
     private GObject aim;
     private GameCell from;
@@ -38,10 +39,6 @@ public class Hit {
         return createHit(attacker, aim, attacker.getMinDamage(), attacker.getRandDamage(), DamageType.PHYSICAL);
     }
 
-    public static Hit createHit(GObject attacker, GObject aim, int damage) {
-        return createHit(attacker, aim, damage, 0, DamageType.PHYSICAL);
-    }
-
     public static Hit createHit(GObject attacker, GObject aim, int minDamage, int randDamage) {
         return createHit(attacker, aim, minDamage, randDamage, DamageType.PHYSICAL);
     }
@@ -54,6 +51,7 @@ public class Hit {
         hit.damage = generateDamage(minDamage, randDamage);
         hit.from = attacker.getPlace();
         hit.to = aim.getPlace();
+        hit.attackType = AttackType.MELEE;
 
         return hit;
 
@@ -87,5 +85,9 @@ public class Hit {
 
     public void setDamage(int damage) {
         this.damage = damage;
+    }
+
+    public void setAttackType(AttackType attackType) {
+        this.attackType = attackType;
     }
 }

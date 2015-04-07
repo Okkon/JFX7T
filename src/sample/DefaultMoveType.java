@@ -22,7 +22,7 @@ public class DefaultMoveType implements MoveType {
         final Collection<Way> lastFoundWays = GameModel.MODEL.getLastFoundWays();
         final List<GameCell> wayToCell = getWayToCell(lastFoundWays, gameCell);
         for (GameCell cell : wayToCell) {
-            GameModel.MODEL.log(unit + " move from " + unit.getXy() + " to " + cell.getXy());
+            GameModel.MODEL.log(unit.toString() + " move from " + unit.getXy() + " to " + cell.getXy());
             step(unit, cell);
         }
     }

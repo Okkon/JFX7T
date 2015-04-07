@@ -3,7 +3,7 @@ package sample;
 public class GameCell implements Selectable {
     private XY xy;
     private GObject obj;
-    private CellVisualizer cellVisualizer;
+    private Visualizer visualizer;
 
     public GameCell(XY xy) {
         this.xy = xy;
@@ -22,33 +22,19 @@ public class GameCell implements Selectable {
     }
 
     @Override
-    public void select() {
-    }
-
-    @Override
-    public void showSelectionPossibility() {
-        cellVisualizer.showSelectionPossibility();
-    }
-
-    @Override
-    public void hideSelectionPossibility() {
-        cellVisualizer.hideSelectionPossibility();
-    }
-
-    @Override
     public String toString() {
         return xy.getX() + ":" + xy.getY();
     }
 
-    public void setCellVisualizer(CellVisualizer cellVisualizer) {
-        this.cellVisualizer = cellVisualizer;
+    public void setVisualizer(Visualizer visualizer) {
+        this.visualizer = visualizer;
     }
 
     public boolean isNotEmpty() {
         return getObj() != null;
     }
 
-    public CellVisualizer getVisualizer() {
-        return cellVisualizer;
+    public Visualizer getVisualizer() {
+        return visualizer;
     }
 }
