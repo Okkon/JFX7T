@@ -7,7 +7,7 @@ public class BaseAttackStyle implements AttackStyle {
     @Override
     public void attack(GUnit attacker, GObject aim) {
         if (!GameModel.MODEL.isNear(attacker, aim)) {
-            GameModel.MODEL.error(ResourceBundle.getBundle("errorText").getString("AimIsTooFar"));
+            GameModel.MODEL.error(ResourceBundle.getBundle("sample/errorText").getString("AimIsTooFar"));
             return;
         }
         Hit hit = Hit.createHit(attacker, aim);
@@ -15,7 +15,7 @@ public class BaseAttackStyle implements AttackStyle {
         for (GMod mod : mods) {
             mod.onHit(hit);
         }
-        GameModel.MODEL.log(attacker + ResourceBundle.getBundle("base").getString("Hits") + aim);
+        GameModel.MODEL.log(attacker + ResourceBundle.getBundle("sample/base").getString("Hits") + aim);
         aim.takeHit(hit);
         GameModel.MODEL.endTurn();
     }

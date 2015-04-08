@@ -34,6 +34,10 @@ public abstract class AbstractShellVisualizer implements ShellVisualizer {
         pathTransition.setAutoReverse(true);
 
         GraphicsHelper.getInstance().addTransition(pathTransition);
+        /*TranslateTransition transition = new TranslateTransition(Duration.millis(MyConst.ANIMATION_DURATION), shape);
+        transition.setToX(bounds2.getMinX() + bounds2.getWidth() / 2);
+        transition.setToY(bounds2.getMinY() + bounds2.getHeight() / 2);
+        GraphicsHelper.getInstance().addTransition(transition);*/
     }
 
     @Override
@@ -41,6 +45,9 @@ public abstract class AbstractShellVisualizer implements ShellVisualizer {
         this.shell = shell;
         final BoardCell fromCell = (BoardCell) cell.getVisualizer();
         configureShell(fromCell, shell);
+        final Bounds bounds = ((BoardCell) cell.getVisualizer()).getBoundsInParent();
+        shape.setTranslateX(bounds.getMinX());
+        shape.setTranslateY(bounds.getMinY());
         GraphicsHelper.getInstance().add(shape);
     }
 
