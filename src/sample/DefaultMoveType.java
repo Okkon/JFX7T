@@ -7,7 +7,7 @@ public class DefaultMoveType implements MoveType {
     @Override
     public Set<Way> getWayFromCell(Way point, GUnit unit) {
         Set<Way> possibleWays = new HashSet<Way>();
-        List<GameCell> cells = GameModel.MODEL.getEmptyNearCells(point.getCell());
+        List<GameCell> cells = getCellsWhereUnitCanGo(point, unit);
         for (GameCell cell : cells) {
             Way way = createWay(unit, point, cell);
             if (way != null) {
@@ -17,12 +17,31 @@ public class DefaultMoveType implements MoveType {
         return possibleWays;
     }
 
+    private List<GameCell> getCellsWhereUnitCanGo(Way point, GUnit unit) {
+        final List<GameCell> cells = GameModel.MODEL.getEmptyNearCells(point.getCell());
+        final Iterator<GameCell> iterator = cells.iterator();
+        final Map<XY, GameCell> board = GameModel.MODEL.getBoard();
+        final XY from = point.getCell().getXy();
+        while (iterator.hasNext()) {
+            GameCell next = iterator.next();
+            final Direction direction = Direction.findDirection(from, next.getXy());
+            if (direction.isDiagonal()) {
+                final GObject obj = board.get(new XY(from.getX(), next.getXy().getY())).getObj();
+                final GObject obj2 = board.get(new XY(next.getXy().getX(), from.getY())).getObj();
+                if ((obj != null && obj.blocksMoveFor(unit)) || (obj2 != null && obj2.blocksMoveFor(unit))) {
+                    iterator.remove();
+                }
+            }
+        }
+        return cells;
+    }
+
     @Override
     public void go(GUnit unit, GameCell gameCell) {
         final Collection<Way> lastFoundWays = GameModel.MODEL.getLastFoundWays();
         final List<GameCell> wayToCell = getWayToCell(lastFoundWays, gameCell);
         for (GameCell cell : wayToCell) {
-            GameModel.MODEL.log(unit.toString() + " move from " + unit.getXy() + " to " + cell.getXy());
+            GameModel.MODEL.log("base", "UnitMove", unit.getName(), unit.getXy(), cell.getXy());
             step(unit, cell);
         }
     }

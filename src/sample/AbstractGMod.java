@@ -5,7 +5,7 @@ public class AbstractGMod implements GMod {
     protected int value;
 
     @Override
-    public boolean isInvisible() {
+    public boolean canHideUnit(GObject observer, GObject aim) {
         return false;
     }
 

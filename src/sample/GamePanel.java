@@ -6,6 +6,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -37,6 +39,14 @@ public class GamePanel extends GridPane implements MainVisualizer {
         gameModel.setGraphics(this);
         this.model = gameModel;
         initComponents();
+        setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (keyEvent.getCode().equals(KeyCode.ESCAPE)) {
+                    GameModel.MODEL.cancel();
+                }
+            }
+        });
 
         gameLog = new TextArea();
         add(boardPane, 0, 0);

@@ -1,6 +1,6 @@
 package sample;
 
-public class GameCell implements Selectable {
+public class GameCell implements Selectable, PlaceHaving {
     private XY xy;
     private GObject obj;
     private Visualizer visualizer;

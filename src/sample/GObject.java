@@ -3,11 +3,11 @@ package sample;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class GObject implements Selectable {
+public abstract class GObject implements Selectable, PlaceHaving {
     protected GObjectVisualizer visualizer;
     protected GameCell place;
     protected Player player;
-    protected GAction baseAction = GameModel.DefaultAction;
+    protected GAction baseAction = GameModel.SELECT_ACTION;
     private List<GMod> mods = new ArrayList<GMod>();
     protected List<GAction> skills = new ArrayList<GAction>();
 
@@ -116,5 +116,13 @@ public abstract class GObject implements Selectable {
 
     public void startHour() {
 
+    }
+
+    public boolean blocksMoveFor(GUnit unit) {
+        return false;
+    }
+
+    public String getName() {
+        return getClass().getSimpleName();
     }
 }

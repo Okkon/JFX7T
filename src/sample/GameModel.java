@@ -6,7 +6,7 @@ import java.util.*;
 
 
 public class GameModel {
-    public static final GAction DefaultAction = new SelectAction();
+    public static final GAction SELECT_ACTION = new SelectAction();
     private Collection<Way> lastFoundWays;
     Set<GObject> objects = new HashSet<GObject>();
     public static GameModel MODEL = new GameModel();
@@ -49,7 +49,7 @@ public class GameModel {
 
     private void generateUnit(UnitType unitType, int x, int y, int playerCode) {
         final GObject obj = GObjectFactory.create(unitType);
-        createUnit(obj, board.get(new XY(x, y)));
+        createObj(obj, board.get(new XY(x, y)));
         obj.setPlayer(players.get(playerCode));
     }
 
@@ -60,18 +60,13 @@ public class GameModel {
         players.add(Player.NEUTRAL);
     }
 
-    public void press(GameCell cell) {
-        final GObject obj = cell.getObj();
-        if (obj != null && selectedAction.canSelect(obj)) {
+    public void press(Selectable obj) {
+        if (selectedAction.canSelect(obj)) {
             selectedAction.perform(obj);
-            return;
-        }
-        if (selectedAction.canSelect(cell)) {
-            selectedAction.perform(cell);
         }
     }
 
-    public void createUnit(GObject obj, GameCell cell) {
+    public void createObj(GObject obj, GameCell cell) {
         if (cell == null || cell.getObj() != null) {
             return;
         }
@@ -116,7 +111,7 @@ public class GameModel {
         if (obj != null) {
             if (obj instanceof GObject) {
                 final GObject gObject = (GObject) obj;
-                if (activePlayer.equals(gObject.getPlayer())) {
+                if (canBeSelected(gObject)) {
                     if (selectedObj != null) {
                         selectedObj.getVisualizer().setSelected(false);
                     }
@@ -135,12 +130,16 @@ public class GameModel {
         graphics.showObjInfo(obj);
     }
 
+    protected boolean canBeSelected(GObject gObject) {
+        return activePlayer.equals(gObject.getPlayer()) && gObject.canAct();
+    }
+
     public GObject createUnitCreationPanel() {
         return graphics.createUnitCreationPanel();
     }
 
     public void cancel() {
-        this.setAction(DefaultAction);
+        this.setAction(SELECT_ACTION);
         showSelectionPossibility(null);
         select(null);
         if (selectedObj != null) {
@@ -271,6 +270,11 @@ public class GameModel {
         graphics.log(s);
     }
 
+    public void log(String res, String s, Object... objects) {
+        final String message = String.format(ResourceBundle.getBundle(MyConst.RESOURCE_BUNDLE_LOCATION + res).getString(s), objects);
+        graphics.log(message);
+    }
+
     public List<GameCell> getEmptyNearCells(GameCell cell) {
         final List<GameCell> nearCells = getNearCells(cell);
         final Iterator<GameCell> iterator = nearCells.iterator();
@@ -310,7 +314,7 @@ public class GameModel {
 
     public boolean canSee(GObject observer, GObject aim) {
         for (GMod mod : aim.getMods()) {
-            if (mod.isInvisible()) {
+            if (mod.canHideUnit(observer, aim)) {
                 return false;
             }
         }

@@ -6,18 +6,20 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
-import javafx.util.Duration;
 
 public class GObjectVisualizerImpl implements GObjectVisualizer {
     private final GamePanel gamePanel;
     private final Label token = new Label();
+    private final GObject obj;
 
-    public GObjectVisualizerImpl(GObject obj, GamePanel gamePanel) {
+    public GObjectVisualizerImpl(final GObject obj, GamePanel gamePanel) {
         this.gamePanel = gamePanel;
+        this.obj = obj;
         final int size = MyConst.OBJECT_VISUALIZER_SIZE;
         token.setPrefSize(size, size);
         if (obj instanceof GUnit) {
@@ -31,6 +33,12 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
             token.setText("T");
         }
         setReady(obj.canAct());
+        token.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                GameModel.MODEL.press(obj);
+            }
+        });
     }
 
     @Override
@@ -47,7 +55,7 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
         path.getElements().add(new LineTo(bounds2.getMinX() + w, bounds2.getMinY() + h));
 
         PathTransition pathTransition = new PathTransition();
-        pathTransition.setDuration(Duration.millis(MyConst.ANIMATION_DURATION));
+        pathTransition.setDuration(MyConst.ANIMATION_DURATION);
         pathTransition.setNode(token);
         pathTransition.setPath(path);
 
@@ -58,7 +66,7 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
     public void die(GameCell place) {
         final BoardCell cell = gamePanel.getBoardCell(place);
         FadeTransition transition = new FadeTransition();
-        transition.setDuration(Duration.millis(MyConst.ANIMATION_DURATION));
+        transition.setDuration(MyConst.ANIMATION_DURATION);
         transition.setNode(token);
         transition.setFromValue(100);
         transition.setToValue(0);

@@ -2,6 +2,7 @@ package sample;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 public class GUnit extends GObject {
@@ -15,6 +16,7 @@ public class GUnit extends GObject {
 
     private MoveType moveType;
     private AttackStyle attackStyle;
+    private static ResourceBundle bundle = ResourceBundle.getBundle(MyConst.RESOURCE_BUNDLE_LOCATION + "unitTypes");
 
     @Override
     public boolean isAlive() {
@@ -57,8 +59,8 @@ public class GUnit extends GObject {
     @Override
     public void takeHit(Hit hit) {
         super.takeHit(hit);
-        this.hp -= hit.getDamage();
         GameModel.MODEL.log(String.format("%s take %s hit with power = %s", this, hit.getDamageType(), hit.getDamage()));
+        this.hp -= hit.getDamage();
         GameModel.MODEL.log(this + " has " + hp + " hp left");
         if (hp <= 0) {
             die();
@@ -125,14 +127,13 @@ public class GUnit extends GObject {
         return maxHp;
     }
 
-    private class BaseUnitAction extends Skill {
+    private class BaseUnitAction extends AbstractGAction {
         @Override
         public void act(Selectable obj) {
-            endsTurn = false;
             if (obj instanceof GObject) {
                 GObject gObject = (GObject) obj;
                 if (isFriendly(gObject)) {
-                    GameModel.DefaultAction.act(gObject);
+                    GameModel.SELECT_ACTION.act(gObject);
                 } else {
                     attack(gObject);
                 }
@@ -151,10 +152,20 @@ public class GUnit extends GObject {
     }
 
     @Override
+    public boolean blocksMoveFor(GUnit unit) {
+        return getPlayer().isOwnerFor(unit);
+    }
+
+    @Override
     public void endTurn() {
         super.endTurn();
         this.mp = 0;
         visualizer.setReady(false);
+    }
+
+    @Override
+    public String getName() {
+        return bundle.getString(getType().toString());
     }
 
     private void go(GameCell gameCell) {

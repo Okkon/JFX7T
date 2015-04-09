@@ -1,6 +1,6 @@
 package sample;
 
-public class Shell {
+public abstract class Shell {
     protected GameCell cell;
     protected Direction direction;
     protected int minDamage;

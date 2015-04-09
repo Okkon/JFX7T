@@ -19,6 +19,10 @@
     -fx-padding: 3;
 }
 
+.unit:hover {
+    -fx-border-width: 3px
+}
+
 .tower {
     -fx-border-color: black;
     -fx-font-weight: normal;

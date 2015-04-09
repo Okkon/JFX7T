@@ -32,27 +32,23 @@ public abstract class ShotAction extends Skill {
     }
 
 
-    protected Shell createShell() {
-        final Shell shell = new Shell();
-        return shell;
-    }
+    protected abstract Shell createShell();
 
-    protected void aimAt(Shell shell, Selectable obj) {
+    protected void aimAt(Shell shell, PlaceHaving obj) {
         shell.setMinDamage(getMinDamage());
         shell.setMaxDamage(getMaxDamage());
         shell.setMaxDistance(getDistance());
         shell.setAttacker(getOwner());
         shell.setCell(getOwner().getPlace());
 
-        GUnit aim = ((GUnit) obj);
-        final Direction direction = Direction.findDirection(getOwner().getXy(), aim.getXy());
+        final Direction direction = Direction.findDirection(getOwner().getXy(), obj.getXy());
         shell.setDirection(direction);
     }
 
     @Override
     public void act(Selectable obj) {
         Shell shell = createShell();
-        aimAt(shell, obj);
+        aimAt(shell, (PlaceHaving) obj);
         configureShell(shell);
         shell.fire();
     }

@@ -5,9 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Created by kondrashov on 18.02.2015.
- */
 public class Tower extends GObject{
 
     public Tower() {
@@ -37,11 +34,16 @@ public class Tower extends GObject{
                     }
                 }
             }
+            Crossbow crossbow = new Crossbow(1, 2, 15);
             for (GUnit enemy : enemies) {
-                final Hit hit = Hit.createHit(this, enemy, 1, 2);
-                enemy.takeHit(hit);
+                crossbow.act(enemy);
             }
         }
+    }
+
+    @Override
+    public boolean blocksMoveFor(GUnit unit) {
+        return true;
     }
 
     @Override

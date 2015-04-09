@@ -3,7 +3,7 @@ package sample;
 
 public class Masking extends AbstractGMod {
     @Override
-    public boolean isInvisible() {
+    public boolean canHideUnit(GObject observer, GObject aim) {
         return true;
     }
 }
