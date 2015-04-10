@@ -19,6 +19,7 @@ public class GameModel {
     private Player activePlayer;
     private int hour = 0;
     private Collection<? extends Selectable> possibleSelection;
+    private GObject lastActedUnit;
 
     public void init() {
         initPlayers();
@@ -131,7 +132,12 @@ public class GameModel {
     }
 
     protected boolean canBeSelected(GObject gObject) {
-        return activePlayer.equals(gObject.getPlayer()) && gObject.canAct();
+        boolean canBeSelected = activePlayer.equals(gObject.getPlayer()) && gObject.canAct();
+        if (canBeSelected && lastActedUnit != null && !lastActedUnit.equals(gObject)) {
+            canBeSelected = false;
+            error("errorText", "OtherUnitActed");
+        }
+        return canBeSelected;
     }
 
     public GObject createUnitCreationPanel() {
@@ -157,6 +163,7 @@ public class GameModel {
             log(String.format("%s ends turn", selectedObj));
         }
         log("-----------------");
+        lastActedUnit = null;
         cancel();
         if (!someoneCanAct()) {
             endHour();
@@ -299,6 +306,11 @@ public class GameModel {
         graphics.error(s);
     }
 
+    public void error(String res, String s, Object... objects) {
+        final String message = String.format(ResourceBundle.getBundle(MyConst.RESOURCE_BUNDLE_LOCATION + res).getString(s), objects);
+        graphics.error(message);
+    }
+
     public Set<GUnit> getNearUnits(GameCell cell) {
         Set<GUnit> unitSet = new HashSet<GUnit>();
         for (GObject object : objects) {
@@ -375,5 +387,13 @@ public class GameModel {
         setActivePlayer(players.get(r.nextInt(players.size() - 1)));
         graphics.showTurnNumber();
         cancel();
+    }
+
+    public void setLastActedUnit(GObject lastActedUnit) {
+        this.lastActedUnit = lastActedUnit;
+    }
+
+    public GObject getLastActedUnit() {
+        return lastActedUnit;
     }
 }
