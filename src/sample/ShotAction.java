@@ -17,6 +17,9 @@ public abstract class ShotAction extends Skill {
         aimFilters.add(FilterFactory.getFilter(IS_ON_ONE_LINE, "Aim is not on the same line!"));
         aimFilters.add(FilterFactory.getFilter(CAN_SEE, "Selected unit don't see the aim!"));
         aimFilters.add(FilterFactory.getFilter(OBSTACLE_ON_ONE_LINE, "There is an obstacle on the line!"));
+        final FilterFactory.DistanceFilter filter = (FilterFactory.DistanceFilter) FilterFactory.getFilter(DISTANCE_CHECK, "The aim is too far!");
+        filter.setDistance(distance);
+        aimFilters.add(filter);
     }
 
     public int getMinDamage() {

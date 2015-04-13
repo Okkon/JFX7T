@@ -39,10 +39,6 @@ public class Hit {
         return createHit(attacker, aim, attacker.getMinDamage(), attacker.getRandDamage(), DamageType.PHYSICAL);
     }
 
-    public static Hit createHit(GObject attacker, GObject aim, int minDamage, int randDamage) {
-        return createHit(attacker, aim, minDamage, randDamage, DamageType.PHYSICAL);
-    }
-
     public static Hit createHit(GObject attacker, GObject aim, int minDamage, int randDamage, DamageType damageType) {
         final Hit hit = new Hit();
         hit.attacker = attacker;

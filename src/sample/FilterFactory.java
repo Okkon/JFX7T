@@ -1,16 +1,11 @@
 package sample;
 
-import java.util.HashMap;
-
 public class FilterFactory {
     private static final GameModel model = GameModel.MODEL;
-    private static HashMap<FilterType, GFilter> hashMap = new HashMap<FilterType, GFilter>();
 
     public static GFilter getFilter(FilterType type, GObject obj, String error) {
-        GFilter gFilter = hashMap.get(type);
-        if (gFilter != null) {
-            return gFilter;
-        } else switch (type) {
+        GFilter gFilter = null;
+        switch (type) {
             case IS_UNIT:
                 gFilter = new UnitFilter();
                 break;
@@ -25,6 +20,9 @@ public class FilterFactory {
                 break;
             case IS_ON_ONE_LINE:
                 gFilter = new OneLineFilter();
+                break;
+            case DISTANCE_CHECK:
+                gFilter = new DistanceFilter();
                 break;
             case OBSTACLE_ON_ONE_LINE:
                 gFilter = new ObstacleOnLineFilter();
@@ -53,7 +51,7 @@ public class FilterFactory {
     }
 
     public enum FilterType {
-        IS_NEAR, CAN_SEE, CAN_ACT, IS_ON_ONE_LINE, BELONG_TO_PLAYER, IS_UNIT, OBSTACLE_ON_ONE_LINE, NOT_ME
+        IS_NEAR, CAN_SEE, CAN_ACT, IS_ON_ONE_LINE, BELONG_TO_PLAYER, IS_UNIT, OBSTACLE_ON_ONE_LINE, DISTANCE_CHECK, NOT_ME
     }
 
     private static class UnitFilter extends AbstractGFilter {
@@ -74,6 +72,19 @@ public class FilterFactory {
         @Override
         public boolean isOk(Selectable obj) {
             return model.canSee(getObj(), (GObject) obj);
+        }
+    }
+
+    public static class DistanceFilter extends AbstractGFilter {
+        private int distance;
+
+        public void setDistance(int distance) {
+            this.distance = distance;
+        }
+
+        @Override
+        public boolean isOk(Selectable obj) {
+            return XY.getDistance(getObj().getXy(), ((PlaceHaving) obj).getXy()) <= distance;
         }
     }
 
