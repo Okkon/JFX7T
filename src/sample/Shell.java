@@ -34,12 +34,12 @@ public abstract class Shell {
         int stepPrice = direction.isDiagonal() ? XY.diagonalLength : XY.straightLength;
         if (nextCell != null && coveredDistance + stepPrice <= maxDistance) {
             coveredDistance += stepPrice;
-            GameModel.MODEL.log(name + " moves from " + cell.getXy() + " to " + nextCell.getXy());
+            GameModel.MODEL.log("base", "UnitMove", name, cell.getXy(), nextCell.getXy());
             visualizer.step(cell, nextCell);
             cell = nextCell;
             final GObject obj = nextCell.getObj();
             if (obj != null) {
-                GameModel.MODEL.log(String.format("%s hits %s!", name, obj));
+                GameModel.MODEL.log("base", "Hits", name, obj);
                 bumpInto(obj);
             }
         } else {

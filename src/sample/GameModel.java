@@ -160,9 +160,9 @@ public class GameModel {
     public void endTurn() {
         if (selectedObj != null) {
             selectedObj.endTurn();
-            log(String.format("%s ends turn", selectedObj));
+            log("base", "EndsTurn", selectedObj);
         }
-        log("-----------------");
+        log("base", "EndTurnSymbol");
         lastActedUnit = null;
         cancel();
         if (!someoneCanAct()) {
@@ -176,7 +176,7 @@ public class GameModel {
 
     protected void setActivePlayer(Player player) {
         activePlayer = player;
-        log(String.format("%s starts turn", player));
+        log("base", "StartsTurn", player);
         graphics.showActivePlayer();
     }
 

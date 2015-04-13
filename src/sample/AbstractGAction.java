@@ -21,7 +21,6 @@ public abstract class AbstractGAction implements GAction {
         if (endsTurn) {
             GameModel.MODEL.endTurn();
         }
-        GameModel.MODEL.setLastActedUnit(getOwner());
         GraphicsHelper.getInstance().play();
     }
 

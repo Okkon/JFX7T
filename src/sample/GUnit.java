@@ -59,12 +59,12 @@ public class GUnit extends GObject {
     @Override
     public void takeHit(Hit hit) {
         super.takeHit(hit);
-        GameModel.MODEL.log(String.format("%s take %s hit with power = %s", this, hit.getDamageType(), hit.getDamage()));
+        GameModel.MODEL.log("base", "TakesHit", this, hit.getDamageType(), hit.getDamage());
         this.hp -= hit.getDamage();
-        GameModel.MODEL.log(this + " has " + hp + " hp left");
+        GameModel.MODEL.log("base", "HpLeft", this, hp);
         if (hp <= 0) {
             die();
-            GameModel.MODEL.log(this + " die!");
+            GameModel.MODEL.log("base", "Dies", this);
         }
     }
 
@@ -136,10 +136,12 @@ public class GUnit extends GObject {
                     GameModel.SELECT_ACTION.act(gObject);
                 } else {
                     attack(gObject);
+                    GameModel.MODEL.setLastActedUnit(GUnit.this);
                 }
             } else if (obj instanceof GameCell) {
                 GameCell gameCell = (GameCell) obj;
                 go(gameCell);
+                GameModel.MODEL.setLastActedUnit(GUnit.this);
             }
         }
     }

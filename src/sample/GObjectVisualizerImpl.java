@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
@@ -15,6 +16,8 @@ import javafx.scene.shape.Path;
 public class GObjectVisualizerImpl implements GObjectVisualizer {
     private final GamePanel gamePanel;
     private final Label token = new Label();
+    private final Label hpLabel = new Label();
+    private final StackPane pane = new StackPane();
     private final GObject obj;
 
     public GObjectVisualizerImpl(final GObject obj, GamePanel gamePanel) {
@@ -22,10 +25,12 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
         this.obj = obj;
         final int size = MyConst.OBJECT_VISUALIZER_SIZE;
         token.setPrefSize(size, size);
+        hpLabel.setPrefSize(10, 10);
         if (obj instanceof GUnit) {
             GUnit unit = (GUnit) obj;
             token.getStyleClass().add("unit");
-            token.setText(obj.toString().substring(0, 2));
+            token.setText(unit.getName().substring(0, 2));
+            hpLabel.setText(String.valueOf(unit.getHP()));
         }
         if (obj instanceof Tower) {
             Tower tower = (Tower) obj;
@@ -56,7 +61,7 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
 
         PathTransition pathTransition = new PathTransition();
         pathTransition.setDuration(MyConst.ANIMATION_DURATION);
-        pathTransition.setNode(token);
+        pathTransition.setNode(pane);
         pathTransition.setPath(path);
 
         GraphicsHelper.getInstance().addTransition(pathTransition);
@@ -67,13 +72,13 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
         final BoardCell cell = gamePanel.getBoardCell(place);
         FadeTransition transition = new FadeTransition();
         transition.setDuration(MyConst.ANIMATION_DURATION);
-        transition.setNode(token);
+        transition.setNode(pane);
         transition.setFromValue(100);
         transition.setToValue(0);
         transition.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                GraphicsHelper.getInstance().remove(token);
+                GraphicsHelper.getInstance().remove(pane);
             }
         });
         GraphicsHelper.getInstance().addTransition(transition);
@@ -101,9 +106,16 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
         final Bounds b = cell.getBoundsInParent();
         final double w = (b.getWidth() - token.getPrefWidth()) / 2;
         final double h = (b.getHeight() - token.getPrefHeight()) / 2;
-        token.setTranslateX(b.getMinX() + w);
+        /*token.setTranslateX(b.getMinX() + w);
         token.setTranslateY(b.getMinY() + h);
-        GraphicsHelper.getInstance().add(token);
+        hpLabel.setTranslateX(b.getMaxX() - 7);
+        hpLabel.setTranslateY(b.getMaxY() - 15);*/
+        pane.setTranslateX(b.getMinX() + w);
+        pane.setTranslateY(b.getMinY() + h);
+        pane.getChildren().addAll(token, hpLabel);
+        hpLabel.setTranslateX(25);
+        hpLabel.setTranslateY(25);
+        GraphicsHelper.getInstance().add(pane);
     }
 
     @Override

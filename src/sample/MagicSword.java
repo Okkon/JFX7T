@@ -4,6 +4,6 @@ public class MagicSword extends AbstractGMod {
     @Override
     public void onHit(Hit hit) {
         hit.setDamageType(DamageType.MAGIC);
-        GameModel.MODEL.log("Magic sword activated!");
+        GameModel.MODEL.log("mods", "MagicSword");
     }
 }

@@ -9,7 +9,7 @@ public class Shield extends AbstractGMod {
     public void onTakeShot(Shell shell) {
         final int reduceDamage = shell.reduceDamage(value, DamageType.PHYSICAL);
         if (reduceDamage > 0) {
-            GameModel.MODEL.log(String.format("Shield activated! %s damage absorbed!", reduceDamage));
+            GameModel.MODEL.log("mods", "Shield", reduceDamage);
         }
     }
 }
