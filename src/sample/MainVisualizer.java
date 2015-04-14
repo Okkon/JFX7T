@@ -1,5 +1,7 @@
 package sample;
 
+import java.util.List;
+
 public interface MainVisualizer {
     void refresh();
 
@@ -20,4 +22,6 @@ public interface MainVisualizer {
     void createVisualizerFor(GObject obj);
 
     void error(String s);
+
+    UnitSelector createUnitSelector(List<GUnit> units);
 }

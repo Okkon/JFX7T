@@ -15,4 +15,6 @@ public interface GObjectVisualizer extends Visualizer {
     void create(GameCell cell);
 
     void setSelected(boolean b);
+
+    void changeHP(int hp);
 }

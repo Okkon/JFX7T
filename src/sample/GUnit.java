@@ -59,12 +59,15 @@ public class GUnit extends GObject {
     @Override
     public void takeHit(Hit hit) {
         super.takeHit(hit);
-        GameModel.MODEL.log("base", "TakesHit", this, hit.getDamageType(), hit.getDamage());
-        this.hp -= hit.getDamage();
-        GameModel.MODEL.log("base", "HpLeft", this, hp);
-        if (hp <= 0) {
-            die();
-            GameModel.MODEL.log("base", "Dies", this);
+        final int damage = hit.getDamage();
+        if (damage > 0) {
+            this.hp -= damage;
+            getVisualizer().changeHP(hp);
+            GameModel.MODEL.log("base", "HpLeft", this, hp);
+            if (hp <= 0) {
+                die();
+                GameModel.MODEL.log("base", "Dies", this);
+            }
         }
     }
 
@@ -125,6 +128,16 @@ public class GUnit extends GObject {
 
     public int getMaxHP() {
         return maxHp;
+    }
+
+    public GUnit copy() {
+        GUnit copy = new GUnit(maxHp, maxMp, minDamage, randDamage);
+        copy.getMods().clear();
+        copy.getMods().addAll(getMods());
+        copy.getSkills().clear();
+        copy.getSkills().addAll(getSkills());
+        copy.setPlayer(player);
+        return copy;
     }
 
     private class BaseUnitAction extends AbstractGAction {

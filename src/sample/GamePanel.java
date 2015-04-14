@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class GamePanel extends GridPane implements MainVisualizer {
@@ -256,6 +257,12 @@ public class GamePanel extends GridPane implements MainVisualizer {
                 )
         );
         dialog.showAndWait();
+    }
+
+    @Override
+    public UnitSelector createUnitSelector(List<GUnit> units) {
+        final Stage dialog = createDialog();
+        return new UnitSelectorImpl(units, dialog);
     }
 
     private Stage createDialog() {

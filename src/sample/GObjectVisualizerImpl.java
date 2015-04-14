@@ -2,6 +2,7 @@ package sample;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.PathTransition;
+import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
@@ -125,6 +126,29 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
         } else {
             token.getStyleClass().remove("selected");
         }
+    }
+
+    @Override
+    public void changeHP(final int hp) {
+        ScaleTransition transition = new ScaleTransition();
+        transition.setNode(hpLabel);
+        transition.setDuration(MyConst.ANIMATION_DURATION.divide(3));
+        final int sizeChange = 2;
+        transition.setByX(sizeChange);
+        transition.setByY(sizeChange);
+        transition.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                hpLabel.setText(String.valueOf(hp));
+            }
+        });
+        ScaleTransition transition2 = new ScaleTransition();
+        transition2.setNode(hpLabel);
+        transition2.setDuration(MyConst.ANIMATION_DURATION.divide(3));
+        transition2.setByX(1 / sizeChange);
+        transition2.setByY(1 / sizeChange);
+        GraphicsHelper.getInstance().addTransition(transition);
+        GraphicsHelper.getInstance().addTransition(transition2);
     }
 
     @Override

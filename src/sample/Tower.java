@@ -46,10 +46,6 @@ public class Tower extends GObject{
         return true;
     }
 
-    @Override
-    public void endTurn() {
-    }
-
     private void checkControl() {
         Map<Player, Integer> controlPower = new HashMap<Player, Integer>();
         Set<GUnit> unitSet = GameModel.MODEL.getNearUnits(getPlace());

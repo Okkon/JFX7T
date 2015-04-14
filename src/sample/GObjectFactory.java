@@ -38,6 +38,10 @@ public class GObjectFactory {
                 gObject = new Tower();
                 break;
             }
+            case MainTower: {
+                gObject = new MainTower();
+                break;
+            }
         }
         if (gObject instanceof GUnit) {
             GUnit object = (GUnit) gObject;

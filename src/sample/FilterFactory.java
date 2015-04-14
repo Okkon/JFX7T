@@ -3,7 +3,7 @@ package sample;
 public class FilterFactory {
     private static final GameModel model = GameModel.MODEL;
 
-    public static GFilter getFilter(FilterType type, GObject obj, String error) {
+    public static GFilter getFilter(FilterType type, String error) {
         GFilter gFilter = null;
         switch (type) {
             case IS_UNIT:
@@ -21,6 +21,9 @@ public class FilterFactory {
             case IS_ON_ONE_LINE:
                 gFilter = new OneLineFilter();
                 break;
+            case IS_VACANT_CELL:
+                gFilter = new VacantCellFilter();
+                break;
             case DISTANCE_CHECK:
                 gFilter = new DistanceFilter();
                 break;
@@ -34,24 +37,13 @@ public class FilterFactory {
                 gFilter = new NotMeFilter();
                 break;
         }
-        if (obj != null) {
-            gFilter.setObj(obj);
-        }
         gFilter.setType(type);
         gFilter.setErrorText(error);
         return gFilter;
     }
 
-    public static GFilter getFilter(FilterType type) {
-        return getFilter(type, null, null);
-    }
-
-    public static GFilter getFilter(FilterType type, String error) {
-        return getFilter(type, null, error);
-    }
-
     public enum FilterType {
-        IS_NEAR, CAN_SEE, CAN_ACT, IS_ON_ONE_LINE, BELONG_TO_PLAYER, IS_UNIT, OBSTACLE_ON_ONE_LINE, DISTANCE_CHECK, NOT_ME
+        IS_NEAR, CAN_SEE, CAN_ACT, IS_ON_ONE_LINE, BELONG_TO_PLAYER, IS_UNIT, OBSTACLE_ON_ONE_LINE, DISTANCE_CHECK, IS_VACANT_CELL, NOT_ME
     }
 
     private static class UnitFilter extends AbstractGFilter {
@@ -64,7 +56,7 @@ public class FilterFactory {
     private static class IsNearFilter extends AbstractGFilter {
         @Override
         public boolean isOk(Selectable obj) {
-            return model.isNear(getObj(), (GObject) obj);
+            return model.isNear(getObj(), (PlaceHaving) obj);
         }
     }
 
@@ -99,6 +91,17 @@ public class FilterFactory {
         @Override
         public boolean isOk(Selectable obj) {
             return model.onOneLine(getObj(), (GObject) obj);
+        }
+    }
+
+    private static class VacantCellFilter extends AbstractGFilter {
+        @Override
+        public boolean isOk(Selectable obj) {
+            if (obj instanceof GameCell) {
+                GameCell cell = (GameCell) obj;
+                return cell.getObj() == null;
+            }
+            return false;
         }
     }
 

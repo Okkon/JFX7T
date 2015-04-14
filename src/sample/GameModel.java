@@ -27,6 +27,9 @@ public class GameModel {
     }
 
     public void locateUnits() {
+        generateUnit(UnitType.MainTower, 0, 4, 0);
+        generateUnit(UnitType.MainTower, 13, 5, 1);
+
         generateUnit(UnitType.Tower, 3, 4, 0);
         generateUnit(UnitType.Tower, 4, 7, 0);
         generateUnit(UnitType.Tower, 5, 1, 2);
@@ -125,6 +128,10 @@ public class GameModel {
                         showSelectionPossibility(cells);
                     }
                 }
+            }
+            if (obj instanceof MainTower) {
+                MainTower mainTower = (MainTower) obj;
+                setAction(mainTower.baseAction);
             }
         }
         graphics.showObjName(obj);
@@ -298,7 +305,7 @@ public class GameModel {
         return activePlayer;
     }
 
-    public boolean isNear(GObject obj1, GObject obj2) {
+    public boolean isNear(GObject obj1, PlaceHaving obj2) {
         return XY.isNear(obj1.getXy(), obj2.getXy());
     }
 
@@ -395,5 +402,9 @@ public class GameModel {
 
     public GObject getLastActedUnit() {
         return lastActedUnit;
+    }
+
+    public UnitSelector provideUnitSelector(List<GUnit> units) {
+        return graphics.createUnitSelector(units);
     }
 }

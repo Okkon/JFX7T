@@ -16,6 +16,7 @@ public abstract class GObject implements Selectable, PlaceHaving {
     }
 
     public void takeHit(Hit hit) {
+        GameModel.MODEL.log("base", "TakesHit", this, hit.getDamageType(), hit.getDamage());
         for (GMod mod : getMods()) {
             mod.onTakeHit(hit);
         }

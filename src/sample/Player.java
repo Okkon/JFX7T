@@ -10,6 +10,7 @@ public class Player {
     private String name;
     private int score;
     private Color color;
+    private List<GUnit> availableUnits = new ArrayList<GUnit>();
 
     @Override
     public String toString() {
@@ -55,5 +56,13 @@ public class Player {
 
     public boolean isOwnerFor(GObject object) {
         return object.getPlayer().equals(this);
+    }
+
+    public List<GUnit> getAvailableUnits() {
+        return availableUnits;
+    }
+
+    public void setAvailableUnits(List<GUnit> availableUnits) {
+        this.availableUnits = availableUnits;
     }
 }
