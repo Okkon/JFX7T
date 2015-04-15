@@ -35,6 +35,7 @@ public class Tower extends GObject{
                 }
             }
             Crossbow crossbow = new Crossbow(1, 2, 15);
+            crossbow.setOwner(this);
             for (GUnit enemy : enemies) {
                 crossbow.act(enemy);
             }

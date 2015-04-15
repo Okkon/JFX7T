@@ -7,7 +7,7 @@ public abstract class Shell {
     protected int maxDamage;
     protected int coveredDistance;
     protected int maxDistance;
-    protected GUnit attacker;
+    protected GObject attacker;
     protected String name;
     protected boolean stopped;
     protected DamageType damageType;
@@ -78,10 +78,10 @@ public abstract class Shell {
     }
 
     public void setAttacker(GObject attacker) {
-        this.attacker = (GUnit) attacker;
+        this.attacker = attacker;
     }
 
-    public GUnit getAttacker() {
+    public GObject getAttacker() {
         return attacker;
     }
 

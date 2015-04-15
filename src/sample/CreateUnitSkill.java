@@ -3,7 +3,7 @@ package sample;
 import java.util.List;
 
 
-public class CreateUnitSkill extends Skill {
+public class CreateUnitSkill extends AbstractGAction {
     int unitCounter;
     UnitSelector selector;
 

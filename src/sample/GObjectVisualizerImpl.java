@@ -2,6 +2,7 @@ package sample;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.PathTransition;
+import javafx.animation.PauseTransition;
 import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -132,10 +133,10 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
     public void changeHP(final int hp) {
         ScaleTransition transition = new ScaleTransition();
         transition.setNode(hpLabel);
-        transition.setDuration(MyConst.ANIMATION_DURATION.divide(3));
-        final int sizeChange = 2;
-        transition.setByX(sizeChange);
-        transition.setByY(sizeChange);
+        transition.setDuration(MyConst.ANIMATION_DURATION.divide(3d));
+        final double sizeChange = 2d;
+        transition.setToX(sizeChange);
+        transition.setToY(sizeChange);
         transition.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -144,10 +145,11 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
         });
         ScaleTransition transition2 = new ScaleTransition();
         transition2.setNode(hpLabel);
-        transition2.setDuration(MyConst.ANIMATION_DURATION.divide(3));
-        transition2.setByX(1 / sizeChange);
-        transition2.setByY(1 / sizeChange);
+        transition2.setDuration(MyConst.ANIMATION_DURATION.divide(3d));
+        transition2.setToX(1d);
+        transition2.setToY(1d);
         GraphicsHelper.getInstance().addTransition(transition);
+        GraphicsHelper.getInstance().addTransition(new PauseTransition(MyConst.ANIMATION_DURATION.divide(3d)));
         GraphicsHelper.getInstance().addTransition(transition2);
     }
 

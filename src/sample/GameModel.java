@@ -140,7 +140,7 @@ public class GameModel {
 
     protected boolean canBeSelected(GObject gObject) {
         boolean canBeSelected = activePlayer.equals(gObject.getPlayer()) && gObject.canAct();
-        if (canBeSelected && lastActedUnit != null && !lastActedUnit.equals(gObject)) {
+        if (canBeSelected && lastActedUnit != null && !lastActedUnit.equals(gObject) && activePlayer.isOwnerFor(lastActedUnit)) {
             canBeSelected = false;
             error("errorText", "OtherUnitActed");
         }
@@ -170,7 +170,6 @@ public class GameModel {
             log("base", "EndsTurn", selectedObj);
         }
         log("base", "EndTurnSymbol");
-        lastActedUnit = null;
         cancel();
         if (!someoneCanAct()) {
             endHour();
@@ -178,6 +177,7 @@ public class GameModel {
         } else {
             passTurn();
             setActivePlayer(activePlayer);
+            setLastActedUnit(null);
         }
     }
 
