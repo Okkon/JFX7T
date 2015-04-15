@@ -84,7 +84,9 @@ public abstract class GObject implements Selectable, PlaceHaving {
     }
 
     public void endTurn() {
-
+        for (GMod mod : mods) {
+            mod.onTurnEnd(this);
+        }
     }
 
     public List<GMod> getMods() {

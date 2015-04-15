@@ -10,4 +10,6 @@ public interface GMod {
     boolean blocksTower();
 
     void onTakeShot(Shell shell);
+
+    void onTurnEnd(GObject object);
 }

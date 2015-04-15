@@ -59,8 +59,20 @@ public class GameModel {
 
     private void initPlayers() {
         players = new ArrayList<Player>();
-        players.add(new Player("P1", Color.AZURE));
-        players.add(new Player("P2", Color.CORAL));
+        final Player p1 = new Player("P1", Color.AZURE);
+        List<GUnit> commonUnits = new ArrayList<GUnit>();
+        commonUnits.add((GUnit) GObjectFactory.create(UnitType.Archer));
+        commonUnits.add((GUnit) GObjectFactory.create(UnitType.Assassin));
+        commonUnits.add((GUnit) GObjectFactory.create(UnitType.Footman));
+        commonUnits.add((GUnit) GObjectFactory.create(UnitType.Inquisitor));
+        commonUnits.add((GUnit) GObjectFactory.create(UnitType.Mage));
+        p1.setAvailableUnits(commonUnits);
+        p1.getAvailableUnits().add((GUnit) GObjectFactory.create(UnitType.Troll));
+        final Player p2 = new Player("P2", Color.CORAL);
+        p2.setAvailableUnits(commonUnits);
+        p2.getAvailableUnits().add((GUnit) GObjectFactory.create(UnitType.AstralArcher));
+        players.add(p1);
+        players.add(p2);
         players.add(Player.NEUTRAL);
     }
 
@@ -278,10 +290,6 @@ public class GameModel {
                 object.getVisualizer().setSelectionPossibility(true);
             }
         }
-    }
-
-    public void log(String s) {
-        graphics.log(s);
     }
 
     public void log(String res, String s, Object... objects) {

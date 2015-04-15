@@ -61,12 +61,14 @@ public class GUnit extends GObject {
         super.takeHit(hit);
         final int damage = hit.getDamage();
         if (damage > 0) {
-            this.hp -= damage;
+            int takenDamage = Math.min(hp, damage);
+            this.hp -= takenDamage;
             getVisualizer().changeHP(hp);
-            GameModel.MODEL.log("base", "HpLeft", this, hp);
             if (hp <= 0) {
                 die();
                 GameModel.MODEL.log("base", "Dies", this);
+            } else {
+                GameModel.MODEL.log("base", "HpLeft", this, hp);
             }
         }
     }
@@ -140,6 +142,20 @@ public class GUnit extends GObject {
         return copy;
     }
 
+    public int recover(int value) {
+        int healedHp = Math.min(value, maxHp - hp);
+        if (healedHp > 0) {
+            hp += healedHp;
+            getVisualizer().changeHP(hp);
+            GameModel.MODEL.log("base", "Recover", this, hp);
+        }
+        return healedHp;
+    }
+
+    public boolean isWounded() {
+        return hp < maxHp;
+    }
+
     private class BaseUnitAction extends AbstractGAction {
         @Override
         public void act(Selectable obj) {
@@ -180,7 +196,11 @@ public class GUnit extends GObject {
 
     @Override
     public String getName() {
-        return bundle.getString(getType().toString());
+        String bundleName = bundle.getString(getType().toString());
+        if (bundleName == null) {
+            bundleName = "NameNotFound";
+        }
+        return bundleName;
     }
 
     private void go(GameCell gameCell) {

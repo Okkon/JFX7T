@@ -13,7 +13,7 @@ public class GObjectFactory {
                 break;
             }
             case Inquisitor: {
-                gObject = new GUnit(5, 24, 2, 2);
+                gObject = new GUnit(5, 25, 2, 2);
                 gObject.addMod(new MagicSword());
                 gObject.addMod(new MagicArmor(2));
                 break;
@@ -24,7 +24,7 @@ public class GObjectFactory {
                 break;
             }
             case Mage: {
-                gObject = new GUnit(2, 24, 0, 2);
+                gObject = new GUnit(2, 25, 0, 2);
                 gObject.addSkill(new Fireball(1, 2, 60));
                 break;
             }
@@ -32,6 +32,16 @@ public class GObjectFactory {
                 gObject = new GUnit(4, 31, 1, 2);
                 gObject.addMod(new Masking());
                 gObject.addMod(new Sabotage());
+                break;
+            }
+            case AstralArcher: {
+                gObject = new GUnit(5, 26, 2, 2);
+                gObject.addMod(new MagicArmor(2));
+                break;
+            }
+            case Troll: {
+                gObject = new GUnit(6, 21, 2, 3);
+                gObject.addMod(new Regeneration(3));
                 break;
             }
             case Tower: {

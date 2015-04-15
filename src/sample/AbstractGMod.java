@@ -20,6 +20,11 @@ public class AbstractGMod implements GMod {
     }
 
     @Override
+    public void onTurnEnd(GObject object) {
+
+    }
+
+    @Override
     public void onHit(Hit hit) {
 
     }

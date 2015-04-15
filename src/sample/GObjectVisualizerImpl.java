@@ -108,10 +108,6 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
         final Bounds b = cell.getBoundsInParent();
         final double w = (b.getWidth() - token.getPrefWidth()) / 2;
         final double h = (b.getHeight() - token.getPrefHeight()) / 2;
-        /*token.setTranslateX(b.getMinX() + w);
-        token.setTranslateY(b.getMinY() + h);
-        hpLabel.setTranslateX(b.getMaxX() - 7);
-        hpLabel.setTranslateY(b.getMaxY() - 15);*/
         pane.setTranslateX(b.getMinX() + w);
         pane.setTranslateY(b.getMinY() + h);
         pane.getChildren().addAll(token, hpLabel);
