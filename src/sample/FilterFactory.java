@@ -1,5 +1,7 @@
 package sample;
 
+import java.util.ResourceBundle;
+
 public class FilterFactory {
     private static final GameModel model = GameModel.MODEL;
 
@@ -38,7 +40,7 @@ public class FilterFactory {
                 break;
         }
         gFilter.setType(type);
-        gFilter.setErrorText(error);
+        gFilter.setErrorText(String.format(ResourceBundle.getBundle(MyConst.RESOURCE_BUNDLE_LOCATION + "errorText").getString(error)));
         return gFilter;
     }
 

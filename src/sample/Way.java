@@ -5,25 +5,26 @@ import java.util.List;
 
 public class Way {
     private final GameCell cell;
-    private final int mp;
+    private int length;
     private List<GameCell> points;
 
-    public Way(GameCell place, int mp) {
+    public Way(GameCell place) {
         this.cell = place;
-        this.mp = mp;
+        this.length = 0;
         points = new ArrayList<GameCell>();
     }
 
-    public GameCell getCell() {
+    public GameCell getDestinationCell() {
         return cell;
     }
 
-    public int getMp() {
-        return mp;
+    public int getLength() {
+        return length;
     }
 
-    public Way next(GameCell cell, int mp) {
-        final Way way = new Way(cell, mp);
+    public Way next(GameCell cell, int length) {
+        final Way way = new Way(cell);
+        this.length = length;
         way.points.addAll(this.points);
         way.points.add(cell);
         return way;
@@ -35,7 +36,7 @@ public class Way {
             cells.add(wayPoint);
         }
         cells.remove(0);
-        cells.add(getCell());
+        cells.add(getDestinationCell());
         return cells;
     }
 }

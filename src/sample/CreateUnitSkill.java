@@ -9,8 +9,8 @@ public class CreateUnitSkill extends AbstractGAction {
 
 
     public CreateUnitSkill(int unitNumber) {
-        aimFilters.add(FilterFactory.getFilter(FilterFactory.FilterType.IS_VACANT_CELL, ""));
-        aimFilters.add(FilterFactory.getFilter(FilterFactory.FilterType.IS_NEAR, ""));
+        aimFilters.add(FilterFactory.getFilter(FilterFactory.FilterType.IS_VACANT_CELL, "CellIsOccupied"));
+        aimFilters.add(FilterFactory.getFilter(FilterFactory.FilterType.IS_NEAR, "NotNearToMainTower"));
         unitCounter = unitNumber;
     }
 

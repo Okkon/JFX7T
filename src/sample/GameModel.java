@@ -254,16 +254,16 @@ public class GameModel {
 
     public Collection<Way> findAllWays(GUnit unit, MoveType moveType) {
         Map<GameCell, Way> destinations = new HashMap<GameCell, Way>();
-        Way start = new Way(unit.getPlace(), unit.getMP());
+        Way start = new Way(unit.getPlace());
         Queue<Way> wayQueue = new ArrayDeque<Way>();
         wayQueue.add(start);
 
         while (!wayQueue.isEmpty()) {
             Set<Way> ways = moveType.getWayFromCell(wayQueue.poll(), unit);
             for (Way way : ways) {
-                final Way shortestWay = destinations.get(way.getCell());
-                if (shortestWay == null || way.getMp() > shortestWay.getMp()) {
-                    destinations.put(way.getCell(), way);
+                final Way shortestWay = destinations.get(way.getDestinationCell());
+                if (shortestWay == null || way.getLength() > shortestWay.getLength()) {
+                    destinations.put(way.getDestinationCell(), way);
                     wayQueue.add(way);
                 }
             }

@@ -18,17 +18,17 @@ public class DefaultMoveType implements MoveType {
     }
 
     private List<GameCell> getCellsWhereUnitCanGo(Way point, GUnit unit) {
-        final List<GameCell> cells = GameModel.MODEL.getEmptyNearCells(point.getCell());
+        final List<GameCell> cells = GameModel.MODEL.getEmptyNearCells(point.getDestinationCell());
         final Iterator<GameCell> iterator = cells.iterator();
         final Map<XY, GameCell> board = GameModel.MODEL.getBoard();
-        final XY from = point.getCell().getXy();
+        final XY from = point.getDestinationCell().getXy();
         while (iterator.hasNext()) {
             GameCell next = iterator.next();
             final Direction direction = Direction.findDirection(from, next.getXy());
             if (direction.isDiagonal()) {
-                final GObject obj = board.get(new XY(from.getX(), next.getXy().getY())).getObj();
+                final GObject obj1 = board.get(new XY(from.getX(), next.getXy().getY())).getObj();
                 final GObject obj2 = board.get(new XY(next.getXy().getX(), from.getY())).getObj();
-                if ((obj != null && obj.blocksMoveFor(unit)) || (obj2 != null && obj2.blocksMoveFor(unit))) {
+                if ((obj1 != null && obj1.blocksMoveFor(unit)) || (obj2 != null && obj2.blocksMoveFor(unit))) {
                     iterator.remove();
                 }
             }
@@ -46,16 +46,16 @@ public class DefaultMoveType implements MoveType {
         }
     }
 
-    private void step(GUnit unit, GameCell cell) {
-        final int distance = XY.getDistance(unit.getXy(), cell.getXy());
-        unit.shift(cell);
-        unit.looseMP(distance);
+    private void step(GUnit unit, GameCell toCell) {
+        final int stepPrice = calculateStepPrice(unit.getPlace(), toCell);
+        unit.shift(toCell);
+        unit.looseMP(stepPrice);
     }
 
     private List<GameCell> getWayToCell(Collection<Way> lastFoundWays, GameCell gameCell) {
         Way unitWay = null;
         for (Way way : lastFoundWays) {
-            if (way.getCell().equals(gameCell)) {
+            if (way.getDestinationCell().equals(gameCell)) {
                 unitWay = way;
                 break;
             }
@@ -67,10 +67,14 @@ public class DefaultMoveType implements MoveType {
     }
 
     private Way createWay(GUnit unit, Way way, GameCell cell) {
-        int mp = way.getMp();
-        final int distance = XY.getDistance(way.getCell().getXy(), cell.getXy());
-        return mp >= distance
-                ? way.next(cell, mp - distance)
+        int wayLength = way.getLength();
+        final int stepPrice = calculateStepPrice(way.getDestinationCell(), cell);
+        return unit.getMP() >= stepPrice + wayLength
+                ? way.next(cell, stepPrice + wayLength)
                 : null;
+    }
+
+    private int calculateStepPrice(GameCell fromCell, GameCell toCell) {
+        return XY.getDistance(fromCell.getXy(), toCell.getXy());
     }
 }
