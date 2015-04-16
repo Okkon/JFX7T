@@ -113,6 +113,7 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
         pane.getChildren().addAll(token, hpLabel);
         hpLabel.setTranslateX(25);
         hpLabel.setTranslateY(25);
+        setPlayer(obj.getPlayer());
         GraphicsHelper.getInstance().add(pane);
     }
 

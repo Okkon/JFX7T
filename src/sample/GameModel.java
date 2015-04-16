@@ -51,10 +51,10 @@ public class GameModel {
         generateUnit(UnitType.Footman, 7, 2, 1);
     }
 
-    private void generateUnit(UnitType unitType, int x, int y, int playerCode) {
+    private void generateUnit(UnitType unitType, int x, int y, int playerIndex) {
         final GObject obj = GObjectFactory.create(unitType);
+        obj.setPlayer(players.get(playerIndex));
         createObj(obj, board.get(new XY(x, y)));
-        obj.setPlayer(players.get(playerCode));
     }
 
     private void initPlayers() {
@@ -66,11 +66,19 @@ public class GameModel {
         commonUnits.add((GUnit) GObjectFactory.create(UnitType.Footman));
         commonUnits.add((GUnit) GObjectFactory.create(UnitType.Inquisitor));
         commonUnits.add((GUnit) GObjectFactory.create(UnitType.Mage));
-        p1.setAvailableUnits(commonUnits);
-        p1.getAvailableUnits().add((GUnit) GObjectFactory.create(UnitType.Troll));
+        final List<GUnit> p1AvailableUnits = p1.getAvailableUnits();
+        p1AvailableUnits.addAll(commonUnits);
+        p1AvailableUnits.add((GUnit) GObjectFactory.create(UnitType.Troll));
+        for (GUnit unit : p1AvailableUnits) {
+            unit.setPlayer(p1);
+        }
         final Player p2 = new Player("P2", Color.CORAL);
-        p2.setAvailableUnits(commonUnits);
-        p2.getAvailableUnits().add((GUnit) GObjectFactory.create(UnitType.AstralArcher));
+        final List<GUnit> p2AvailableUnits = p2.getAvailableUnits();
+        p2AvailableUnits.addAll(commonUnits);
+        p2AvailableUnits.add((GUnit) GObjectFactory.create(UnitType.AstralArcher));
+        for (GUnit unit : p2AvailableUnits) {
+            unit.setPlayer(p2);
+        }
         players.add(p1);
         players.add(p2);
         players.add(Player.NEUTRAL);

@@ -80,7 +80,7 @@ public class GUnit extends GObject {
 
     @Override
     public String toString() {
-        return type.toString() + getXy().toString();
+        return type.toString() /*+ getXy().toString()*/;
     }
 
     public Set<GameCell> getCellsToGo() {
@@ -139,6 +139,7 @@ public class GUnit extends GObject {
         copy.getSkills().clear();
         copy.getSkills().addAll(getSkills());
         copy.setPlayer(player);
+        copy.setType(getType());
         return copy;
     }
 

@@ -1,10 +1,13 @@
 package sample;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.layout.VBoxBuilder;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -24,6 +27,15 @@ public class UnitSelectorImpl implements UnitSelector {
         list.setPrefWidth(100);
         list.setPrefHeight(70);
         list.getSelectionModel().select(0);
+        list.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+
+        list.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<GUnit>() {
+            @Override
+            public void changed(ObservableValue<? extends GUnit> observableValue, GUnit oldVal, GUnit newVal) {
+                selectedUnit = newVal;
+            }
+        });
 
         list.setOnEditStart(new EventHandler<ListView.EditEvent<GUnit>>() {
             @Override

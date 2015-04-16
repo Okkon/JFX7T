@@ -262,6 +262,7 @@ public class GamePanel extends GridPane implements MainVisualizer {
     @Override
     public UnitSelector createUnitSelector(List<GUnit> units) {
         final Stage dialog = createDialog();
+        dialog.initModality(Modality.NONE);
         return new UnitSelectorImpl(units, dialog);
     }
 
