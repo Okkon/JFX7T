@@ -90,7 +90,9 @@ public abstract class GObject implements Selectable, PlaceHaving {
     }
 
     public List<GMod> getMods() {
-        return mods;
+        List<GMod> gMods = new ArrayList<GMod>();
+        gMods.addAll(mods);
+        return gMods;
     }
 
     public void addMod(GMod mod) {
@@ -127,5 +129,9 @@ public abstract class GObject implements Selectable, PlaceHaving {
 
     public String getName() {
         return getClass().getSimpleName();
+    }
+
+    public void removeMod(GMod mod) {
+        mods.remove(mod);
     }
 }
