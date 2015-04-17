@@ -14,7 +14,7 @@ public class GUnit extends GObject {
     private int randDamage;
     protected UnitType type;
 
-    private MoveType moveType;
+    private DefaultMoveType moveType;
     private AttackStyle attackStyle;
     private static ResourceBundle bundle = ResourceBundle.getBundle(MyConst.RESOURCE_BUNDLE_LOCATION + "unitTypes");
 
@@ -138,7 +138,7 @@ public class GUnit extends GObject {
         copy.getMods().addAll(getMods());
         copy.getSkills().clear();
         copy.getSkills().addAll(getSkills());
-        copy.setPlayer(player);
+        copy.setPlayer(getPlayer());
         copy.setType(getType());
         return copy;
     }
@@ -166,12 +166,10 @@ public class GUnit extends GObject {
                     GameModel.SELECT_ACTION.act(gObject);
                 } else {
                     attack(gObject);
-                    GameModel.MODEL.setLastActedUnit(GUnit.this);
                 }
             } else if (obj instanceof GameCell) {
                 GameCell gameCell = (GameCell) obj;
                 go(gameCell);
-                GameModel.MODEL.setLastActedUnit(GUnit.this);
             }
         }
     }
@@ -198,14 +196,15 @@ public class GUnit extends GObject {
     @Override
     public String getName() {
         String bundleName = bundle.getString(getType().toString());
-        if (bundleName == null) {
+        if (bundleName.isEmpty()) {
             bundleName = "NameNotFound";
         }
         return bundleName;
     }
 
     private void go(GameCell gameCell) {
-        moveType.go(this, gameCell);
+        moveType.setOwner(this);
+        moveType.perform(gameCell);
         if (canAct()) {
             Set<GameCell> cells = getCellsToGo();
             GameModel.MODEL.showSelectionPossibility(cells);
@@ -213,6 +212,7 @@ public class GUnit extends GObject {
     }
 
     private void attack(GObject obj) {
-        attackStyle.attack(this, obj);
+        attackStyle.setOwner(this);
+        attackStyle.perform(obj);
     }
 }

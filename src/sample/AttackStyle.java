@@ -1,8 +1,27 @@
 package sample;
 
+import java.util.List;
 
-public interface AttackStyle {
-    AttackStyle DEFAULT = new BaseAttackStyle();
+public class AttackStyle extends Skill {
+    public static final AttackStyle DEFAULT = new AttackStyle();
 
-    void attack(GUnit unit, GObject obj);
+    public AttackStyle() {
+        super();
+        aimFilters.add(FilterFactory.getFilter(FilterFactory.FilterType.IS_NEAR, "AimIsTooFar"));
+        aimFilters.add(FilterFactory.getFilter(FilterFactory.FilterType.IS_UNIT, "NotUnit"));
+    }
+
+    @Override
+    public void act(Selectable obj) {
+        GUnit attacker = (GUnit) getOwner();
+        GObject aim = ((GObject) obj);
+        Hit hit = Hit.createHit(attacker, aim);
+        final List<GMod> mods = attacker.getMods();
+        for (GMod mod : mods) {
+            mod.onHit(hit);
+        }
+        attacker.getVisualizer().startAttack(aim);
+        GameModel.MODEL.log("base", "Hits", attacker, aim);
+        aim.takeHit(hit);
+    }
 }

@@ -5,4 +5,8 @@ public class EndTurnAction extends AbstractGAction {
     public void onSelect() {
         GameModel.MODEL.endTurn();
     }
+
+    @Override
+    public void act(Selectable obj) {
+    }
 }

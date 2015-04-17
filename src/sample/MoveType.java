@@ -2,11 +2,8 @@ package sample;
 
 import java.util.Set;
 
-/**
- * Created by kondrashov on 18.03.2015.
- */
 public interface MoveType {
-    MoveType DEFAULT = new DefaultMoveType();
+    DefaultMoveType DEFAULT = new DefaultMoveType();
 
     Set<Way> getWayFromCell(Way start, GUnit unit);
 

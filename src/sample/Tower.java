@@ -34,7 +34,7 @@ public class Tower extends GObject{
                     }
                 }
             }
-            Crossbow crossbow = new Crossbow(1, 2, 15);
+            Crossbow crossbow = new Crossbow(1, 2, XY.diagonalLength);
             crossbow.setOwner(this);
             for (GUnit enemy : enemies) {
                 crossbow.act(enemy);

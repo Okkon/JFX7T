@@ -2,7 +2,7 @@ package sample;
 
 import java.util.*;
 
-public class DefaultMoveType implements MoveType {
+public class DefaultMoveType extends Skill implements MoveType {
 
     @Override
     public Set<Way> getWayFromCell(Way point, GUnit unit) {
@@ -44,6 +44,12 @@ public class DefaultMoveType implements MoveType {
             GameModel.MODEL.log("base", "UnitMove", unit.getName(), unit.getXy(), cell.getXy());
             step(unit, cell);
         }
+    }
+
+    @Override
+    public void act(Selectable obj) {
+        final GUnit unit = (GUnit) getOwner();
+        go(unit, (GameCell) obj);
     }
 
     private void step(GUnit unit, GameCell toCell) {

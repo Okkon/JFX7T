@@ -50,15 +50,13 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
 
     @Override
     public void changePlace(GameCell currentCell, GameCell cellToGo) {
-        final BoardCell fromCell = (BoardCell) currentCell.getVisualizer();
-        final BoardCell toCell = (BoardCell) cellToGo.getVisualizer();
-        final Bounds bounds = fromCell.getBoundsInParent();
-        final Bounds bounds2 = toCell.getBoundsInParent();
+        final Bounds bounds1 = getBounds(currentCell);
+        final Bounds bounds2 = getBounds(cellToGo);
 
         Path path = new Path();
-        final double w = bounds.getWidth() / 2;
-        final double h = bounds.getHeight() / 2;
-        path.getElements().add(new MoveTo(bounds.getMinX() + w, bounds.getMinY() + h));
+        final double w = bounds1.getWidth() / 2;
+        final double h = bounds1.getHeight() / 2;
+        path.getElements().add(new MoveTo(bounds1.getMinX() + w, bounds1.getMinY() + h));
         path.getElements().add(new LineTo(bounds2.getMinX() + w, bounds2.getMinY() + h));
 
         PathTransition pathTransition = new PathTransition();
@@ -67,6 +65,11 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
         pathTransition.setPath(path);
 
         GraphicsHelper.getInstance().addTransition(pathTransition);
+    }
+
+    protected Bounds getBounds(GameCell cell) {
+        final BoardCell fromCell = (BoardCell) cell.getVisualizer();
+        return fromCell.getBoundsInParent();
     }
 
     @Override
@@ -148,6 +151,11 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
         GraphicsHelper.getInstance().addTransition(transition);
         GraphicsHelper.getInstance().addTransition(new PauseTransition(MyConst.ANIMATION_DURATION.divide(3d)));
         GraphicsHelper.getInstance().addTransition(transition2);
+    }
+
+    @Override
+    public void startAttack(GObject aim) {
+
     }
 
     @Override

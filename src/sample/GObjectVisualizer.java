@@ -1,8 +1,6 @@
 package sample;
 
-/**
- * Created by kondrashov on 19.03.2015.
- */
+
 public interface GObjectVisualizer extends Visualizer {
     void changePlace(GameCell currentCell, GameCell cellToGo);
 
@@ -17,4 +15,6 @@ public interface GObjectVisualizer extends Visualizer {
     void setSelected(boolean b);
 
     void changeHP(int hp);
+
+    void startAttack(GObject aim);
 }

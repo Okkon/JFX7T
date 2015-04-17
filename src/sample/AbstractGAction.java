@@ -39,9 +39,7 @@ public abstract class AbstractGAction implements GAction {
         this.owner = owner;
     }
 
-    public void act(Selectable obj) {
-
-    }
+    public abstract void act(Selectable obj);
 
     @Override
     public boolean canSelect(Selectable obj) {
