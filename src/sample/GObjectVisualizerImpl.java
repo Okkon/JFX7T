@@ -27,6 +27,8 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
         this.obj = obj;
         final int size = MyConst.OBJECT_VISUALIZER_SIZE;
         token.setPrefSize(size, size);
+        pane.setFocusTraversable(false);
+        token.setDisable(true);
         hpLabel.setPrefSize(10, 10);
         if (obj instanceof GUnit) {
             GUnit unit = (GUnit) obj;
@@ -160,10 +162,11 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
 
     @Override
     public void setSelectionPossibility(boolean b) {
+        final String canBeSelected = "canBeSelected";
         if (b) {
-            token.getStyleClass().add("ready");
+            token.getStyleClass().add(canBeSelected);
         } else {
-            token.getStyleClass().remove("ready");
+            token.getStyleClass().remove(canBeSelected);
         }
     }
 }

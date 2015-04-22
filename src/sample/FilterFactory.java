@@ -1,5 +1,8 @@
 package sample;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class FilterFactory {
@@ -40,8 +43,22 @@ public class FilterFactory {
                 break;
         }
         gFilter.setType(type);
-        gFilter.setErrorText(String.format(ResourceBundle.getBundle(MyConst.RESOURCE_BUNDLE_LOCATION + "errorText").getString(error)));
+        if (error != null) {
+            gFilter.setErrorText(String.format(ResourceBundle.getBundle(MyConst.RESOURCE_BUNDLE_LOCATION + "errorText").getString(error)));
+        }
         return gFilter;
+    }
+
+    public static GFilter getFilter(FilterType type) {
+        return getFilter(type, null);
+    }
+
+    public static Collection<GFilter> getFilters(FilterType... types) {
+        List<GFilter> gFilters = new ArrayList<GFilter>();
+        for (FilterType type : types) {
+            gFilters.add(getFilter(type));
+        }
+        return gFilters;
     }
 
     public enum FilterType {

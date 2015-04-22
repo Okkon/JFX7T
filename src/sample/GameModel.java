@@ -423,4 +423,21 @@ public class GameModel {
     public UnitSelector provideUnitSelector(List<GUnit> units) {
         return graphics.createUnitSelector(units);
     }
+
+    public List<GObject> getObjects(Collection<GFilter> filters) {
+        List<GObject> result = new ArrayList<GObject>();
+        boolean isOk;
+        for (GObject gObject : objects) {
+            isOk = true;
+            for (GFilter filter : filters) {
+                if (!filter.isOk(gObject)) {
+                    isOk = false;
+                }
+            }
+            if (isOk) {
+                result.add(gObject);
+            }
+        }
+        return result;
+    }
 }
