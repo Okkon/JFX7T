@@ -12,4 +12,6 @@ public interface GMod {
     void onTakeShot(Shell shell);
 
     void onTurnEnd(GObject object);
+
+    void applyEffect(GObject gObject);
 }

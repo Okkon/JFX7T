@@ -25,6 +25,11 @@ public class AbstractGMod implements GMod {
     }
 
     @Override
+    public void applyEffect(GObject gObject) {
+
+    }
+
+    @Override
     public void onHit(Hit hit) {
 
     }

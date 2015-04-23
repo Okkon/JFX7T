@@ -59,7 +59,7 @@ public class GameModel {
 
     private void initPlayers() {
         players = new ArrayList<Player>();
-        final Player p1 = new Player("P1", Color.AZURE);
+        final Player p1 = new Player("P1", Color.RED /*Color.AZURE*/);
         List<GUnit> commonUnits = new ArrayList<GUnit>();
         commonUnits.add((GUnit) GObjectFactory.create(UnitType.Archer));
         commonUnits.add((GUnit) GObjectFactory.create(UnitType.Assassin));
@@ -85,9 +85,7 @@ public class GameModel {
     }
 
     public void press(Selectable obj) {
-        if (selectedAction.canSelect(obj)) {
-            selectedAction.perform(obj);
-        }
+        selectedAction.perform(obj);
     }
 
     public void createObj(GObject obj, GameCell cell) {
@@ -259,10 +257,11 @@ public class GameModel {
         wayQueue.add(start);
 
         while (!wayQueue.isEmpty()) {
-            Set<Way> ways = moveType.getWayFromCell(wayQueue.poll(), unit);
+            final Way wayPoint = wayQueue.poll();
+            Set<Way> ways = moveType.getWayFromCell(wayPoint, unit);
             for (Way way : ways) {
                 final Way shortestWay = destinations.get(way.getDestinationCell());
-                if (shortestWay == null || way.getLength() > shortestWay.getLength()) {
+                if (shortestWay == null || way.getLength() < shortestWay.getLength()) {
                     destinations.put(way.getDestinationCell(), way);
                     wayQueue.add(way);
                 }
@@ -432,6 +431,7 @@ public class GameModel {
             for (GFilter filter : filters) {
                 if (!filter.isOk(gObject)) {
                     isOk = false;
+                    break;
                 }
             }
             if (isOk) {

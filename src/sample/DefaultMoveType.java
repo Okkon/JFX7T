@@ -3,6 +3,9 @@ package sample;
 import java.util.*;
 
 public class DefaultMoveType extends Skill implements MoveType {
+    public DefaultMoveType() {
+        endsTurn = false;
+    }
 
     @Override
     public Set<Way> getWayFromCell(Way point, GUnit unit) {
@@ -67,7 +70,7 @@ public class DefaultMoveType extends Skill implements MoveType {
             }
         }
         if (unitWay != null) {
-            return unitWay.transformToCellList();
+            return unitWay.getWayPoints();
         }
         return Collections.EMPTY_LIST;
     }

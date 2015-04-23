@@ -15,6 +15,11 @@ public abstract class GObject implements Selectable, PlaceHaving {
     public GObject() {
     }
 
+    @Override
+    public String toString() {
+        return "object" + (place != null ? place.getXy().toString() : "");
+    }
+
     public void takeHit(Hit hit) {
         GameModel.MODEL.log("base", "TakesHit", this, hit.getDamageType(), hit.getDamage());
         for (GMod mod : getMods()) {
@@ -97,6 +102,7 @@ public abstract class GObject implements Selectable, PlaceHaving {
 
     public void addMod(GMod mod) {
         mods.add(mod);
+        mod.applyEffect(this);
     }
 
     public void addSkill(GAction skill) {

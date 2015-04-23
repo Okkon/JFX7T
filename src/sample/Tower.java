@@ -84,6 +84,6 @@ public class Tower extends GObject{
 
     @Override
     public String toString() {
-        return "To";
+        return "To" + (place != null ? place.getXy().toString() : "");
     }
 }

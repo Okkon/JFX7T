@@ -17,4 +17,8 @@ public interface GObjectVisualizer extends Visualizer {
     void changeHP(int hp);
 
     void startAttack(GObject aim);
+
+    void applyEffect(String effect);
+
+    void setPanel(GamePanel gamePanel);
 }

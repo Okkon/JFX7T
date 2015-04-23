@@ -17,7 +17,13 @@ public abstract class AbstractGAction implements GAction {
 
     @Override
     public void perform(Selectable obj) {
-        act(obj);
+        if (canSelect(obj)) {
+            act(obj);
+            afterPerform();
+        }
+    }
+
+    protected void afterPerform() {
         if (endsTurn) {
             GameModel.MODEL.endTurn();
         }
@@ -44,9 +50,7 @@ public abstract class AbstractGAction implements GAction {
     @Override
     public boolean canSelect(Selectable obj) {
         for (GFilter filter : aimFilters) {
-            if (filter.getObj() == null) {
-                filter.setObj(getOwner());
-            }
+            filter.setObj(getOwner());
             if (!filter.check(obj)) {
                 return false;
             }

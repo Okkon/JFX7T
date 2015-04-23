@@ -39,15 +39,19 @@ public class GUnit extends GObject {
     }
 
     public GUnit(int maxHp, int maxMp, int minDamage, int randDamage) {
-        this.maxHp = maxHp;
-        this.maxMp = maxMp;
-        this.minDamage = minDamage;
-        this.randDamage = randDamage;
+        setStats(maxHp, maxMp, minDamage, randDamage);
         baseAction = new BaseUnitAction();
         baseAction.setOwner(this);
         moveType = MoveType.DEFAULT;
         attackStyle = AttackStyle.DEFAULT;
         skills.add(new EndTurnAction());
+    }
+
+    private void setStats(int maxHp, int maxMp, int minDamage, int randDamage) {
+        this.maxHp = maxHp;
+        this.maxMp = maxMp;
+        this.minDamage = minDamage;
+        this.randDamage = randDamage;
         fill();
     }
 
@@ -80,7 +84,7 @@ public class GUnit extends GObject {
 
     @Override
     public String toString() {
-        return type.toString() /*+ getXy().toString()*/;
+        return type.toString() + (place != null ? place.getXy().toString() : "");
     }
 
     public Set<GameCell> getCellsToGo() {

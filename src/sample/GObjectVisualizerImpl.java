@@ -4,20 +4,21 @@ import javafx.animation.FadeTransition;
 import javafx.animation.PathTransition;
 import javafx.animation.PauseTransition;
 import javafx.animation.ScaleTransition;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.*;
 
 public class GObjectVisualizerImpl implements GObjectVisualizer {
-    private final GamePanel gamePanel;
-    private final Label token = new Label();
+    private GamePanel gamePanel;
+    private Shape token;
     private final Label hpLabel = new Label();
     private final StackPane pane = new StackPane();
     private final GObject obj;
@@ -26,20 +27,24 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
         this.gamePanel = gamePanel;
         this.obj = obj;
         final int size = MyConst.OBJECT_VISUALIZER_SIZE;
-        token.setPrefSize(size, size);
         pane.setFocusTraversable(false);
-        token.setDisable(true);
         hpLabel.setPrefSize(10, 10);
         if (obj instanceof GUnit) {
             GUnit unit = (GUnit) obj;
+            token = new Circle(size / 2);
             token.getStyleClass().add("unit");
-            token.setText(unit.getName().substring(0, 2));
+            final String imagePath = String.format("file:res/img/%s.bmp", unit.getType().toString().toLowerCase());
+            Image img = new Image(imagePath);
+            token.setFill(new ImagePattern(img, 0, 0, 1, 1, true));
             hpLabel.setText(String.valueOf(unit.getHP()));
         }
         if (obj instanceof Tower) {
             Tower tower = (Tower) obj;
+            token = new Rectangle(size, size);
+            final String imagePath = String.format("file:res/img/%s.jpg", "tower");
+            Image img = new Image(imagePath);
+            token.setFill(new ImagePattern(img, 0, 0, 1, 1, true));
             token.getStyleClass().add("tower");
-            token.setText("T");
         }
         setReady(obj.canAct());
         token.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -95,15 +100,15 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
     public void setPlayer(Player player) {
         final Color color = player.getColor();
         String hex = "#" + Integer.toHexString(color.hashCode());
-        token.setStyle("-fx-background-color: " + hex);
+        token.setStyle("-fx-stroke: " + hex);
     }
 
     @Override
     public void setReady(boolean isReady) {
+        final ObservableList<String> styleClass = token.getStyleClass();
+        styleClass.remove("ready");
         if (isReady) {
-            token.getStyleClass().add("ready");
-        } else {
-            token.getStyleClass().remove("ready");
+            styleClass.add("ready");
         }
     }
 
@@ -111,8 +116,8 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
     public void create(GameCell gameCell) {
         final BoardCell cell = gamePanel.getBoardCell(gameCell);
         final Bounds b = cell.getBoundsInParent();
-        final double w = (b.getWidth() - token.getPrefWidth()) / 2;
-        final double h = (b.getHeight() - token.getPrefHeight()) / 2;
+        final double w = (b.getWidth() - MyConst.OBJECT_VISUALIZER_SIZE) / 2;
+        final double h = (b.getHeight() - MyConst.OBJECT_VISUALIZER_SIZE) / 2;
         pane.setTranslateX(b.getMinX() + w);
         pane.setTranslateY(b.getMinY() + h);
         pane.getChildren().addAll(token, hpLabel);
@@ -158,6 +163,17 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
     @Override
     public void startAttack(GObject aim) {
 
+    }
+
+    @Override
+    public void applyEffect(String effect) {
+        token.getStyleClass().remove(effect);
+        token.getStyleClass().add(effect);
+    }
+
+    @Override
+    public void setPanel(GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
     }
 
     @Override

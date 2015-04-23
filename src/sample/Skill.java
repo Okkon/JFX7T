@@ -7,8 +7,8 @@ public abstract class Skill extends AbstractGAction {
     }
 
     @Override
-    public void perform(Selectable obj) {
-        super.perform(obj);
+    protected void afterPerform() {
+        super.afterPerform();
         GameModel.MODEL.setLastActedUnit(getOwner());
     }
 }

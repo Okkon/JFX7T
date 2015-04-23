@@ -28,7 +28,6 @@ public class CreateUnitSkill extends AbstractGAction {
 
     @Override
     public void act(Selectable obj) {
-        super.act(obj);
         final GUnit selectedUnit = selector.getSelectedUnit();
         if (selectedUnit != null) {
             final GUnit copy = selectedUnit.copy();

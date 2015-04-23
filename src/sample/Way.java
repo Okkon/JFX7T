@@ -22,21 +22,20 @@ public class Way {
         return length;
     }
 
+    @Override
+    public String toString() {
+        return cell.getXy().toString() + " -> " + length;
+    }
+
     public Way next(GameCell cell, int length) {
         final Way way = new Way(cell);
-        this.length = length;
+        way.length = length;
         way.points.addAll(this.points);
         way.points.add(cell);
         return way;
     }
 
-    public List<GameCell> transformToCellList() {
-        List<GameCell> cells = new ArrayList<GameCell>();
-        for (GameCell wayPoint : points) {
-            cells.add(wayPoint);
-        }
-        cells.remove(0);
-        cells.add(getDestinationCell());
-        return cells;
+    public List<GameCell> getWayPoints() {
+        return points;
     }
 }

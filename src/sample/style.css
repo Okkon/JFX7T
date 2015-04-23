@@ -12,25 +12,18 @@
 }
 
 .unit {
-    -fx-border-color: black;
-    -fx-font-weight: normal;
-    -fx-border-width: 1px;
-    -fx-border-radius: 5;
-    -fx-padding: 3;
+    -fx-stroke-width: 2.5;
+    -fx-stroke-dash-array: 10 10;
+    -fx-opacity: 1;
 }
 
-.unit:hover {
-    -fx-border-width: 3px
+.hidden {
+    -fx-opacity: 0.5;
 }
 
 .tower {
-    -fx-border-color: black;
-    -fx-font-weight: normal;
-    -fx-border-width: 3px;
-    -fx-border-radius: 10;
-    -fx-padding: 5;
+    -fx-stroke-width: 3;
 }
-
 
 .cell {
     -fx-background-color: #fff5ee;
@@ -44,19 +37,17 @@
 }
 
 .ready {
-    -fx-font-weight: bold;
+    -fx-stroke-width: 2.5;
+    -fx-stroke-dash-array: 1 0;
 }
 
 .selected {
-    -fx-border-color: yellow;
-    -fx-border-width: 2px
-}
-
-.selected:hover {
-    -fx-border-width: 3px
+    -fx-stroke-width: 3;
 }
 
 .canBeSelected {
-    -fx-border-width: 2px
+    -fx-border-width: 2px;
+    -fx-stroke-width: 10;
+    -fx-stroke: yellow;
 }
 
