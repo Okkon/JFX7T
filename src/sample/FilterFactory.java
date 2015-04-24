@@ -20,6 +20,9 @@ public class FilterFactory {
             case CAN_SEE:
                 gFilter = new CanSeeFilter();
                 break;
+            case CAN_ATTACK:
+                gFilter = new CanAttackFilter();
+                break;
             case CAN_ACT:
                 gFilter = new CanActFilter();
                 break;
@@ -62,7 +65,7 @@ public class FilterFactory {
     }
 
     public enum FilterType {
-        IS_NEAR, CAN_SEE, CAN_ACT, IS_ON_ONE_LINE, BELONG_TO_PLAYER, IS_UNIT, OBSTACLE_ON_ONE_LINE, DISTANCE_CHECK, IS_VACANT_CELL, NOT_ME
+        IS_NEAR, CAN_SEE, CAN_ACT, IS_ON_ONE_LINE, BELONG_TO_PLAYER, IS_UNIT, OBSTACLE_ON_ONE_LINE, DISTANCE_CHECK, IS_VACANT_CELL, CAN_ATTACK, NOT_ME
     }
 
     private static class UnitFilter extends AbstractGFilter {
@@ -96,6 +99,13 @@ public class FilterFactory {
         @Override
         public boolean isOk(Selectable obj) {
             return XY.getDistance(getObj().getXy(), ((PlaceHaving) obj).getXy()) <= distance;
+        }
+    }
+
+    private static class CanAttackFilter extends AbstractGFilter {
+        @Override
+        public boolean isOk(Selectable obj) {
+            return GameModel.MODEL.canAttack(getObj(), obj);
         }
     }
 

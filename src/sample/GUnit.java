@@ -61,7 +61,7 @@ public class GUnit extends GObject {
     }
 
     @Override
-    public void takeHit(Hit hit) {
+    public int takeHit(Hit hit) {
         super.takeHit(hit);
         final int damage = hit.getDamage();
         if (damage > 0) {
@@ -75,6 +75,7 @@ public class GUnit extends GObject {
                 GameModel.MODEL.log("base", "HpLeft", this, hp);
             }
         }
+        return damage;
     }
 
     @Override

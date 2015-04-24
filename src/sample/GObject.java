@@ -20,11 +20,12 @@ public abstract class GObject implements Selectable, PlaceHaving {
         return "object" + (place != null ? place.getXy().toString() : "");
     }
 
-    public void takeHit(Hit hit) {
+    public int takeHit(Hit hit) {
         GameModel.MODEL.log("base", "TakesHit", this, hit.getDamageType(), hit.getDamage());
         for (GMod mod : getMods()) {
             mod.onTakeHit(hit);
         }
+        return 0;
     }
 
     protected void die() {

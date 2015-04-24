@@ -30,6 +30,11 @@ public class AbstractGMod implements GMod {
     }
 
     @Override
+    public boolean disablesAttack() {
+        return false;
+    }
+
+    @Override
     public void onHit(Hit hit) {
 
     }

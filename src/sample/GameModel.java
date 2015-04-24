@@ -440,4 +440,13 @@ public class GameModel {
         }
         return result;
     }
+
+    public boolean canAttack(GObject attacker, Selectable aim) {
+        for (GMod mod : attacker.getMods()) {
+            if (mod.disablesAttack()) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

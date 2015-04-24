@@ -11,8 +11,8 @@ public class Tower extends GObject{
     }
 
     @Override
-    public void takeHit(Hit hit) {
-
+    public int takeHit(Hit hit) {
+        return 0;
     }
 
     @Override

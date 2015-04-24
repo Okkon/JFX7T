@@ -9,6 +9,7 @@ public class AttackStyle extends Skill {
         super();
         aimFilters.add(FilterFactory.getFilter(FilterFactory.FilterType.IS_NEAR, "AimIsTooFar"));
         aimFilters.add(FilterFactory.getFilter(FilterFactory.FilterType.IS_UNIT, "NotUnit"));
+        aimFilters.add(FilterFactory.getFilter(FilterFactory.FilterType.CAN_ATTACK, "CanAttack"));
     }
 
     @Override
