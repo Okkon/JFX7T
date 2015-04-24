@@ -48,6 +48,5 @@
 .canBeSelected {
     -fx-border-width: 2px;
     -fx-stroke-width: 10;
-    -fx-stroke: yellow;
 }
 

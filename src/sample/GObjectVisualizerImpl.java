@@ -1,9 +1,6 @@
 package sample;
 
-import javafx.animation.FadeTransition;
-import javafx.animation.PathTransition;
-import javafx.animation.PauseTransition;
-import javafx.animation.ScaleTransition;
+import javafx.animation.*;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -22,6 +19,7 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
     private final Label hpLabel = new Label();
     private final StackPane pane = new StackPane();
     private final GObject obj;
+    private Transition transition;
 
     public GObjectVisualizerImpl(final GObject obj, GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -99,8 +97,9 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
     @Override
     public void setPlayer(Player player) {
         final Color color = player.getColor();
-        String hex = "#" + Integer.toHexString(color.hashCode());
-        token.setStyle("-fx-stroke: " + hex);
+        token.setStroke(color);
+        /*String hex = "#" + Integer.toHexString(color.hashCode());
+        token.setStyle("-fx-stroke: " + hex);*/
     }
 
     @Override
@@ -178,11 +177,21 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
 
     @Override
     public void setSelectionPossibility(boolean b) {
-        final String canBeSelected = "canBeSelected";
+        /*final String canBeSelected = "canBeSelected";
         if (b) {
             token.getStyleClass().add(canBeSelected);
         } else {
             token.getStyleClass().remove(canBeSelected);
+        }*/
+        if (transition != null) {
+            transition.stop();
+        }
+        if (b) {
+            final Color color = obj.getPlayer().getColor();
+            transition = new StrokeTransition(MyConst.ANIMATION_DURATION, token, color.darker(), color.brighter());
+            transition.setCycleCount(Animation.INDEFINITE);
+            transition.setAutoReverse(true);
+            transition.play();
         }
     }
 }
