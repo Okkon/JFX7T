@@ -188,15 +188,28 @@ public class GameModel {
             log("base", "EndsTurn", selectedObj);
         }
         log("base", "EndTurnSymbol");
-        cancel();
-        if (!someoneCanAct()) {
+        final Player nextPlayer = getNextPlayer();
+        if (nextPlayer == null) {
             endHour();
             startHour();
         } else {
-            passTurn();
-            setActivePlayer(activePlayer);
+            setActivePlayer(nextPlayer);
             setLastActedUnit(null);
         }
+        cancel();
+    }
+
+    private Player getNextPlayer() {
+        final Player currentPlayer = activePlayer;
+        Player checkingPlayer;
+        do {
+            checkingPlayer = nextPlayer(currentPlayer);
+            if (!checkingPlayer.getActiveUnits().isEmpty()) {
+                return checkingPlayer;
+            }
+        } while (!currentPlayer.equals(checkingPlayer));
+
+        return null;
     }
 
     protected void setActivePlayer(Player player) {
@@ -205,15 +218,8 @@ public class GameModel {
         graphics.showActivePlayer();
     }
 
-    private void passTurn() {
-        activePlayer = nextPlayer();
-        if (activePlayer.getActiveUnits().isEmpty()) {
-            passTurn();
-        }
-    }
-
-    private Player nextPlayer() {
-        int index = players.indexOf(activePlayer);
+    private Player nextPlayer(Player player) {
+        int index = players.indexOf(player);
         index++;
         if (index >= players.size()) {
             index = 0;
