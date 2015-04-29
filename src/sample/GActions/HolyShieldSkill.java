@@ -1,5 +1,11 @@
-package sample;
+package sample.GActions;
 
+
+import sample.FilterFactory;
+import sample.GUnit;
+import sample.Mods.HolyShield;
+import sample.Selectable;
+import sample.Skill;
 
 public class HolyShieldSkill extends Skill {
 

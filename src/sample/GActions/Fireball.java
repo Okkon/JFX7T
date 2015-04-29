@@ -1,4 +1,7 @@
-package sample;
+package sample.GActions;
+
+import sample.*;
+import sample.Shells.FireballShell;
 
 import java.util.ArrayList;
 import java.util.List;

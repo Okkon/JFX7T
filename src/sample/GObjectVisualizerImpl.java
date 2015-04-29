@@ -31,7 +31,7 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
             GUnit unit = (GUnit) obj;
             token = new Circle(size / 2);
             token.getStyleClass().add("unit");
-            final String imagePath = String.format("file:res/img/%s.bmp", unit.getType().toString().toLowerCase());
+            final String imagePath = String.format("file:res/img/units/%s.bmp", unit.getType().toString().toLowerCase());
             Image img = new Image(imagePath);
             token.setFill(new ImagePattern(img, 0, 0, 1, 1, true));
             hpLabel.setText(String.valueOf(unit.getHP()));
@@ -39,11 +39,12 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
         if (obj instanceof Tower) {
             Tower tower = (Tower) obj;
             token = new Rectangle(size, size);
-            final String imagePath = String.format("file:res/img/%s.jpg", "tower");
+            final String imagePath = String.format("file:res/img/units/%s.jpg", "tower");
             Image img = new Image(imagePath);
             token.setFill(new ImagePattern(img, 0, 0, 1, 1, true));
             token.getStyleClass().add("tower");
         }
+        applyModEffects();
         setReady(obj.canAct());
         token.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
@@ -51,6 +52,12 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
                 GameModel.MODEL.press(obj);
             }
         });
+    }
+
+    private void applyModEffects() {
+        for (GMod mod : obj.getMods()) {
+            mod.applyEffect(obj);
+        }
     }
 
     @Override

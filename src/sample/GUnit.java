@@ -1,5 +1,7 @@
 package sample;
 
+import sample.GActions.EndTurnAction;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.ResourceBundle;

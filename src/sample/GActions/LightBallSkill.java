@@ -1,4 +1,8 @@
-package sample;
+package sample.GActions;
+
+import sample.*;
+import sample.Mods.BlindedMod;
+import sample.Shells.LightballShell;
 
 public class LightBallSkill extends ShotAction {
     public LightBallSkill(int minDam, int randDam, int maxDistance) {

@@ -1,4 +1,10 @@
-package sample;
+package sample.GActions;
+
+import sample.GObject;
+import sample.Shell;
+import sample.Shells.ArrowShell;
+import sample.ShotAction;
+import sample.Tower;
 
 public class Crossbow extends ShotAction {
 

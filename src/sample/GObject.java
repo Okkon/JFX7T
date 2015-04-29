@@ -103,7 +103,10 @@ public abstract class GObject implements Selectable, PlaceHaving {
 
     public void addMod(GMod mod) {
         mods.add(mod);
-        mod.applyEffect(this);
+        final GObjectVisualizer objectVisualizer = getVisualizer();
+        if (objectVisualizer != null) {
+            mod.applyEffect(this);
+        }
     }
 
     public void addSkill(GAction skill) {

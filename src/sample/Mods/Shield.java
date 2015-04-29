@@ -1,4 +1,9 @@
-package sample;
+package sample.Mods;
+
+import sample.AbstractGMod;
+import sample.DamageType;
+import sample.GameModel;
+import sample.Shell;
 
 public class Shield extends AbstractGMod {
     public Shield(int value) {

@@ -1,5 +1,8 @@
-package sample;
+package sample.Mods;
 
+
+import sample.AbstractGMod;
+import sample.Hit;
 
 public class HolyShield extends AbstractGMod {
     @Override

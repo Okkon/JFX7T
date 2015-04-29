@@ -172,7 +172,7 @@ public class GamePanel extends GridPane implements MainVisualizer {
         list.setItems(items);
         list.setMaxHeight(150);
 
-        VBox vBox = new VBox();
+        VBox skillsPanel = new VBox();
         final boolean belongsToActivePlayer = GameModel.MODEL.getActivePlayer().isOwnerFor(unit);
         for (final GAction skill : unit.getSkills()) {
             skill.setOwner(unit);
@@ -186,7 +186,7 @@ public class GamePanel extends GridPane implements MainVisualizer {
                     }
                 });
             }
-            vBox.getChildren().add(button);
+            skillsPanel.getChildren().add(button);
         }
 
         pane.add(new Label("Name: "), 0, 0);
@@ -197,7 +197,7 @@ public class GamePanel extends GridPane implements MainVisualizer {
         pane.add(new Label(String.format("%d/%d", unit.getMP(), unit.getMaxMP())), 1, 2);
         pane.add(new Label("Damage: "), 0, 3);
         pane.add(new Label(String.format("%d-%d", unit.getMinDamage(), unit.getRandDamage())), 1, 3);
-        pane.add(vBox, 0, 4, 2 ,1);
+        pane.add(skillsPanel, 0, 4, 2, 1);
         pane.add(list, 0, 5, 2 ,1);
     }
 

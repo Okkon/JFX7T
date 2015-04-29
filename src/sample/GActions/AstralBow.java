@@ -1,4 +1,7 @@
-package sample;
+package sample.GActions;
+
+import sample.*;
+import sample.Shells.AstralArrowShell;
 
 public class AstralBow extends ShotAction {
 

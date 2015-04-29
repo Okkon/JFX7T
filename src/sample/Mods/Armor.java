@@ -1,4 +1,9 @@
-package sample;
+package sample.Mods;
+
+import sample.AbstractGMod;
+import sample.DamageType;
+import sample.GameModel;
+import sample.Hit;
 
 public class Armor extends AbstractGMod {
     @Override
