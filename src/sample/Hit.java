@@ -79,11 +79,15 @@ public class Hit {
     }
 
 
-    public void setDamage(int damage) {
+    private void setDamage(int damage) {
         this.damage = damage;
     }
 
     public void setAttackType(AttackType attackType) {
         this.attackType = attackType;
+    }
+
+    public void absorb() {
+        setDamage(0);
     }
 }

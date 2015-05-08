@@ -7,7 +7,7 @@ import sample.Hit;
 public class HolyShield extends AbstractGMod {
     @Override
     public void onTakeHit(Hit hit) {
-        hit.setDamage(0);
+        hit.absorb();
         hit.getAim().removeMod(this);
     }
 }
