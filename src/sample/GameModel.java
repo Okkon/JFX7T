@@ -227,15 +227,6 @@ public class GameModel {
         return players.get(index);
     }
 
-    private boolean someoneCanAct() {
-        for (GObject object : objects) {
-            if (object.canAct()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public void endHour() {
         List<GObject> gObjects = new ArrayList<GObject>();
         gObjects.addAll(getObjects());

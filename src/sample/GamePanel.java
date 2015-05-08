@@ -6,13 +6,12 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.VBoxBuilder;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -172,11 +171,15 @@ public class GamePanel extends GridPane implements MainVisualizer {
         list.setItems(items);
         list.setMaxHeight(150);
 
-        VBox skillsPanel = new VBox();
+        HBox skillsPanel = new HBox();
         final boolean belongsToActivePlayer = GameModel.MODEL.getActivePlayer().isOwnerFor(unit);
         for (final GAction skill : unit.getSkills()) {
             skill.setOwner(unit);
             final Button button = new Button();
+            final String imagePath = String.format("file:res/img/skills/%s.bmp", skill.getClass().getSimpleName().toLowerCase());
+            Image img = new Image(imagePath);
+            ImageView imageView = new ImageView(img);
+            button.setGraphic(imageView);
             button.setText(skill.getName());
             if (belongsToActivePlayer) {
                 button.setOnAction(new EventHandler<ActionEvent>() {
