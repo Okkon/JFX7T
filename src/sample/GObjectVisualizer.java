@@ -1,6 +1,8 @@
 package sample;
 
 
+import javafx.scene.image.Image;
+
 public interface GObjectVisualizer extends Visualizer {
     void changePlace(GameCell currentCell, GameCell cellToGo);
 
@@ -21,4 +23,6 @@ public interface GObjectVisualizer extends Visualizer {
     void applyEffect(String effect);
 
     void setPanel(GamePanel gamePanel);
+
+    Image getImage();
 }

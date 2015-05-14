@@ -170,12 +170,12 @@ public class GameModel {
     }
 
     public void cancel() {
-        this.setAction(SELECT_ACTION);
         showSelectionPossibility(null);
         select(null);
         if (selectedObj != null) {
             selectedObj.getVisualizer().setSelected(false);
         }
+        this.setAction(SELECT_ACTION);
     }
 
     public List<Player> getPlayers() {
@@ -201,9 +201,9 @@ public class GameModel {
 
     private Player getNextPlayer() {
         final Player currentPlayer = activePlayer;
-        Player checkingPlayer;
+        Player checkingPlayer = currentPlayer;
         do {
-            checkingPlayer = nextPlayer(currentPlayer);
+            checkingPlayer = nextPlayer(checkingPlayer);
             if (!checkingPlayer.getActiveUnits().isEmpty()) {
                 return checkingPlayer;
             }

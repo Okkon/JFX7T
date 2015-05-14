@@ -20,6 +20,7 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
     private final StackPane pane = new StackPane();
     private final GObject obj;
     private Transition transition;
+    private Image image;
 
     public GObjectVisualizerImpl(final GObject obj, GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -31,15 +32,15 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
             GUnit unit = (GUnit) obj;
             token = new Circle(size / 2);
             token.getStyleClass().add("unit");
-            final String imagePath = String.format("file:res/img/%s.bmp", unit.getType().toString().toLowerCase());
-            Image img = new Image(imagePath);
-            token.setFill(new ImagePattern(img, 0, 0, 1, 1, true));
+            final String imagePath = String.format("file:res/img/units/%s.bmp", unit.getType().toString().toLowerCase());
+            image = new Image(imagePath);
+            token.setFill(new ImagePattern(image, 0, 0, 1, 1, true));
             hpLabel.setText(String.valueOf(unit.getHP()));
         }
         if (obj instanceof Tower) {
             Tower tower = (Tower) obj;
             token = new Rectangle(size, size);
-            final String imagePath = String.format("file:res/img/%s.jpg", "tower");
+            final String imagePath = String.format("file:res/img/units/%s.jpg", "tower");
             Image img = new Image(imagePath);
             token.setFill(new ImagePattern(img, 0, 0, 1, 1, true));
             token.getStyleClass().add("tower");
@@ -176,6 +177,11 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
     }
 
     @Override
+    public Image getImage() {
+        return image;
+    }
+
+    @Override
     public void setSelectionPossibility(boolean b) {
         /*final String canBeSelected = "canBeSelected";
         if (b) {
@@ -185,10 +191,11 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
         }*/
         if (transition != null) {
             transition.stop();
+            setPlayer(obj.getPlayer());
         }
         if (b) {
             final Color color = obj.getPlayer().getColor();
-            transition = new StrokeTransition(MyConst.ANIMATION_DURATION, token, color.darker(), color.brighter());
+            transition = new StrokeTransition(MyConst.ANIMATION_DURATION.divide(3), token, color.darker().darker(), color.brighter().brighter());
             transition.setCycleCount(Animation.INDEFINITE);
             transition.setAutoReverse(true);
             transition.play();
