@@ -18,9 +18,14 @@ public abstract class AbstractGAction implements GAction {
     @Override
     public void perform(Selectable obj) {
         if (canSelect(obj)) {
+            logActionStart();
             act(obj);
             afterPerform();
         }
+    }
+
+    private void logActionStart() {
+        GameModel.MODEL.log("base", "ActionPerformed", owner != null ? owner : "someone", getName());
     }
 
     protected void afterPerform() {
