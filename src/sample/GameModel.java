@@ -413,6 +413,7 @@ public class GameModel {
         }
         Random r = new Random();
         setActivePlayer(players.get(r.nextInt(players.size() - 1)));
+//        setActivePlayer(players.get(1));
         graphics.showTurnNumber();
         cancel();
     }
