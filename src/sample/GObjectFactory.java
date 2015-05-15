@@ -21,7 +21,6 @@ public class GObjectFactory {
                 gObject = new GUnit(5, 25, 2, 2);
                 gObject.addMod(new MagicSword());
                 gObject.addMod(new MagicArmor(2));
-                gObject.addSkill(new HolyShieldSkill());
                 break;
             }
             case Archer: {

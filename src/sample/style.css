@@ -11,6 +11,13 @@
     -fx-padding: 10px;
 }
 
+.unitPanel{
+    -fx-background-color: #FFFFF0;
+    -fx-border-color: gray;
+    -fx-border-width: 2px;
+    -fx-padding: 10px;
+}
+
 .unit {
     -fx-stroke-width: 2.5;
     -fx-stroke-dash-array: 10 10;
@@ -46,6 +53,7 @@
 }
 
 .canBeSelected {
+-fx-background-color: #DAA520;
     -fx-border-width: 2px;
     -fx-stroke-width: 10;
 }

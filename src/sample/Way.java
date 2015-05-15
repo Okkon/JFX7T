@@ -24,7 +24,15 @@ public class Way {
 
     @Override
     public String toString() {
-        return cell.getXy().toString() + " -> " + length;
+        StringBuilder sb = new StringBuilder();
+        boolean first = true;
+        for (GameCell point : points) {
+            if (!first) sb.append(" -> ");
+            first = false;
+            sb.append(point.getXy());
+        }
+        sb.append(String.format("(%s)", length));
+        return sb.toString();
     }
 
     public Way next(GameCell cell, int length) {

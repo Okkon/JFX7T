@@ -61,6 +61,7 @@ public class GamePanel extends GridPane implements MainVisualizer {
 
     private void initControlPanel() {
         gameInfoPanel = new GridPane();
+        gameInfoPanel.setPrefWidth(300);
         gameInfoPanel.add(new Label("Selected Obj - "), 0, 0);
         gameInfoPanel.add(selectedObjLabel, 1, 0);
         gameInfoPanel.add(new Label("Selected Action - "), 0, 1);
@@ -69,6 +70,8 @@ public class GamePanel extends GridPane implements MainVisualizer {
         gameInfoPanel.add(selectedPlayer, 1, 2);
         gameInfoPanel.add(new Label("Turn - "), 0, 3);
         gameInfoPanel.add(turnLabel, 1, 3);
+
+        objInfoPanel.getStyleClass().add("unitPanel");
 
         actionPanel = new VBox(5);
         for (GAction action : GameModel.MODEL.getActions()) {
@@ -162,6 +165,7 @@ public class GamePanel extends GridPane implements MainVisualizer {
 
     private void createUnitInfoPanel(GridPane pane, GUnit unit) {
         pane.getChildren().clear();
+        pane.setVgap(5);
         if (unit == null) {
             return;
         }
@@ -169,18 +173,22 @@ public class GamePanel extends GridPane implements MainVisualizer {
         ListView<GMod> list = new ListView<GMod>();
         ObservableList<GMod> items = FXCollections.observableArrayList(unit.getMods());
         list.setItems(items);
-        list.setMaxHeight(150);
+        list.setMaxHeight(50);
 
-        HBox skillsPanel = new HBox();
+        HBox hBox = new HBox(10);
         final boolean belongsToActivePlayer = GameModel.MODEL.getActivePlayer().isOwnerFor(unit);
         for (final GAction skill : unit.getSkills()) {
             skill.setOwner(unit);
             final Button button = new Button();
-            final String imagePath = String.format("file:res/img/skills/%s.bmp", skill.getClass().getSimpleName().toLowerCase());
+            final String imagePath = String.format("file:res/img/skills/%s.jpg", skill.getClass().getSimpleName().toLowerCase());
             Image img = new Image(imagePath);
-            ImageView imageView = new ImageView(img);
+            final ImageView imageView = new ImageView(img);
+            imageView.setPreserveRatio(true);
+            final int buttonSize = 64;
+            imageView.setFitWidth(buttonSize);
             button.setGraphic(imageView);
-            button.setText(skill.getName());
+            UIHelper.fixSize(button, buttonSize);
+//            button.setText(skill.getName());
             if (belongsToActivePlayer) {
                 button.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
@@ -189,19 +197,26 @@ public class GamePanel extends GridPane implements MainVisualizer {
                     }
                 });
             }
-            skillsPanel.getChildren().add(button);
+            hBox.getChildren().add(button);
         }
 
-        pane.add(new Label("Name: "), 0, 0);
-        pane.add(new Label(unit.toString()), 1, 0);
-        pane.add(new Label("HP:"), 0, 1);
-        pane.add(new Label(String.format("%d/%d", unit.getHP(), unit.getMaxHP())), 1, 1);
-        pane.add(new Label("MP:"), 0, 2);
-        pane.add(new Label(String.format("%d/%d", unit.getMP(), unit.getMaxMP())), 1, 2);
-        pane.add(new Label("Damage: "), 0, 3);
-        pane.add(new Label(String.format("%d-%d", unit.getMinDamage(), unit.getRandDamage())), 1, 3);
-        pane.add(skillsPanel, 0, 4, 2, 1);
-        pane.add(list, 0, 5, 2 ,1);
+        final Image image = unit.getVisualizer().getImage();
+        final ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(120);
+        imageView.setFitHeight(180);
+        imageView.setPreserveRatio(true);
+
+        pane.add(imageView, 0, 0, 1, 4);
+        pane.add(new Label("Name: "), 1, 0);
+        pane.add(new Label(unit.toString()), 2, 0);
+        pane.add(new Label("HP:"), 1, 1);
+        pane.add(new Label(String.format("%d/%d", unit.getHP(), unit.getMaxHP())), 2, 1);
+        pane.add(new Label("MP:"), 1, 2);
+        pane.add(new Label(String.format("%d/%d", unit.getMP(), unit.getMaxMP())), 2, 2);
+        pane.add(new Label("Damage: "), 1, 3);
+        pane.add(new Label(String.format("%d-%d", unit.getMinDamage(), unit.getRandDamage())), 2, 3);
+        pane.add(hBox, 0, 4, 3, 1);
+        pane.add(list, 0, 5, 3, 1);
     }
 
     @Override

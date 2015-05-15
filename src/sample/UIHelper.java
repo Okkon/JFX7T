@@ -26,4 +26,14 @@ public class UIHelper {
         }
         return vBox;
     }
+
+    public static void fixSize(Button button, int size) {
+        button.maxHeightProperty().setValue(size);
+        button.prefHeightProperty().setValue(size);
+        button.minHeightProperty().setValue(size);
+
+        button.prefWidthProperty().setValue(size);
+        button.prefWidthProperty().setValue(size);
+        button.prefWidthProperty().setValue(size);
+    }
 }

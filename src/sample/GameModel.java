@@ -170,12 +170,12 @@ public class GameModel {
     }
 
     public void cancel() {
-        this.setAction(SELECT_ACTION);
         showSelectionPossibility(null);
         select(null);
         if (selectedObj != null) {
             selectedObj.getVisualizer().setSelected(false);
         }
+        this.setAction(SELECT_ACTION);
     }
 
     public List<Player> getPlayers() {
@@ -201,9 +201,9 @@ public class GameModel {
 
     private Player getNextPlayer() {
         final Player currentPlayer = activePlayer;
-        Player checkingPlayer;
+        Player checkingPlayer = currentPlayer;
         do {
-            checkingPlayer = nextPlayer(currentPlayer);
+            checkingPlayer = nextPlayer(checkingPlayer);
             if (!checkingPlayer.getActiveUnits().isEmpty()) {
                 return checkingPlayer;
             }
@@ -404,6 +404,7 @@ public class GameModel {
         }
         Random r = new Random();
         setActivePlayer(players.get(r.nextInt(players.size() - 1)));
+//        setActivePlayer(players.get(1));
         graphics.showTurnNumber();
         cancel();
     }
@@ -412,6 +413,7 @@ public class GameModel {
         this.lastActedUnit = lastActedUnit;
     }
 
+    @SuppressWarnings("unused")
     public GObject getLastActedUnit() {
         return lastActedUnit;
     }

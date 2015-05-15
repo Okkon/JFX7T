@@ -190,7 +190,7 @@ public class GUnit extends GObject {
 
     @Override
     public boolean blocksMoveFor(GUnit unit) {
-        return getPlayer().isOwnerFor(unit);
+        return !getPlayer().isOwnerFor(unit);
     }
 
     @Override
@@ -212,10 +212,8 @@ public class GUnit extends GObject {
     private void go(GameCell gameCell) {
         moveType.setOwner(this);
         moveType.perform(gameCell);
-        if (canAct()) {
-            Set<GameCell> cells = getCellsToGo();
-            GameModel.MODEL.showSelectionPossibility(cells);
-        }
+        Set<GameCell> cells = getCellsToGo();
+        GameModel.MODEL.showSelectionPossibility(cells);
     }
 
     private void attack(GObject obj) {
