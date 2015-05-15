@@ -2,6 +2,7 @@ package sample;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public abstract class GObject implements Selectable, PlaceHaving {
     protected GObjectVisualizer visualizer;
@@ -143,5 +144,9 @@ public abstract class GObject implements Selectable, PlaceHaving {
 
     public void removeMod(GMod mod) {
         mods.remove(mod);
+    }
+
+    public String getDescription() {
+        return ResourceBundle.getBundle(MyConst.RESOURCE_BUNDLE_LOCATION + "unitDescription").getString(getClass().getSimpleName());
     }
 }

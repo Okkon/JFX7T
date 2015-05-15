@@ -25,7 +25,7 @@ public class LightBallSkill extends ShotAction {
 
     @Override
     protected void configureShell(Shell shell) {
-        shell.setName("Lightball");
+        shell.setName("LightBallSkill");
         shell.setDamageType(DamageType.MAGIC);
         shell.setVisualizer(new LightballShell());
     }

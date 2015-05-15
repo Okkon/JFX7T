@@ -2,6 +2,7 @@ package sample;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 
 public abstract class AbstractGAction implements GAction {
@@ -24,6 +25,11 @@ public abstract class AbstractGAction implements GAction {
         }
     }
 
+    @Override
+    public String getDescription() {
+        return ResourceBundle.getBundle(MyConst.RESOURCE_BUNDLE_LOCATION + "skillDescription").getString(getClass().getSimpleName());
+    }
+
     private void logActionStart() {
         GameModel.MODEL.log("base", "ActionPerformed", owner != null ? owner : "someone", getName());
     }
@@ -31,6 +37,8 @@ public abstract class AbstractGAction implements GAction {
     protected void afterPerform() {
         if (endsTurn) {
             GameModel.MODEL.endTurn();
+        } else {
+            GameModel.MODEL.select(getOwner());
         }
         GraphicsHelper.getInstance().play();
     }
@@ -75,6 +83,6 @@ public abstract class AbstractGAction implements GAction {
 
     @Override
     public String getName() {
-        return getClass().getSimpleName();
+        return ResourceBundle.getBundle(MyConst.RESOURCE_BUNDLE_LOCATION + "skillNames").getString(getClass().getSimpleName());
     }
 }

@@ -212,8 +212,6 @@ public class GUnit extends GObject {
     private void go(GameCell gameCell) {
         moveType.setOwner(this);
         moveType.perform(gameCell);
-        Set<GameCell> cells = getCellsToGo();
-        GameModel.MODEL.showSelectionPossibility(cells);
     }
 
     private void attack(GObject obj) {

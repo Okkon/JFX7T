@@ -10,12 +10,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Callback;
 
 import java.util.HashMap;
 import java.util.List;
@@ -170,10 +172,35 @@ public class GamePanel extends GridPane implements MainVisualizer {
             return;
         }
 
+        final TextArea textArea = new TextArea();
+        textArea.setWrapText(true);
+        textArea.setText(unit.getDescription());
+        textArea.setEditable(false);
+
         ListView<GMod> list = new ListView<GMod>();
         ObservableList<GMod> items = FXCollections.observableArrayList(unit.getMods());
         list.setItems(items);
-        list.setMaxHeight(50);
+        list.setMaxHeight(75);
+        list.setCellFactory(new Callback<ListView<GMod>, ListCell<GMod>>() {
+            @Override
+            public ListCell<GMod> call(ListView<GMod> gModListView) {
+                return new ListCell<GMod>() {
+                    @Override
+                    protected void updateItem(GMod gMod, boolean b) {
+                        super.updateItem(gMod, b);
+                        setText(gMod == null ? "" : gMod.getName());
+                    }
+
+                    @Override
+                    public void updateSelected(boolean b) {
+                        super.updateSelected(b);
+                        if (b) {
+                            textArea.setText(getItem().getDescription());
+                        }
+                    }
+                };
+            }
+        });
 
         HBox hBox = new HBox(10);
         final boolean belongsToActivePlayer = GameModel.MODEL.getActivePlayer().isOwnerFor(unit);
@@ -189,6 +216,14 @@ public class GamePanel extends GridPane implements MainVisualizer {
             button.setGraphic(imageView);
             UIHelper.fixSize(button, buttonSize);
 //            button.setText(skill.getName());
+            button.setOnMousePressed(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
+                        textArea.setText(skill.getDescription());
+                    }
+                }
+            });
             if (belongsToActivePlayer) {
                 button.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
@@ -215,8 +250,9 @@ public class GamePanel extends GridPane implements MainVisualizer {
         pane.add(new Label(String.format("%d/%d", unit.getMP(), unit.getMaxMP())), 2, 2);
         pane.add(new Label("Damage: "), 1, 3);
         pane.add(new Label(String.format("%d-%d", unit.getMinDamage(), unit.getRandDamage())), 2, 3);
-        pane.add(hBox, 0, 4, 3, 1);
-        pane.add(list, 0, 5, 3, 1);
+        pane.add(hBox, 0, 4, REMAINING, 1);
+        pane.add(list, 0, 5, REMAINING, 1);
+        pane.add(textArea, 0, 6, REMAINING, 1);
     }
 
     @Override

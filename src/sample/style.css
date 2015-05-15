@@ -4,6 +4,15 @@
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
 }
 
+.list-cell {
+   -fx-padding: 3 3 3 3;
+   -fx-background-color: white;
+ }
+
+ .list-cell:odd {
+    -fx-background-color: grey;
+  }
+
 .control-panel {
     -fx-background-color: #708090;
     -fx-border-color: gray;

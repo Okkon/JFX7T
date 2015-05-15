@@ -16,4 +16,8 @@ public interface GMod {
     void applyEffect(GObject gObject);
 
     boolean disablesAttack();
+
+    String getName();
+
+    String getDescription();
 }

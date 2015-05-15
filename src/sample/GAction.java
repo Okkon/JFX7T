@@ -18,4 +18,7 @@ public interface GAction {
     void onSelect();
 
     void perform(Selectable obj);
+
+    String getDescription();
+
 }

@@ -195,7 +195,7 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
         }
         if (b) {
             final Color color = obj.getPlayer().getColor();
-            transition = new StrokeTransition(MyConst.ANIMATION_DURATION.divide(3), token, color.darker().darker(), color.brighter().brighter());
+            transition = new StrokeTransition(MyConst.ANIMATION_DURATION.divide(2), token, color.darker().darker(), color.brighter().brighter());
             transition.setCycleCount(Animation.INDEFINITE);
             transition.setAutoReverse(true);
             transition.play();

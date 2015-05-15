@@ -23,7 +23,7 @@ public class AstralBow extends ShotAction {
 
     @Override
     protected void configureShell(Shell shell) {
-        shell.setName("Astral Arrow");
+        shell.setName("AstralBow");
         shell.setDamageType(DamageType.ASTRAL);
         shell.setVisualizer(new AstralArrowShell());
     }
