@@ -22,6 +22,15 @@ public class Tower extends GObject{
         super.endHour();
         attack();
         checkControl();
+        score();
+    }
+
+    private void score() {
+        final int hour = GameModel.MODEL.getHour();
+        final Player owner = getPlayer();
+        if (hour % 3 == 0 && owner != null && !owner.equals(Player.NEUTRAL)) {
+            owner.score(hour / 3);
+        }
     }
 
     private void attack() {

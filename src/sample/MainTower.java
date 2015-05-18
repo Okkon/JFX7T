@@ -14,7 +14,6 @@ public class MainTower extends Tower {
 
     @Override
     public void endHour() {
-        super.endHour();
         ((CreateUnitSkill) baseAction).setUnitNumber(1);
     }
 }

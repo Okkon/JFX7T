@@ -63,6 +63,19 @@ public class GUnit extends GObject {
     }
 
     @Override
+    protected void die(Hit hit) {
+        super.die(hit);
+        final GObject attacker = hit.getAttacker();
+        if (attacker != null && attacker.getPlayer() != null) {
+            final Player attackerPlayer = attacker.getPlayer();
+            if (!attackerPlayer.equals(Player.NEUTRAL)) {
+                int score = MyConst.SCORE_FOR_UNIT;
+                attackerPlayer.score(attackerPlayer.isOwnerFor(this) ? -score : score);
+            }
+        }
+    }
+
+    @Override
     public int takeHit(Hit hit) {
         super.takeHit(hit);
         final int damage = hit.getDamage();
@@ -71,7 +84,7 @@ public class GUnit extends GObject {
             this.hp -= takenDamage;
             getVisualizer().changeHP(hp);
             if (hp <= 0) {
-                die();
+                die(hit);
                 GameModel.MODEL.log("base", "Dies", this);
             } else {
                 GameModel.MODEL.log("base", "HpLeft", this, hp);
