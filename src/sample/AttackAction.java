@@ -2,14 +2,14 @@ package sample;
 
 import java.util.List;
 
-public class AttackStyle extends Skill {
-    public static final AttackStyle DEFAULT = new AttackStyle();
+public class AttackAction extends Skill {
+    public static final AttackAction DEFAULT = new AttackAction();
 
-    public AttackStyle() {
+    private AttackAction() {
         super();
         aimFilters.add(FilterFactory.getFilter(FilterFactory.FilterType.IS_NEAR, "AimIsTooFar"));
         aimFilters.add(FilterFactory.getFilter(FilterFactory.FilterType.IS_UNIT, "NotUnit"));
-        aimFilters.add(FilterFactory.getFilter(FilterFactory.FilterType.CAN_ATTACK, "CanAttack"));
+        aimFilters.add(FilterFactory.getFilter(FilterFactory.FilterType.CAN_BE_ATTACKED, "CanAttack"));
     }
 
     @Override

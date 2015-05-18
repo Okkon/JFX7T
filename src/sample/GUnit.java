@@ -17,7 +17,7 @@ public class GUnit extends GObject {
     protected UnitType type;
 
     private DefaultMoveType moveType;
-    private AttackStyle attackStyle;
+    private AttackAction attackAction;
     private static ResourceBundle bundle = ResourceBundle.getBundle(MyConst.RESOURCE_BUNDLE_LOCATION + "unitTypes");
 
     @Override
@@ -45,7 +45,7 @@ public class GUnit extends GObject {
         baseAction = new BaseUnitAction();
         baseAction.setOwner(this);
         moveType = MoveType.DEFAULT;
-        attackStyle = AttackStyle.DEFAULT;
+        attackAction = AttackAction.DEFAULT;
         skills.add(new EndTurnAction());
     }
 
@@ -192,6 +192,13 @@ public class GUnit extends GObject {
                 go(gameCell);
             }
         }
+
+        @Override
+        public void onSelect() {
+            super.onSelect();
+            Set<GameCell> cells = getCellsToGo();
+            GameModel.MODEL.showSelectionPossibility(cells);
+        }
     }
 
     @Override
@@ -228,7 +235,7 @@ public class GUnit extends GObject {
     }
 
     private void attack(GObject obj) {
-        attackStyle.setOwner(this);
-        attackStyle.perform(obj);
+        attackAction.setOwner(this);
+        attackAction.perform(obj);
     }
 }

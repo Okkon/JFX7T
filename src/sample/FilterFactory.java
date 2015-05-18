@@ -20,7 +20,7 @@ public class FilterFactory {
             case CAN_SEE:
                 gFilter = new CanSeeFilter();
                 break;
-            case CAN_ATTACK:
+            case CAN_BE_ATTACKED:
                 gFilter = new CanAttackFilter();
                 break;
             case CAN_ACT:
@@ -65,7 +65,7 @@ public class FilterFactory {
     }
 
     public enum FilterType {
-        IS_NEAR, CAN_SEE, CAN_ACT, IS_ON_ONE_LINE, BELONG_TO_PLAYER, IS_UNIT, OBSTACLE_ON_ONE_LINE, DISTANCE_CHECK, IS_VACANT_CELL, CAN_ATTACK, NOT_ME
+        IS_NEAR, CAN_SEE, CAN_ACT, IS_ON_ONE_LINE, BELONG_TO_PLAYER, IS_UNIT, OBSTACLE_ON_ONE_LINE, DISTANCE_CHECK, IS_VACANT_CELL, CAN_BE_ATTACKED, NOT_ME
     }
 
     private static class UnitFilter extends AbstractGFilter {

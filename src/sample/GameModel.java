@@ -140,11 +140,6 @@ public class GameModel {
                     selectedObj = gObject;
                     selectedObj.getVisualizer().setSelected(true);
                     setAction(selectedObj.getBaseAction());
-                    if (gObject instanceof GUnit) {
-                        GUnit unit = (GUnit) gObject;
-                        Set<GameCell> cells = unit.getCellsToGo();
-                        showSelectionPossibility(cells);
-                    }
                 }
             }
             if (obj instanceof MainTower) {
