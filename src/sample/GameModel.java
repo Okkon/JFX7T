@@ -242,7 +242,7 @@ public class GameModel {
         return lastFoundWays;
     }
 
-    public Collection<Way> findAllWays(GUnit unit, MoveType moveType) {
+    public Collection<Way> findAllWays(GUnit unit, MoveAction moveAction) {
         Map<GameCell, Way> destinations = new HashMap<GameCell, Way>();
         Way start = new Way(unit.getPlace());
         Queue<Way> wayQueue = new ArrayDeque<Way>();
@@ -250,7 +250,7 @@ public class GameModel {
 
         while (!wayQueue.isEmpty()) {
             final Way wayPoint = wayQueue.poll();
-            Set<Way> ways = moveType.getWayFromCell(wayPoint, unit);
+            Set<Way> ways = moveAction.getWayFromCell(wayPoint, unit);
             for (Way way : ways) {
                 final Way shortestWay = destinations.get(way.getDestinationCell());
                 if (shortestWay == null || way.getLength() < shortestWay.getLength()) {

@@ -1,19 +1,20 @@
 package sample;
 
 
-import sample.GActions.CreateUnitSkill;
+import sample.GActions.CreateUnitAction;
 
 public class MainTower extends Tower {
     public MainTower() {
         super();
-        final CreateUnitSkill createUnitSkill = new CreateUnitSkill(1);
-        createUnitSkill.setOwner(this);
-        baseAction = createUnitSkill;
-        skills.add(createUnitSkill);
+        final CreateUnitAction createUnitAction = new CreateUnitAction(1);
+        createUnitAction.setOwner(this);
+        baseAction = createUnitAction;
+        skills.add(createUnitAction);
     }
 
     @Override
     public void endHour() {
-        ((CreateUnitSkill) baseAction).setUnitNumber(1);
+        super.endHour();
+        ((CreateUnitAction) baseAction).setUnitNumber(1);
     }
 }

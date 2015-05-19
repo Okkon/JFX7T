@@ -4,7 +4,6 @@ import sample.GActions.EndTurnAction;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.ResourceBundle;
 import java.util.Set;
 
 public class GUnit extends GObject {
@@ -14,11 +13,16 @@ public class GUnit extends GObject {
     private int maxMp;
     private int minDamage;
     private int randDamage;
+
+    @Override
+    public String getDescription() {
+        return NameHelper.getName("unitDescription", getType().name());
+    }
+
     protected UnitType type;
 
-    private DefaultMoveType moveType;
-    private AttackAction attackAction;
-    private static ResourceBundle bundle = ResourceBundle.getBundle(MyConst.RESOURCE_BUNDLE_LOCATION + "unitTypes");
+    private DefaultMoveAction moveType;
+    private AttackStyle attackStyle;
 
     @Override
     public boolean isAlive() {
@@ -44,7 +48,7 @@ public class GUnit extends GObject {
         setStats(maxHp, maxMp, minDamage, randDamage);
         baseAction = new BaseUnitAction();
         baseAction.setOwner(this);
-        moveType = MoveType.DEFAULT;
+        moveType = MoveAction.DEFAULT;
         attackAction = AttackAction.DEFAULT;
         skills.add(new EndTurnAction());
     }
@@ -100,7 +104,7 @@ public class GUnit extends GObject {
 
     @Override
     public String toString() {
-        return type.toString() + (place != null ? place.getXy().toString() : "");
+        return type.toString() + (place != null ? " " + place.getXy().toString() : "");
     }
 
     public Set<GameCell> getCellsToGo() {
@@ -222,11 +226,7 @@ public class GUnit extends GObject {
 
     @Override
     public String getName() {
-        String bundleName = bundle.getString(getType().toString());
-        if (bundleName.isEmpty()) {
-            bundleName = "NameNotFound";
-        }
-        return bundleName;
+        return NameHelper.getName("unitTypes", getType().toString());
     }
 
     private void go(GameCell gameCell) {

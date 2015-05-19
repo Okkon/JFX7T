@@ -69,4 +69,8 @@ public class Player {
     public void score(int point) {
         score += point;
     }
+
+    public String getName() {
+        return name;
+    }
 }
