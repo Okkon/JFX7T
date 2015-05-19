@@ -186,7 +186,7 @@ public class GUnit extends GObject {
         public void act(Selectable obj) {
             if (obj instanceof GObject) {
                 GObject gObject = (GObject) obj;
-                if (isFriendly(gObject)) {
+                if (isFriendlyFor(gObject)) {
                     GameModel.SELECT_ACTION.act(gObject);
                 } else {
                     attack(gObject);

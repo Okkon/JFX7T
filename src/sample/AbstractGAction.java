@@ -1,6 +1,7 @@
 package sample;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 
@@ -9,10 +10,23 @@ public abstract class AbstractGAction implements GAction {
     protected List<GFilter> ownerFilters = new ArrayList<GFilter>();
     protected GObject owner;
     protected boolean endsTurn = false;
+    protected AimType aimType;
+
+    public AbstractGAction() {
+        initialize();
+    }
+
+    protected void initialize() {
+        aimType = AimType.Anything;
+    }
 
     @Override
     public void onSelect() {
-
+        Collection<? extends Selectable> possibleAims = null;
+        if (AimType.Cell.equals(aimType)) {
+            possibleAims = GameModel.MODEL.getCells(aimFilters);
+        }
+        GameModel.MODEL.showSelectionPossibility(possibleAims);
     }
 
     @Override

@@ -40,6 +40,9 @@ public class FilterFactory {
             case BELONG_TO_PLAYER:
                 gFilter = new BelongToPlayerFilter();
                 break;
+            case NOT_IN_DANGER:
+                gFilter = new NotInDangerFilter();
+                break;
             case NOT_ME:
                 gFilter = new NotMeFilter();
                 break;
@@ -64,7 +67,7 @@ public class FilterFactory {
     }
 
     public enum FilterType {
-        IS_NEAR, CAN_SEE, CAN_ACT, IS_ON_ONE_LINE, BELONG_TO_PLAYER, IS_UNIT, OBSTACLE_ON_ONE_LINE, DISTANCE_CHECK, IS_VACANT_CELL, CAN_BE_ATTACKED, NOT_ME
+        IS_NEAR, CAN_SEE, CAN_ACT, IS_ON_ONE_LINE, BELONG_TO_PLAYER, IS_UNIT, OBSTACLE_ON_ONE_LINE, DISTANCE_CHECK, IS_VACANT_CELL, CAN_BE_ATTACKED, NOT_IN_DANGER, NOT_ME
     }
 
     private static class UnitFilter extends AbstractGFilter {
@@ -151,6 +154,13 @@ public class FilterFactory {
         @Override
         public boolean isOk(Selectable obj) {
             return !getObj().equals(obj);
+        }
+    }
+
+    private static class NotInDangerFilter extends AbstractGFilter {
+        @Override
+        public boolean isOk(Selectable obj) {
+            return GameModel.MODEL.isInDanger(obj);
         }
     }
 }

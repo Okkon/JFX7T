@@ -65,8 +65,8 @@ public abstract class GObject implements Selectable, PlaceHaving {
         return baseAction;
     }
 
-    protected boolean isFriendly(GObject gObject) {
-        return gObject.getPlayer().equals(getPlayer());
+    public boolean isFriendlyFor(GObject gObject) {
+        return getPlayer().isOwnerFor(gObject);
     }
 
     public GameCell getPlace() {
@@ -147,5 +147,9 @@ public abstract class GObject implements Selectable, PlaceHaving {
 
     public String getDescription() {
         return NameHelper.getName("unitDescription", getClass().getSimpleName());
+    }
+
+    public boolean isEnemyFor(GObject object) {
+        return getPlayer().isEnemyFor(object);
     }
 }

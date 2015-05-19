@@ -48,10 +48,7 @@ public class XY {
     }
 
     public static boolean isNear(XY p1, XY p2) {
-        if (p1.equals(p2)) {
-            return false;
-        }
-        return XY.getDistance(p1, p2) <= diagonalLength;
+        return !p1.equals(p2) && XY.getDistance(p1, p2) <= diagonalLength;
     }
 
     public static int getDistance(XY p1, XY p2) {
@@ -75,10 +72,7 @@ public class XY {
         }
         final int dx = Math.abs(x2 - x1);
         final int dy = Math.abs(y2 - y1);
-        if (dx == dy) {
-            return true;
-        }
-        return false;
+        return dx == dy;
     }
 
     public XY step(Direction direction) {

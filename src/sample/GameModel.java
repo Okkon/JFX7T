@@ -435,12 +435,42 @@ public class GameModel {
         return result;
     }
 
-    public boolean canAttack(GObject attacker, Selectable aim) {
+    public boolean canAttack(GObject attacker, @SuppressWarnings("unused") Selectable aim) {
         for (GMod mod : attacker.getMods()) {
             if (mod.disablesAttack()) {
                 return false;
             }
         }
         return true;
+    }
+
+    public Collection<? extends Selectable> getCells(List<GFilter> filters) {
+        List<GameCell> cells = new ArrayList<GameCell>();
+        for (GameCell cell : board.values()) {
+            boolean isOk = true;
+            for (GFilter filter : filters) {
+                if (!filter.isOk(cell)) {
+                    isOk = false;
+                    break;
+                }
+            }
+            if (isOk) {
+                cells.add(cell);
+            }
+        }
+        return cells;
+    }
+
+    public boolean isInDanger(Selectable obj) {
+        if (obj instanceof GObject) {
+            GUnit checkedUnit = (GUnit) obj;
+            final Set<GUnit> nearUnits = getNearUnits(((GUnit) obj).getPlace());
+            for (GUnit nearUnit : nearUnits) {
+                if (!nearUnit.isFriendlyFor(checkedUnit)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

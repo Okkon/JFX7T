@@ -9,11 +9,11 @@ public class CreateUnitAction extends AbstractGAction {
     int unitCounter;
     UnitSelector selector;
 
-
-    public CreateUnitAction(int unitNumber) {
+    @Override
+    protected void initialize() {
+        super.initialize();
         aimFilters.add(FilterFactory.getFilter(FilterFactory.FilterType.IS_VACANT_CELL, "CellIsOccupied"));
         aimFilters.add(FilterFactory.getFilter(FilterFactory.FilterType.IS_NEAR, "NotNearToMainTower"));
-        unitCounter = unitNumber;
     }
 
     @Override
@@ -24,6 +24,7 @@ public class CreateUnitAction extends AbstractGAction {
 
     @Override
     public void onSelect() {
+        super.onSelect();
         final List<GUnit> units = getOwner().getPlayer().getAvailableUnits();
         selector = GameModel.MODEL.provideUnitSelector(units);
     }
