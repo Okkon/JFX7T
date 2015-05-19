@@ -12,14 +12,13 @@ public abstract class ShotAction extends Skill {
     protected void initialize() {
         super.initialize();
         ownerFilters.add(FilterFactory.getFilter(NOT_IN_DANGER, "InDanger"));
-        aimFilters.add(FilterFactory.getFilter(IS_UNIT, "NotUnit"));
-        aimFilters.add(FilterFactory.getFilter(NOT_ME, "NotMe"));
-        aimFilters.add(FilterFactory.getFilter(IS_ON_ONE_LINE, "NotOnOneLine"));
-        aimFilters.add(FilterFactory.getFilter(CAN_SEE, "CantSee"));
-        aimFilters.add(FilterFactory.getFilter(OBSTACLE_ON_ONE_LINE, "ObstacleOnLine"));
-        final FilterFactory.DistanceFilter filter = (FilterFactory.DistanceFilter) FilterFactory.getFilter(DISTANCE_CHECK, "AimIsTooFar");
-        filter.setDistance(distance);
-        aimFilters.add(filter);
+        addAimFilter(IS_UNIT, "NotUnit");
+        addAimFilter(NOT_ME, "NotMe");
+        addAimFilter(IS_ON_ONE_LINE, "NotOnOneLine");
+        addAimFilter(CAN_SEE, "CantSee");
+        addAimFilter(OBSTACLE_ON_ONE_LINE, "ObstacleOnLine");
+        addAimFilter(DISTANCE_CHECK, "AimIsTooFar", distance);
+        aimType = AimType.Object;
     }
 
     public ShotAction(int distance, int minDamage, int maxDamage) {

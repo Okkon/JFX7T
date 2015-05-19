@@ -2,14 +2,16 @@ package sample;
 
 import java.util.List;
 
+import static sample.FilterFactory.FilterType.*;
+
 public class AttackAction extends Skill {
     public static final AttackAction DEFAULT = new AttackAction();
 
     private AttackAction() {
         super();
-        aimFilters.add(FilterFactory.getFilter(FilterFactory.FilterType.IS_NEAR, "AimIsTooFar"));
-        aimFilters.add(FilterFactory.getFilter(FilterFactory.FilterType.IS_UNIT, "NotUnit"));
-        aimFilters.add(FilterFactory.getFilter(FilterFactory.FilterType.CAN_BE_ATTACKED, "CanAttack"));
+        addAimFilter(IS_NEAR, "AimIsTooFar");
+        addAimFilter(IS_UNIT, "NotUnit");
+        addAimFilter(CAN_BE_ATTACKED, "CanAttack");
     }
 
     @Override

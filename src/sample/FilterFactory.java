@@ -7,7 +7,7 @@ import java.util.List;
 public class FilterFactory {
     private static final GameModel model = GameModel.MODEL;
 
-    public static GFilter getFilter(FilterType type, String error) {
+    public static GFilter getFilter(FilterType type, String error, Object... params) {
         GFilter gFilter = null;
         switch (type) {
             case IS_UNIT:
@@ -32,7 +32,7 @@ public class FilterFactory {
                 gFilter = new VacantCellFilter();
                 break;
             case DISTANCE_CHECK:
-                gFilter = new DistanceFilter();
+                gFilter = new DistanceFilter().setDistance((Integer) params[0]);
                 break;
             case OBSTACLE_ON_ONE_LINE:
                 gFilter = new ObstacleOnLineFilter();
@@ -94,8 +94,9 @@ public class FilterFactory {
     public static class DistanceFilter extends AbstractGFilter {
         private int distance;
 
-        public void setDistance(int distance) {
+        public DistanceFilter setDistance(int distance) {
             this.distance = distance;
+            return DistanceFilter.this;
         }
 
         @Override

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static sample.FilterFactory.FilterType;
+import static sample.FilterFactory.getFilter;
+
 
 public abstract class AbstractGAction implements GAction {
     protected List<GFilter> aimFilters = new ArrayList<GFilter>();
@@ -20,11 +23,18 @@ public abstract class AbstractGAction implements GAction {
         aimType = AimType.Anything;
     }
 
+    protected void addAimFilter(FilterType filter, String error, Object... params) {
+        aimFilters.add(getFilter(filter, error, params));
+    }
+
     @Override
     public void onSelect() {
         Collection<? extends Selectable> possibleAims = null;
         if (AimType.Cell.equals(aimType)) {
             possibleAims = GameModel.MODEL.getCells(aimFilters);
+        }
+        if (AimType.Object.equals(aimType)) {
+            possibleAims = GameModel.MODEL.getObjects(aimFilters);
         }
         GameModel.MODEL.showSelectionPossibility(possibleAims);
     }

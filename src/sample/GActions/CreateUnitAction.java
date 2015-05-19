@@ -4,6 +4,8 @@ import sample.*;
 
 import java.util.List;
 
+import static sample.FilterFactory.FilterType.IS_NEAR;
+import static sample.FilterFactory.FilterType.IS_VACANT_CELL;
 
 public class CreateUnitAction extends AbstractGAction {
     int unitCounter;
@@ -12,8 +14,8 @@ public class CreateUnitAction extends AbstractGAction {
     @Override
     protected void initialize() {
         super.initialize();
-        aimFilters.add(FilterFactory.getFilter(FilterFactory.FilterType.IS_VACANT_CELL, "CellIsOccupied"));
-        aimFilters.add(FilterFactory.getFilter(FilterFactory.FilterType.IS_NEAR, "NotNearToMainTower"));
+        addAimFilter(IS_VACANT_CELL, "CellIsOccupied");
+        addAimFilter(IS_NEAR, "NotNearToMainTower");
     }
 
     @Override
