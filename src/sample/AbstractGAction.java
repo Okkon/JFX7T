@@ -36,8 +36,6 @@ public abstract class AbstractGAction implements GAction {
     protected void afterPerform() {
         if (endsTurn) {
             GameModel.MODEL.endTurn();
-        } else if (getOwner() != null) {
-            GameModel.MODEL.refreshSelected(getOwner());
         }
         GraphicsHelper.getInstance().play();
     }
