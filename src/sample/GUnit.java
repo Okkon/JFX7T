@@ -22,7 +22,7 @@ public class GUnit extends GObject {
     protected UnitType type;
 
     private DefaultMoveAction moveType;
-    private AttackStyle attackStyle;
+    private AttackAction attackAction;
 
     @Override
     public boolean isAlive() {
