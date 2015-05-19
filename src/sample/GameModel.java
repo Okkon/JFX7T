@@ -134,17 +134,7 @@ public class GameModel {
             if (obj instanceof GObject) {
                 final GObject gObject = (GObject) obj;
                 if (canBeSelected(gObject)) {
-                    if (selectedObj != null) {
-                        selectedObj.getVisualizer().setSelected(false);
-                    }
-                    selectedObj = gObject;
-                    selectedObj.getVisualizer().setSelected(true);
-                    setAction(selectedObj.getBaseAction());
-                    if (gObject instanceof GUnit) {
-                        GUnit unit = (GUnit) gObject;
-                        Set<GameCell> cells = unit.getCellsToGo();
-                        showSelectionPossibility(cells);
-                    }
+                    refreshSelected(gObject);
                 }
             }
             if (obj instanceof MainTower) {
@@ -154,6 +144,20 @@ public class GameModel {
         }
         graphics.showObjName(obj);
         graphics.showObjInfo(obj);
+    }
+
+    public void refreshSelected(GObject gObject) {
+        if (selectedObj != null) {
+            selectedObj.getVisualizer().setSelected(false);
+        }
+        selectedObj = gObject;
+        selectedObj.getVisualizer().setSelected(true);
+        setAction(selectedObj.getBaseAction());
+        if (gObject instanceof GUnit) {
+            GUnit unit = (GUnit) gObject;
+            Set<GameCell> cells = unit.getCellsToGo();
+            showSelectionPossibility(cells);
+        }
     }
 
     protected boolean canBeSelected(GObject gObject) {
@@ -247,7 +251,7 @@ public class GameModel {
         return lastFoundWays;
     }
 
-    public Collection<Way> findAllWays(GUnit unit, MoveType moveType) {
+    public Collection<Way> findAllWays(GUnit unit, MoveAction moveAction) {
         Map<GameCell, Way> destinations = new HashMap<GameCell, Way>();
         Way start = new Way(unit.getPlace());
         Queue<Way> wayQueue = new ArrayDeque<Way>();
@@ -255,7 +259,7 @@ public class GameModel {
 
         while (!wayQueue.isEmpty()) {
             final Way wayPoint = wayQueue.poll();
-            Set<Way> ways = moveType.getWayFromCell(wayPoint, unit);
+            Set<Way> ways = moveAction.getWayFromCell(wayPoint, unit);
             for (Way way : ways) {
                 final Way shortestWay = destinations.get(way.getDestinationCell());
                 if (shortestWay == null || way.getLength() < shortestWay.getLength()) {

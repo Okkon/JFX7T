@@ -1,8 +1,6 @@
 package sample;
 
 
-import java.util.ResourceBundle;
-
 public abstract class AbstractGMod implements GMod {
     protected int value;
 
@@ -38,12 +36,12 @@ public abstract class AbstractGMod implements GMod {
 
     @Override
     public String getName() {
-        return ResourceBundle.getBundle(MyConst.RESOURCE_BUNDLE_LOCATION + "modNames").getString(getClass().getSimpleName());
+        return NameHelper.getName("modNames", getClass().getSimpleName());
     }
 
     @Override
     public String getDescription() {
-        return ResourceBundle.getBundle(MyConst.RESOURCE_BUNDLE_LOCATION + "modDescription").getString(getClass().getSimpleName());
+        return NameHelper.getName("modDescription", getClass().getSimpleName());
     }
 
     @Override

@@ -65,4 +65,8 @@ public class Player {
     public void setAvailableUnits(List<GUnit> availableUnits) {
         this.availableUnits = availableUnits;
     }
+
+    public String getName() {
+        return name;
+    }
 }

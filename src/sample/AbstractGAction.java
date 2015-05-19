@@ -2,7 +2,6 @@ package sample;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 
 public abstract class AbstractGAction implements GAction {
@@ -27,18 +26,18 @@ public abstract class AbstractGAction implements GAction {
 
     @Override
     public String getDescription() {
-        return ResourceBundle.getBundle(MyConst.RESOURCE_BUNDLE_LOCATION + "skillDescription").getString(getClass().getSimpleName());
+        return NameHelper.getName("skillDescription", getClass().getSimpleName());
     }
 
     private void logActionStart() {
-        GameModel.MODEL.log("base", "ActionPerformed", owner != null ? owner : "someone", getName());
+        GameModel.MODEL.log("base", "ActionPerformed", owner != null ? owner : GameModel.MODEL.getActivePlayer().getName(), getName());
     }
 
     protected void afterPerform() {
         if (endsTurn) {
             GameModel.MODEL.endTurn();
-        } else {
-            GameModel.MODEL.select(getOwner());
+        } else if (getOwner() != null) {
+            GameModel.MODEL.refreshSelected(getOwner());
         }
         GraphicsHelper.getInstance().play();
     }
@@ -83,6 +82,6 @@ public abstract class AbstractGAction implements GAction {
 
     @Override
     public String getName() {
-        return ResourceBundle.getBundle(MyConst.RESOURCE_BUNDLE_LOCATION + "skillNames").getString(getClass().getSimpleName());
+        return NameHelper.getName("skillNames", getClass().getSimpleName());
     }
 }

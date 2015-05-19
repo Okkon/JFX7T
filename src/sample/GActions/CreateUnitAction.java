@@ -5,12 +5,12 @@ import sample.*;
 import java.util.List;
 
 
-public class CreateUnitSkill extends AbstractGAction {
+public class CreateUnitAction extends AbstractGAction {
     int unitCounter;
     UnitSelector selector;
 
 
-    public CreateUnitSkill(int unitNumber) {
+    public CreateUnitAction(int unitNumber) {
         aimFilters.add(FilterFactory.getFilter(FilterFactory.FilterType.IS_VACANT_CELL, "CellIsOccupied"));
         aimFilters.add(FilterFactory.getFilter(FilterFactory.FilterType.IS_NEAR, "NotNearToMainTower"));
         unitCounter = unitNumber;

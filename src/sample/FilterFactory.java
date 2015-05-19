@@ -3,7 +3,6 @@ package sample;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.ResourceBundle;
 
 public class FilterFactory {
     private static final GameModel model = GameModel.MODEL;
@@ -47,7 +46,7 @@ public class FilterFactory {
         }
         gFilter.setType(type);
         if (error != null) {
-            gFilter.setErrorText(String.format(ResourceBundle.getBundle(MyConst.RESOURCE_BUNDLE_LOCATION + "errorText").getString(error)));
+            gFilter.setErrorText(NameHelper.getName("errorText", error));
         }
         return gFilter;
     }

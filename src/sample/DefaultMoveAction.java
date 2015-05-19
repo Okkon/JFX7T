@@ -2,8 +2,8 @@ package sample;
 
 import java.util.*;
 
-public class DefaultMoveType extends Skill implements MoveType {
-    public DefaultMoveType() {
+public class DefaultMoveAction extends Skill implements MoveAction {
+    public DefaultMoveAction() {
         endsTurn = false;
     }
 

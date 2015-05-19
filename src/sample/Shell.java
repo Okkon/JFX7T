@@ -1,7 +1,5 @@
 package sample;
 
-import java.util.ResourceBundle;
-
 public abstract class Shell {
     protected GameCell cell;
     protected Direction direction;
@@ -92,7 +90,7 @@ public abstract class Shell {
     }
 
     public void setName(String name) {
-        this.name = ResourceBundle.getBundle(MyConst.RESOURCE_BUNDLE_LOCATION + "shellNames").getString(name);
+        this.name = NameHelper.getName("shellNames", name);
     }
 
     public void setDirection(Direction direction) {
