@@ -40,7 +40,7 @@ public class Tower extends GObject{
             final List<GUnit> enemies = GameModel.MODEL.getEnemiesNear(getPlace(), getPlayer());
             for (GUnit nearUnit : enemies) {
                 for (GMod mod : nearUnit.getMods()) {
-                    if (mod.blocksTower()) {
+                    if (mod.blocksTower(this)) {
                         return;
                     }
                 }

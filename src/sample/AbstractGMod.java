@@ -10,7 +10,7 @@ public abstract class AbstractGMod implements GMod {
     }
 
     @Override
-    public boolean blocksTower() {
+    public boolean blocksTower(Tower tower) {
         return false;
     }
 

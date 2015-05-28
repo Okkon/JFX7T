@@ -2,6 +2,7 @@ package sample.Mods;
 
 
 import sample.AbstractGMod;
+import sample.GameModel;
 import sample.Hit;
 
 public class HolyShield extends AbstractGMod {
@@ -9,5 +10,6 @@ public class HolyShield extends AbstractGMod {
     public void onTakeHit(Hit hit) {
         hit.absorb();
         hit.getAim().removeMod(this);
+        GameModel.MODEL.log("mods", "HolyShield");
     }
 }
