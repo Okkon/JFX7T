@@ -161,7 +161,7 @@ public class FilterFactory {
     private static class NotInDangerFilter extends AbstractGFilter {
         @Override
         public boolean isOk(Selectable obj) {
-            return GameModel.MODEL.isInDanger(obj);
+            return !GameModel.MODEL.isInDanger(obj);
         }
     }
 }
