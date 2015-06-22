@@ -8,9 +8,10 @@ public abstract class ShotAction extends Skill {
     protected int maxDamage;
     protected int distance;
 
-    @Override
-    protected void initialize() {
-        super.initialize();
+    public ShotAction(int distance, int minDamage, int maxDamage) {
+        this.distance = distance;
+        this.minDamage = minDamage;
+        this.maxDamage = maxDamage;
         ownerFilters.add(FilterFactory.getFilter(NOT_IN_DANGER, "InDanger"));
         addAimFilter(IS_UNIT, "NotUnit");
         addAimFilter(NOT_ME, "NotMe");
@@ -19,13 +20,6 @@ public abstract class ShotAction extends Skill {
         addAimFilter(OBSTACLE_ON_ONE_LINE, "ObstacleOnLine");
         addAimFilter(DISTANCE_CHECK, "AimIsTooFar", distance);
         aimType = AimType.Object;
-    }
-
-    public ShotAction(int distance, int minDamage, int maxDamage) {
-        this.distance = distance;
-        this.minDamage = minDamage;
-        this.maxDamage = maxDamage;
-        initialize();
     }
 
     public int getMinDamage() {

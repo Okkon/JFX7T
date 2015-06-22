@@ -11,11 +11,10 @@ public class CreateUnitAction extends AbstractGAction {
     int unitCounter;
     UnitSelector selector;
 
-    @Override
-    protected void initialize() {
-        super.initialize();
+    public CreateUnitAction() {
         addAimFilter(IS_VACANT_CELL, "CellIsOccupied");
         addAimFilter(IS_NEAR, "NotNearToMainTower");
+        aimType = AimType.Cell;
     }
 
     @Override

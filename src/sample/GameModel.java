@@ -144,7 +144,8 @@ public class GameModel {
             }
             if (obj instanceof MainTower) {
                 MainTower mainTower = (MainTower) obj;
-                setAction(mainTower.baseAction);
+                final GAction baseAction = mainTower.baseAction;
+                setAction(baseAction);
             }
         }
         graphics.showObjName(obj);
@@ -399,7 +400,6 @@ public class GameModel {
         }
         Random r = new Random();
         setActivePlayer(players.get(r.nextInt(players.size() - 1)));
-//        setActivePlayer(players.get(1));
         graphics.showTurnNumber();
         cancel();
     }

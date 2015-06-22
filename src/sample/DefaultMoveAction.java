@@ -3,9 +3,8 @@ package sample;
 import java.util.*;
 
 public class DefaultMoveAction extends Skill implements MoveAction {
-    @Override
-    protected void initialize() {
-        super.initialize();
+
+    public DefaultMoveAction() {
         endsTurn = false;
     }
 

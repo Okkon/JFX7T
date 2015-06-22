@@ -203,6 +203,11 @@ public class GUnit extends GObject {
             Set<GameCell> cells = getCellsToGo();
             GameModel.MODEL.showSelectionPossibility(cells);
         }
+
+        @Override
+        protected void afterPerform() {
+            //do nothing
+        }
     }
 
     @Override

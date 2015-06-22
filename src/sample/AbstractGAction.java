@@ -13,15 +13,7 @@ public abstract class AbstractGAction implements GAction {
     protected List<GFilter> ownerFilters = new ArrayList<GFilter>();
     protected GObject owner;
     protected boolean endsTurn = false;
-    protected AimType aimType;
-
-    public AbstractGAction() {
-        initialize();
-    }
-
-    protected void initialize() {
-        aimType = AimType.Anything;
-    }
+    protected AimType aimType = AimType.Anything;
 
     protected void addAimFilter(FilterType filter, String error, Object... params) {
         aimFilters.add(getFilter(filter, error, params));
@@ -30,6 +22,9 @@ public abstract class AbstractGAction implements GAction {
     @Override
     public void onSelect() {
         Collection<? extends Selectable> possibleAims = null;
+        for (GFilter aimFilter : aimFilters) {
+            aimFilter.setObj(owner);
+        }
         if (AimType.Cell.equals(aimType)) {
             possibleAims = GameModel.MODEL.getCells(aimFilters);
         }
