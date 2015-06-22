@@ -67,14 +67,18 @@ public class GameModel {
         commonUnits.add((GUnit) GObjectFactory.create(UnitType.Inquisitor));
         commonUnits.add((GUnit) GObjectFactory.create(UnitType.Mage));
         final List<GUnit> p1AvailableUnits = p1.getAvailableUnits();
-        p1AvailableUnits.addAll(commonUnits);
+        for (GUnit gUnit : commonUnits) {
+            p1AvailableUnits.add(gUnit.copy());
+        }
         p1AvailableUnits.add((GUnit) GObjectFactory.create(UnitType.Troll));
         for (GUnit unit : p1AvailableUnits) {
             unit.setPlayer(p1);
         }
         final Player p2 = new Player("P2", Color.CORAL);
         final List<GUnit> p2AvailableUnits = p2.getAvailableUnits();
-        p2AvailableUnits.addAll(commonUnits);
+        for (GUnit gUnit : commonUnits) {
+            p2AvailableUnits.add(gUnit.copy());
+        }
         p2AvailableUnits.add((GUnit) GObjectFactory.create(UnitType.AstralArcher));
         for (GUnit unit : p2AvailableUnits) {
             unit.setPlayer(p2);
@@ -141,11 +145,6 @@ public class GameModel {
                     selectedObj.getVisualizer().setSelected(true);
                     setAction(selectedObj.getBaseAction());
                 }
-            }
-            if (obj instanceof MainTower) {
-                MainTower mainTower = (MainTower) obj;
-                final GAction baseAction = mainTower.baseAction;
-                setAction(baseAction);
             }
         }
         graphics.showObjName(obj);

@@ -32,16 +32,14 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
             GUnit unit = (GUnit) obj;
             token = new Circle(size / 2);
             token.getStyleClass().add("unit");
-            final String imagePath = String.format("file:res/img/units/%s.bmp", unit.getType().toString().toLowerCase());
-            image = new Image(imagePath);
+            image = ImageHelper.getImage(unit);
             token.setFill(new ImagePattern(image, 0, 0, 1, 1, true));
             hpLabel.setText(String.valueOf(unit.getHP()));
         }
         if (obj instanceof Tower) {
             Tower tower = (Tower) obj;
             token = new Rectangle(size, size);
-            final String imagePath = String.format("file:res/img/units/%s.jpg", "tower");
-            Image img = new Image(imagePath);
+            Image img = ImageHelper.getImage(tower);
             token.setFill(new ImagePattern(img, 0, 0, 1, 1, true));
             token.getStyleClass().add("tower");
         }
@@ -183,12 +181,6 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
 
     @Override
     public void setSelectionPossibility(boolean b) {
-        /*final String canBeSelected = "canBeSelected";
-        if (b) {
-            token.getStyleClass().add(canBeSelected);
-        } else {
-            token.getStyleClass().remove(canBeSelected);
-        }*/
         if (transition != null) {
             transition.stop();
             setPlayer(obj.getPlayer());

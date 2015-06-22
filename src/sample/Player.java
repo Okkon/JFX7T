@@ -66,10 +66,6 @@ public class Player {
         return availableUnits;
     }
 
-    public void setAvailableUnits(List<GUnit> availableUnits) {
-        this.availableUnits = availableUnits;
-    }
-
     public void score(int point) {
         score += point;
     }

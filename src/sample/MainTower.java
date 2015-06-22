@@ -4,6 +4,12 @@ package sample;
 import sample.GActions.CreateUnitAction;
 
 public class MainTower extends Tower {
+
+    @Override
+    public boolean canAct() {
+        return baseAction.canBeSelected();
+    }
+
     public MainTower() {
         super();
         final CreateUnitAction createUnitAction = new CreateUnitAction();

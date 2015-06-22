@@ -6,11 +6,15 @@
 
 .list-cell {
    -fx-padding: 3 3 3 3;
-   -fx-background-color: white;
+   -fx-background-color: yellow;
  }
 
  .list-cell:odd {
     -fx-background-color: grey;
+  }
+
+  .list-cell:even {
+    -fx-background-color: lightgrey;
   }
 
 .control-panel {
