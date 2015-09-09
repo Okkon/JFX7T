@@ -1,5 +1,7 @@
 package sample;
 
+import sample.Events.ShiftEvent;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,13 +49,10 @@ public abstract class GObject implements Selectable, PlaceHaving {
 
     public void shift(GameCell cellToGo) {
         if (cellToGo != null && cellToGo.getObj() == null) {
-            final GameCell currentCell = getPlace();
-            currentCell.setObj(null);
-            this.place = cellToGo;
-            visualizer.changePlace(currentCell, cellToGo);
-            if (isAlive()) {
-                cellToGo.setObj(this);
-            }
+            final ShiftEvent shiftEvent = new ShiftEvent();
+            shiftEvent.setObject(this);
+            shiftEvent.setFinishCell(cellToGo);
+            shiftEvent.process();
         }
     }
 
