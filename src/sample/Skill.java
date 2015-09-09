@@ -10,6 +10,6 @@ public abstract class Skill extends AbstractGAction {
     @Override
     protected void afterPerform() {
         super.afterPerform();
-        GameModel.MODEL.setLastActedUnit(getOwner());
+        GameModel.MODEL.setActingUnit(endsTurn ? null : getOwner());
     }
 }

@@ -19,7 +19,7 @@ public class GameModel {
     private Player activePlayer;
     private int hour = 0;
     private Collection<? extends Selectable> possibleSelection;
-    private GObject lastActedUnit;
+    private GObject actingUnit;
 
     public void init() {
         initPlayers();
@@ -153,7 +153,7 @@ public class GameModel {
 
     protected boolean canBeSelected(GObject gObject) {
         boolean canBeSelected = activePlayer.equals(gObject.getPlayer()) && gObject.canAct();
-        if (canBeSelected && lastActedUnit != null && !lastActedUnit.equals(gObject) && activePlayer.isOwnerFor(lastActedUnit)) {
+        if (canBeSelected && actingUnit != null && !actingUnit.equals(gObject) && activePlayer.isOwnerFor(actingUnit)) {
             canBeSelected = false;
             error("errorText", "OtherUnitActed");
         }
@@ -189,7 +189,7 @@ public class GameModel {
             startHour();
         } else {
             setActivePlayer(nextPlayer);
-            setLastActedUnit(null);
+            setActingUnit(null);
         }
         cancel();
     }
@@ -403,13 +403,14 @@ public class GameModel {
         cancel();
     }
 
-    public void setLastActedUnit(GObject lastActedUnit) {
-        this.lastActedUnit = lastActedUnit;
+    public void setActingUnit(GObject actingUnit) {
+        this.actingUnit = actingUnit;
+        graphics.showLastActedUnit(actingUnit);
     }
 
     @SuppressWarnings("unused")
-    public GObject getLastActedUnit() {
-        return lastActedUnit;
+    public GObject getActingUnit() {
+        return actingUnit;
     }
 
     public UnitSelector provideUnitSelector(List<GUnit> units) {

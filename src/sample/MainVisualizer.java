@@ -24,4 +24,6 @@ public interface MainVisualizer {
     void error(String s);
 
     UnitSelector createUnitSelector(List<GUnit> units);
+
+    void showLastActedUnit(GObject unit);
 }

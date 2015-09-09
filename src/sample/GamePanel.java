@@ -34,6 +34,7 @@ public class GamePanel extends GridPane implements MainVisualizer {
     private Label selectedActionLabel = new Label();
     private Label selectedPlayer = new Label();
     private Label turnLabel = new Label();
+    private Label lastActorLabel = new Label();
     private ObjectInfoPanel objInfoPanel = new ObjectInfoPanel();
 
     public GamePanel(GameModel gameModel) {
@@ -71,6 +72,8 @@ public class GamePanel extends GridPane implements MainVisualizer {
         gameInfoPanel.add(selectedPlayer, 1, 2);
         gameInfoPanel.add(new Label("Turn - "), 0, 3);
         gameInfoPanel.add(turnLabel, 1, 3);
+        gameInfoPanel.add(new Label("Acting unit - "), 0, 4);
+        gameInfoPanel.add(lastActorLabel, 1, 4);
 
         objInfoPanel.getStyleClass().add("unitPanel");
 
@@ -156,13 +159,6 @@ public class GamePanel extends GridPane implements MainVisualizer {
     @Override
     public void showObjInfo(Selectable obj) {
         objInfoPanel.setObj(obj);
-/*        if (obj instanceof GUnit) {
-            GUnit gUnit = (GUnit) obj;
-            createUnitInfoPanel(objInfoPanel, gUnit);
-        } else {
-            createUnitInfoPanel(objInfoPanel, null);
-        }*/
-
     }
 
     @Override
@@ -228,6 +224,13 @@ public class GamePanel extends GridPane implements MainVisualizer {
         final Stage dialog = createDialog();
         dialog.initModality(Modality.NONE);
         return new UnitSelectorImpl(units, dialog);
+    }
+
+    @Override
+    public void showLastActedUnit(GObject unit) {
+        if (unit != null) {
+            lastActorLabel.setText(unit.toString());
+        }
     }
 
     private Stage createDialog() {
