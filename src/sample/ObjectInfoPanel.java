@@ -107,7 +107,7 @@ public class ObjectInfoPanel extends GridPane {
             add(new Label("MP:"), 1, 2);
             add(new Label(String.format("%d/%d", unit.getMP(), unit.getMaxMP())), 2, 2);
             add(new Label("Damage: "), 1, 3);
-            add(new Label(String.format("%d-%d", unit.getMinDamage(), unit.getRandDamage())), 2, 3);
+            add(new Label(String.format("%d-%d", unit.getMinDamage(), unit.getMinDamage() + unit.getRandDamage())), 2, 3);
             add(hBox, 0, 4, REMAINING, 1);
             add(list, 0, 5, REMAINING, 1);
             add(textArea, 0, 6, REMAINING, 1);

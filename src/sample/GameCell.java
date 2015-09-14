@@ -3,7 +3,7 @@ package sample;
 public class GameCell implements Selectable, PlaceHaving {
     private XY xy;
     private GObject obj;
-    private Visualizer visualizer;
+    private BoardCell visualizer;
 
     public GameCell(XY xy) {
         this.xy = xy;
@@ -26,7 +26,7 @@ public class GameCell implements Selectable, PlaceHaving {
         return xy.getX() + ":" + xy.getY();
     }
 
-    public void setVisualizer(Visualizer visualizer) {
+    public void setVisualizer(BoardCell visualizer) {
         this.visualizer = visualizer;
     }
 
@@ -34,7 +34,7 @@ public class GameCell implements Selectable, PlaceHaving {
         return getObj() != null;
     }
 
-    public Visualizer getVisualizer() {
+    public BoardCell getVisualizer() {
         return visualizer;
     }
 }

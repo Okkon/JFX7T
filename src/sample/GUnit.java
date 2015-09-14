@@ -201,6 +201,7 @@ public class GUnit extends GObject {
         public void onSelect() {
             super.onSelect();
             Set<GameCell> cells = getCellsToGo();
+            cells.add(getPlace());
             GameModel.MODEL.showSelectionPossibility(cells);
         }
 

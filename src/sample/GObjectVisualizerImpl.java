@@ -181,6 +181,9 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
 
     @Override
     public void setSelectionPossibility(boolean b) {
+        final BoardCell boardCell = obj.getPlace().getVisualizer();
+        boardCell.setSelectionPossibility(b);
+
         if (transition != null) {
             transition.stop();
             setPlayer(obj.getPlayer());

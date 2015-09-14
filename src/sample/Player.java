@@ -55,7 +55,7 @@ public class Player {
     }
 
     public boolean isEnemyFor(GObject object) {
-        return equals(object.getPlayer());
+        return !equals(object.getPlayer());
     }
 
     public boolean isOwnerFor(GObject object) {
