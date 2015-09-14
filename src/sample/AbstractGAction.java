@@ -49,7 +49,13 @@ public abstract class AbstractGAction implements GAction {
     }
 
     private void logActionStart() {
-        GameModel.MODEL.log("base", "ActionPerformed", owner != null ? owner : GameModel.MODEL.getActivePlayer().getName(), getName());
+        if (needsLogging()) {
+            GameModel.MODEL.log("base", "ActionPerformed", owner != null ? owner : GameModel.MODEL.getActivePlayer().getName(), getName());
+        }
+    }
+
+    protected boolean needsLogging() {
+        return true;
     }
 
     protected void afterPerform() {

@@ -206,6 +206,11 @@ public class GUnit extends GObject {
         }
 
         @Override
+        protected boolean needsLogging() {
+            return false;
+        }
+
+        @Override
         protected void afterPerform() {
             //do nothing
         }

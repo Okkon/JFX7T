@@ -22,5 +22,10 @@ public class SelectAction extends AbstractGAction {
         model.showSelectionPossibility(objects);
     }
 
+    @Override
+    protected boolean needsLogging() {
+        return false;
+    }
+
 
 }

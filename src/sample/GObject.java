@@ -95,9 +95,7 @@ public abstract class GObject implements Selectable, PlaceHaving {
     }
 
     public List<GMod> getMods() {
-        List<GMod> gMods = new ArrayList<GMod>();
-        gMods.addAll(mods);
-        return gMods;
+        return mods;
     }
 
     public void addMod(GMod mod) {

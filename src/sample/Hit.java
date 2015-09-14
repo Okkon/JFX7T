@@ -50,7 +50,6 @@ public class Hit {
         hit.attackType = AttackType.MELEE;
 
         return hit;
-
     }
 
     public static int generateDamage(int minDamage, int randDamage) {
