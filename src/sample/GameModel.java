@@ -70,7 +70,7 @@ public class GameModel {
         for (GUnit gUnit : commonUnits) {
             p1AvailableUnits.add(gUnit.copy());
         }
-        p1AvailableUnits.add((GUnit) GObjectFactory.create(UnitType.Troll));
+        //p1AvailableUnits.add((GUnit) GObjectFactory.create(UnitType.Troll));
         for (GUnit unit : p1AvailableUnits) {
             unit.setPlayer(p1);
         }
@@ -79,7 +79,7 @@ public class GameModel {
         for (GUnit gUnit : commonUnits) {
             p2AvailableUnits.add(gUnit.copy());
         }
-        p2AvailableUnits.add((GUnit) GObjectFactory.create(UnitType.AstralArcher));
+        //p2AvailableUnits.add((GUnit) GObjectFactory.create(UnitType.AstralArcher));
         for (GUnit unit : p2AvailableUnits) {
             unit.setPlayer(p2);
         }
