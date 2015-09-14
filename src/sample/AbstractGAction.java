@@ -38,6 +38,7 @@ public abstract class AbstractGAction implements GAction {
     public void perform(Selectable obj) {
         if (canSelect(obj)) {
             logActionStart();
+            GameModel.MODEL.showSelectionPossibility(null);
             act(obj);
             afterPerform();
         }

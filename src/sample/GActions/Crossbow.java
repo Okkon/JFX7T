@@ -17,7 +17,7 @@ public class Crossbow extends ShotAction {
         return new Shell() {
             @Override
             public void stopCheck(GObject obj) {
-                if (obj instanceof Tower || minDamage < 0) {
+                if (obj instanceof Tower || minDamage <= 0) {
                     this.stopped = true;
                 }
             }

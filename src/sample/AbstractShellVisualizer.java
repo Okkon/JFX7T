@@ -45,8 +45,8 @@ public abstract class AbstractShellVisualizer implements ShellVisualizer {
         final BoardCell fromCell = (BoardCell) cell.getVisualizer();
         configureShell(fromCell, shell);
         final Bounds bounds = ((BoardCell) cell.getVisualizer()).getBoundsInParent();
-        shape.setTranslateX(bounds.getMinX());
-        shape.setTranslateY(bounds.getMinY());
+//        shape.setTranslateX(bounds.getMinX());
+//        shape.setTranslateY(bounds.getMinY());
         GraphicsHelper.getInstance().add(shape);
     }
 
