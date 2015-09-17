@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBuilder;
+import javafx.scene.control.Control;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -27,13 +28,19 @@ public class UIHelper {
         return vBox;
     }
 
-    public static void fixSize(Button button, int size) {
-        button.maxHeightProperty().setValue(size);
-        button.prefHeightProperty().setValue(size);
-        button.minHeightProperty().setValue(size);
+    public static void fixSize(Control node, int size) {
+        node.maxHeightProperty().setValue(size);
+        node.prefHeightProperty().setValue(size);
+        node.minHeightProperty().setValue(size);
 
-        button.prefWidthProperty().setValue(size);
-        button.prefWidthProperty().setValue(size);
-        button.prefWidthProperty().setValue(size);
+        node.prefWidthProperty().setValue(size);
+        node.prefWidthProperty().setValue(size);
+        node.prefWidthProperty().setValue(size);
+    }
+
+    public static void fixWidth(Control control, int width) {
+        control.prefWidthProperty().setValue(width);
+        control.prefWidthProperty().setValue(width);
+        control.prefWidthProperty().setValue(width);
     }
 }

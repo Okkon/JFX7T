@@ -71,3 +71,7 @@
     -fx-stroke-width: 10;
 }
 
+.unitSelector {
+   -fx-border-color: lightgrey;
+   -fx-border-width: 4px;
+}

@@ -75,8 +75,6 @@ public class GamePanel extends GridPane implements MainVisualizer {
         gameInfoPanel.add(new Label("Acting unit - "), 0, 4);
         gameInfoPanel.add(lastActorLabel, 1, 4);
 
-        objInfoPanel.getStyleClass().add("unitPanel");
-
         actionPanel = new VBox(5);
         for (GAction action : GameModel.MODEL.getActions()) {
             addAction(action);

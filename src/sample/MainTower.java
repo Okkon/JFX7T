@@ -22,6 +22,6 @@ public class MainTower extends Tower {
     @Override
     public void endHour() {
         super.endHour();
-        ((CreateUnitAction) baseAction).setUnitNumber(1);
+        ((CreateUnitAction) baseAction).setUnitNumber(GameModel.MODEL.isTheWeakestPlayer(getPlayer()) ? 2 : 1);
     }
 }

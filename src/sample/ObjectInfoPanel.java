@@ -17,7 +17,11 @@ import javafx.util.Callback;
  * Created by Юыху on 22.06.2015.
  */
 public class ObjectInfoPanel extends GridPane {
-    private GObject object = null;
+
+    public ObjectInfoPanel() {
+        super();
+        getStyleClass().add("unitPanel");
+    }
 
     public void setObj(Selectable obj) {
         getChildren().clear();
@@ -27,6 +31,7 @@ public class ObjectInfoPanel extends GridPane {
             return;
         }
         setVisible(true);
+        setGridLinesVisible(true);
 
         if (obj instanceof GUnit) {
             GUnit unit = (GUnit) obj;
@@ -35,6 +40,7 @@ public class ObjectInfoPanel extends GridPane {
             textArea.setWrapText(true);
             textArea.setText(unit.getDescription());
             textArea.setEditable(false);
+            UIHelper.fixWidth(textArea, 80);
 
             ListView<GMod> list = new ListView<GMod>();
             ObservableList<GMod> items = FXCollections.observableArrayList(unit.getMods());
@@ -82,7 +88,7 @@ public class ObjectInfoPanel extends GridPane {
                         }
                     }
                 });
-                if (belongsToActivePlayer) {
+                if (belongsToActivePlayer && unit.getPlace() != null) {
                     button.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent actionEvent) {
@@ -112,6 +118,5 @@ public class ObjectInfoPanel extends GridPane {
             add(list, 0, 5, REMAINING, 1);
             add(textArea, 0, 6, REMAINING, 1);
         }
-
     }
 }

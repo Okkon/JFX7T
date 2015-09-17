@@ -178,6 +178,7 @@ public class GameModel {
     }
 
     public void endTurn() {
+        setActingUnit(null);
         if (selectedObj != null) {
             selectedObj.endTurn();
             log("base", "EndsTurn", selectedObj);
@@ -189,7 +190,6 @@ public class GameModel {
             startHour();
         } else {
             setActivePlayer(nextPlayer);
-            setActingUnit(null);
         }
         cancel();
     }
@@ -472,5 +472,15 @@ public class GameModel {
             }
         }
         return false;
+    }
+
+    public boolean isTheWeakestPlayer(Player player) {
+        final int size = player.getUnits().size();
+        for (Player otherPlayer : players) {
+            if (otherPlayer != player && otherPlayer != Player.NEUTRAL && otherPlayer.getUnits().size() <= size) {
+                return false;
+            }
+        }
+        return true;
     }
 }

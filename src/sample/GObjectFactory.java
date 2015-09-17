@@ -3,7 +3,6 @@ package sample;
 
 import sample.GActions.Crossbow;
 import sample.GActions.Fireball;
-import sample.GActions.HolyShieldSkill;
 import sample.Mods.*;
 
 public class GObjectFactory {
@@ -29,7 +28,7 @@ public class GObjectFactory {
                 break;
             }
             case Mage: {
-                gObject = new GUnit(2, 25, 0, 2);
+                gObject = new GUnit(1, 25, 0, 2);
                 gObject.addSkill(new Fireball(1, 2, 60));
                 break;
             }

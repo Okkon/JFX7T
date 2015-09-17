@@ -68,6 +68,7 @@ public class Player {
 
     public void score(int point) {
         score += point;
+        GameModel.MODEL.log("base", "Score", this, point);
     }
 
     public String getName() {
