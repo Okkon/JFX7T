@@ -1,10 +1,9 @@
 package sample;
 
 import sample.GActions.EndTurnAction;
+import sample.GActions.TeleportToTower;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class GUnit extends GObject {
     private int hp;
@@ -179,6 +178,30 @@ public class GUnit extends GObject {
 
     public boolean isWounded() {
         return hp < maxHp;
+    }
+
+    public List<? extends GAction> getExtraSkills() {
+        List<Skill> list = new ArrayList<Skill>();
+        if (getPlace() == null) {
+            return list;
+        }
+        if (!hasActed() && isNearToMainTower()) {
+            list.add(new TeleportToTower());
+        }
+        return list;
+    }
+
+    private boolean isNearToMainTower() {
+        final Collection<GFilter> filters = FilterFactory.getFilters(FilterFactory.FilterType.IS_NEAR, FilterFactory.FilterType.IS_FRIENDLY);
+        filters.add(FilterFactory.getFilter(FilterFactory.FilterType.CLASS_FILTER, null, MainTower.class));
+        for (GFilter filter : filters) {
+            filter.setObj(this);
+        }
+        return !GameModel.MODEL.getObjects(filters).isEmpty();
+    }
+
+    private boolean hasActed() {
+        return maxMp != mp;
     }
 
     private class BaseUnitAction extends AbstractGAction {

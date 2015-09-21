@@ -226,9 +226,7 @@ public class GamePanel extends GridPane implements MainVisualizer {
 
     @Override
     public void showLastActedUnit(GObject unit) {
-        if (unit != null) {
-            lastActorLabel.setText(unit.toString());
-        }
+        lastActorLabel.setText(unit != null ? unit.toString() : "none");
     }
 
     private Stage createDialog() {

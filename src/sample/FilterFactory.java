@@ -34,8 +34,17 @@ public class FilterFactory {
             case DISTANCE_CHECK:
                 gFilter = new DistanceFilter().setDistance((Integer) params[0]);
                 break;
+            case CLASS_FILTER:
+                gFilter = new ClassFilter().setClass((Class) params[0]);
+                break;
             case OBSTACLE_ON_ONE_LINE:
                 gFilter = new ObstacleOnLineFilter();
+                break;
+            case IS_FRIENDLY:
+                gFilter = new IsFriendlyFilter();
+                break;
+            case IS_NEAR_FRIENDLY_TOWER:
+                gFilter = new IsNearFriendlyTower();
                 break;
             case BELONG_TO_PLAYER:
                 gFilter = new BelongToPlayerFilter();
@@ -67,13 +76,27 @@ public class FilterFactory {
     }
 
     public enum FilterType {
-        IS_NEAR, CAN_SEE, CAN_ACT, IS_ON_ONE_LINE, BELONG_TO_PLAYER, IS_UNIT, OBSTACLE_ON_ONE_LINE, DISTANCE_CHECK, IS_VACANT_CELL, CAN_BE_ATTACKED, NOT_IN_DANGER, NOT_ME
+        IS_NEAR, CAN_SEE, CAN_ACT, IS_ON_ONE_LINE, BELONG_TO_PLAYER, IS_UNIT, OBSTACLE_ON_ONE_LINE, DISTANCE_CHECK, IS_VACANT_CELL, CAN_BE_ATTACKED, NOT_IN_DANGER, IS_FRIENDLY, CLASS_FILTER, IS_NEAR_FRIENDLY_TOWER, NOT_ME
     }
 
     private static class UnitFilter extends AbstractGFilter {
         @Override
         public boolean isOk(Selectable obj) {
             return obj instanceof GUnit;
+        }
+    }
+
+    private static class ClassFilter extends AbstractGFilter {
+        private Class clazz;
+
+        public ClassFilter setClass(Class clazz) {
+            this.clazz = clazz;
+            return ClassFilter.this;
+        }
+
+        @Override
+        public boolean isOk(Selectable obj) {
+            return clazz.isInstance(obj);
         }
     }
 
@@ -84,6 +107,28 @@ public class FilterFactory {
         }
     }
 
+    private static class IsNearFriendlyTower extends AbstractGFilter {
+        @Override
+        public boolean isOk(Selectable obj) {
+            final Collection<GFilter> filters = getFilters(FilterType.NOT_IN_DANGER, FilterType.BELONG_TO_PLAYER);
+            filters.add(getFilter(FilterType.CLASS_FILTER, null, Tower.class));
+            final List<GObject> towers = model.getObjects(filters);
+            for (GObject tower : towers) {
+                if (model.isNear(tower, (PlaceHaving) obj)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    private static class IsFriendlyFilter extends AbstractGFilter {
+        @Override
+        public boolean isOk(Selectable obj) {
+            return getObj().isFriendlyFor((GObject) obj);
+        }
+    }
+
     private static class CanSeeFilter extends AbstractGFilter {
         @Override
         public boolean isOk(Selectable obj) {
@@ -91,7 +136,7 @@ public class FilterFactory {
         }
     }
 
-    public static class DistanceFilter extends AbstractGFilter {
+    private static class DistanceFilter extends AbstractGFilter {
         private int distance;
 
         public DistanceFilter setDistance(int distance) {

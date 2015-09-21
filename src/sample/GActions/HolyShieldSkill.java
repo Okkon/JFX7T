@@ -10,9 +10,7 @@ import sample.Skill;
 public class HolyShieldSkill extends Skill {
 
     public HolyShieldSkill() {
-        final FilterFactory.DistanceFilter filter = (FilterFactory.DistanceFilter) FilterFactory.getFilter(FilterFactory.FilterType.DISTANCE_CHECK, "AimIsTooFar");
-        filter.setDistance(60);
-        aimFilters.add(filter);
+        aimFilters.add(FilterFactory.getFilter(FilterFactory.FilterType.DISTANCE_CHECK, "AimIsTooFar", 60));
     }
 
     @Override

@@ -10,7 +10,7 @@ public class GameModel {
     private Collection<Way> lastFoundWays;
     Set<GObject> objects = new HashSet<GObject>();
     public static GameModel MODEL = new GameModel();
-    private GAction[] possibleActions = {new SelectAction(), new ShiftAction(), new CreateAction()};
+    private GAction[] possibleActions = {new SelectAction(), new ShiftAction(), new CreateAction(), new KillAction()};
     private GAction selectedAction = possibleActions[0];
     private Map<XY, GameCell> board = new HashMap<XY, GameCell>();
     private MainVisualizer graphics;
@@ -463,8 +463,8 @@ public class GameModel {
 
     public boolean isInDanger(Selectable obj) {
         if (obj instanceof GObject) {
-            GUnit checkedUnit = (GUnit) obj;
-            final Set<GUnit> nearUnits = getNearUnits(((GUnit) obj).getPlace());
+            GObject checkedUnit = (GObject) obj;
+            final Set<GUnit> nearUnits = getNearUnits(((GObject) obj).getPlace());
             for (GUnit nearUnit : nearUnits) {
                 if (!nearUnit.isFriendlyFor(checkedUnit)) {
                     return true;

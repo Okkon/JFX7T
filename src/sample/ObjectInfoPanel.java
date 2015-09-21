@@ -13,6 +13,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Юыху on 22.06.2015.
  */
@@ -69,11 +72,13 @@ public class ObjectInfoPanel extends GridPane {
 
             HBox hBox = new HBox(10);
             final boolean belongsToActivePlayer = GameModel.MODEL.getActivePlayer().isOwnerFor(unit);
-            for (final GAction skill : unit.getSkills()) {
+            final List<GAction> unitSkills = new ArrayList<GAction>();
+            unitSkills.addAll(unit.getSkills());
+            unitSkills.addAll(unit.getExtraSkills());
+            for (final GAction skill : unitSkills) {
                 skill.setOwner(unit);
                 final Button button = new Button();
-                final String imagePath = String.format("file:res/img/skills/%s.jpg", skill.getClass().getSimpleName().toLowerCase());
-                Image img = new Image(imagePath);
+                Image img = getSkillImage(skill);
                 final ImageView imageView = new ImageView(img);
                 imageView.setPreserveRatio(true);
                 final int buttonSize = 64;
@@ -118,5 +123,10 @@ public class ObjectInfoPanel extends GridPane {
             add(list, 0, 5, REMAINING, 1);
             add(textArea, 0, 6, REMAINING, 1);
         }
+    }
+
+    public Image getSkillImage(GAction skill) {
+        final String imagePath = String.format("file:res/img/skills/%s.jpg", skill.getClass().getSimpleName().toLowerCase());
+        return new Image(imagePath);
     }
 }
