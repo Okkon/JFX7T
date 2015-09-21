@@ -1,5 +1,6 @@
 package sample;
 
+import sample.Events.TowerOwnerChangeEvent;
 import sample.GActions.Crossbow;
 
 import java.util.HashMap;
@@ -48,6 +49,7 @@ public class Tower extends GObject{
             Crossbow crossbow = new Crossbow(1, 2, XY.diagonalLength);
             crossbow.setOwner(this);
             for (GUnit enemy : enemies) {
+                GameModel.MODEL.log("base", "Hits", this, enemy);
                 crossbow.act(enemy);
             }
         }
@@ -85,11 +87,16 @@ public class Tower extends GObject{
         }
         if (overPower > 0 && dominator != getPlayer()) {
             if (getPlayer().equals(Player.NEUTRAL) || overPower > 1) {
-                setPlayer(dominator);
+                changePlayer(dominator);
             } else {
-                setPlayer(Player.NEUTRAL);
+                changePlayer(Player.NEUTRAL);
             }
         }
+    }
+
+    private void changePlayer(Player player) {
+        final TowerOwnerChangeEvent event = new TowerOwnerChangeEvent(this, player);
+        event.process();
     }
 
 

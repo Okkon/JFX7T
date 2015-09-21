@@ -228,6 +228,7 @@ public class GameModel {
         for (GObject gObject : gObjects) {
             gObject.endHour();
         }
+        log("base", "HourEnds", hour);
     }
 
     public int getHour() {
@@ -394,6 +395,8 @@ public class GameModel {
 
     public void startHour() {
         hour++;
+        log("base", "EndTurnSymbol");
+        log("base", "HourStarts", hour);
         for (GObject object : objects) {
             object.startHour();
         }

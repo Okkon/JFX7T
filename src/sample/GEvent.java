@@ -4,8 +4,8 @@ public abstract class GEvent {
 
     public void process() {
         logBeforeEvent();
-        perform();
         visualize();
+        perform();
         logAfterEvent();
     }
 

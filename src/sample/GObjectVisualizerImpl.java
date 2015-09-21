@@ -97,6 +97,8 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
     public void setPlayer(Player player) {
         final Color color = player.getColor();
         token.setStroke(color);
+        //StrokeTransition transition = StrokeTransitionBuilder.create().shape(token).toValue(color).duration(MyConst.ANIMATION_DURATION.multiply(2)).build();
+        //GraphicsHelper.getInstance().addTransition(transition);
         /*String hex = "#" + Integer.toHexString(color.hashCode());
         token.setStyle("-fx-stroke: " + hex);*/
     }
