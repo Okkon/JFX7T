@@ -39,7 +39,7 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
         if (obj instanceof Tower) {
             Tower tower = (Tower) obj;
             token = new Rectangle(size, size);
-            Image img = ImageHelper.getImage(tower);
+            Image img = ImageHelper.getImage(tower, tower instanceof MainTower);
             token.setFill(new ImagePattern(img, 0, 0, 1, 1, true));
             token.getStyleClass().add("tower");
         }

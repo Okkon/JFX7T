@@ -1,4 +1,6 @@
-package sample;
+package sample.GActions;
+
+import sample.*;
 
 public class CreateAction extends AbstractGAction {
     GObject obj;

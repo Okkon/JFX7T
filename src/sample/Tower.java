@@ -1,7 +1,7 @@
 package sample;
 
 import sample.Events.TowerOwnerChangeEvent;
-import sample.GActions.Crossbow;
+import sample.Skills.Crossbow;
 
 import java.util.HashMap;
 import java.util.List;

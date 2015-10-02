@@ -8,8 +8,8 @@ public class ImageHelper {
         return new Image(imagePath);
     }
 
-    public static Image getImage(Tower tower) {
-        final String imagePath = String.format("file:res/img/units/%s.jpg", "tower");
+    public static Image getImage(Tower tower, boolean isMain) {
+        final String imagePath = String.format("file:res/img/units/%s.jpg", isMain ? "maintower" : "tower");
         return new Image(imagePath);
     }
 }

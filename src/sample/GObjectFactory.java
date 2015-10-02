@@ -1,9 +1,9 @@
 package sample;
 
 
-import sample.GActions.Crossbow;
-import sample.GActions.Fireball;
 import sample.Mods.*;
+import sample.Skills.Crossbow;
+import sample.Skills.Fireball;
 
 public class GObjectFactory {
 

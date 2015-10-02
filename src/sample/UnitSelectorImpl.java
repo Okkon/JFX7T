@@ -3,6 +3,7 @@ package sample;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -24,6 +25,7 @@ public class UnitSelectorImpl implements UnitSelector {
         this.dialog = dialog;
 
         GridPane pane = new GridPane();
+        pane.setGridLinesVisible(true);
         pane.setVgap(5);
         pane.setHgap(5);
         pane.setPadding(new Insets(5, 10, 5, 10));
@@ -53,12 +55,13 @@ public class UnitSelectorImpl implements UnitSelector {
         }
         infoPanel.setObj(units.get(0));
         pane.add(infoPanel, unitPaneWidth, 0, GridPane.REMAINING, GridPane.REMAINING);
-        pane.add(new HBox(), 0, units.size() / unitPaneWidth + 1, unitPaneWidth, GridPane.REMAINING);
+        final Label label = new Label();
+        label.textProperty().setValue("123");
+        pane.add(label, 0, units.size() / unitPaneWidth + 1, unitPaneWidth, GridPane.REMAINING);
 
         final Scene scene = new Scene(
                 HBoxBuilder.create().styleClass("modal-dialog").children(
-                        pane/*,
-                                objectInfoPanel*/
+                        pane
                 ).build(),
                 Color.GRAY
         );
@@ -75,5 +78,10 @@ public class UnitSelectorImpl implements UnitSelector {
     @Override
     public void close() {
         dialog.close();
+    }
+
+    @Override
+    public void setUnitCounter(int unitCounter) {
+        dialog.setTitle("Units left: " + unitCounter);
     }
 }

@@ -30,7 +30,7 @@ public abstract class GObject implements Selectable, PlaceHaving {
         return 0;
     }
 
-    protected void die(Hit hit) {
+    public void die(Hit hit) {
         GameModel.MODEL.getObjects().remove(this);
         place.setObj(null);
         visualizer.die(place);

@@ -1,5 +1,7 @@
-package sample;
+package sample.GActions;
 
+
+import sample.*;
 
 import java.util.Collection;
 import java.util.List;

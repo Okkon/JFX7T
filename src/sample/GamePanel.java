@@ -125,7 +125,6 @@ public class GamePanel extends GridPane implements MainVisualizer {
 
     @Override
     public void refresh() {
-//                cell.setGraphic(new ImageView(new Image(Main.class.getResourceAsStream("/resources/pic.png"))));
     }
 
     @Override
@@ -179,7 +178,9 @@ public class GamePanel extends GridPane implements MainVisualizer {
 
     @Override
     public void log(String s) {
-        gameLog.appendText(s + "\n");
+        if (gameLog != null) {
+            gameLog.appendText(s + "\n");
+        }
     }
 
     @Override
@@ -231,6 +232,8 @@ public class GamePanel extends GridPane implements MainVisualizer {
 
     private Stage createDialog() {
         final Stage dialog = new Stage(StageStyle.TRANSPARENT);
+        dialog.initStyle(StageStyle.UTILITY);
+        dialog.setResizable(false);
         dialog.initModality(Modality.WINDOW_MODAL);
         dialog.initOwner(getScene().getWindow());
         return dialog;

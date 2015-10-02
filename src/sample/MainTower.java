@@ -1,7 +1,7 @@
 package sample;
 
 
-import sample.GActions.CreateUnitAction;
+import sample.Skills.CreateUnitAction;
 
 public class MainTower extends Tower {
 

@@ -1,7 +1,8 @@
 package sample;
 
-import sample.GActions.EndTurnAction;
-import sample.GActions.TeleportToTower;
+import sample.Events.UnitEndTurnEvent;
+import sample.Skills.EndTurnAction;
+import sample.Skills.TeleportToTower;
 
 import java.util.*;
 
@@ -66,7 +67,7 @@ public class GUnit extends GObject {
     }
 
     @Override
-    protected void die(Hit hit) {
+    public void die(Hit hit) {
         super.die(hit);
         final GObject attacker = hit.getAttacker();
         if (attacker != null && attacker.getPlayer() != null) {
@@ -204,6 +205,10 @@ public class GUnit extends GObject {
         return maxMp != mp;
     }
 
+    public void setMP(int MP) {
+        this.mp = MP;
+    }
+
     private class BaseUnitAction extends AbstractGAction {
         @Override
         public void act(Selectable obj) {
@@ -254,8 +259,7 @@ public class GUnit extends GObject {
     @Override
     public void endTurn() {
         super.endTurn();
-        this.mp = 0;
-        visualizer.setReady(false);
+        new UnitEndTurnEvent(this).process();
     }
 
     @Override

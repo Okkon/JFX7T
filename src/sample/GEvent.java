@@ -1,12 +1,23 @@
 package sample;
 
+
 public abstract class GEvent {
 
     public void process() {
-        logBeforeEvent();
+        doBeforeEvent();
         visualize();
         perform();
+        doAfterEvent();
+    }
+
+    private void doBeforeEvent() {
+        logBeforeEvent();
+        GameModel.MODEL.beforeEvent(this);
+    }
+
+    private void doAfterEvent() {
         logAfterEvent();
+        GameModel.MODEL.afterEvent(this);
     }
 
     private void logAfterEvent() {

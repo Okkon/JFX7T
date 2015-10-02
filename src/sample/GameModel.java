@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.scene.paint.Color;
+import sample.GActions.*;
 
 import java.util.*;
 
@@ -10,7 +11,7 @@ public class GameModel {
     private Collection<Way> lastFoundWays;
     Set<GObject> objects = new HashSet<GObject>();
     public static GameModel MODEL = new GameModel();
-    private GAction[] possibleActions = {new SelectAction(), new ShiftAction(), new CreateAction(), new KillAction()};
+    private GAction[] possibleActions = {new SelectAction(), new ShiftAction(), new CreateAction(), new KillAction(), new KillAllUnitsAction()};
     private GAction selectedAction = possibleActions[0];
     private Map<XY, GameCell> board = new HashMap<XY, GameCell>();
     private MainVisualizer graphics;
@@ -20,6 +21,8 @@ public class GameModel {
     private int hour = 0;
     private Collection<? extends Selectable> possibleSelection;
     private GObject actingUnit;
+    private Map<Class, List<GEventListener>> beforeEventMap = new HashMap<Class, List<GEventListener>>();
+    private Map<Class, List<GEventListener>> afterEventMap = new HashMap<Class, List<GEventListener>>();
 
     public void init() {
         initPlayers();
@@ -49,6 +52,13 @@ public class GameModel {
         generateUnit(UnitType.Mage, 10, 4, 1);
         generateUnit(UnitType.Inquisitor, 8, 6, 1);
         generateUnit(UnitType.Footman, 7, 2, 1);
+
+        /*SECOND SCENARIO*/
+        /*generateUnit(UnitType.Assassin, 4, 4, 0);
+        generateUnit(UnitType.Mage, 4, 6, 0);
+        generateUnit(UnitType.Inquisitor, 5, 3, 0);
+
+        generateUnit(UnitType.Mage, 10, 4, 1);*/
     }
 
     private void generateUnit(UnitType unitType, int x, int y, int playerIndex) {
@@ -110,8 +120,8 @@ public class GameModel {
     public void setAction(GAction action) {
         if (action.canBeSelected()) {
             this.selectedAction = action;
-            action.onSelect();
             graphics.showAction(action);
+            action.onSelect();
         }
     }
 
@@ -485,5 +495,13 @@ public class GameModel {
             }
         }
         return true;
+    }
+
+    public void beforeEvent(GEvent event) {
+
+    }
+
+    public void afterEvent(GEvent event) {
+
     }
 }

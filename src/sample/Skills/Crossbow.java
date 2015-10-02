@@ -1,4 +1,4 @@
-package sample.GActions;
+package sample.Skills;
 
 import sample.GObject;
 import sample.Shell;

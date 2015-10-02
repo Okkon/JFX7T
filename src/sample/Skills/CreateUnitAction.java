@@ -1,4 +1,4 @@
-package sample.GActions;
+package sample.Skills;
 
 import sample.*;
 
@@ -8,8 +8,8 @@ import static sample.FilterFactory.FilterType.IS_NEAR;
 import static sample.FilterFactory.FilterType.IS_VACANT_CELL;
 
 public class CreateUnitAction extends AbstractGAction {
-    int unitCounter;
-    UnitSelector selector;
+    private int unitCounter;
+    private UnitSelector selector;
 
     public CreateUnitAction() {
         addAimFilter(IS_VACANT_CELL, "CellIsOccupied");
@@ -28,6 +28,7 @@ public class CreateUnitAction extends AbstractGAction {
         super.onSelect();
         final List<GUnit> units = getOwner().getPlayer().getAvailableUnits();
         selector = GameModel.MODEL.provideUnitSelector(units);
+        selector.setUnitCounter(unitCounter);
     }
 
     @Override
@@ -37,9 +38,7 @@ public class CreateUnitAction extends AbstractGAction {
             final GUnit copy = selectedUnit.copy();
             GameModel.MODEL.createObj(copy, (GameCell) obj);
             unitCounter--;
-            if (unitCounter < 1) {
-                selector.close();
-            }
+            selector.close();
         } else {
             GameModel.MODEL.error("errorText", "NoUnitSelected");
         }

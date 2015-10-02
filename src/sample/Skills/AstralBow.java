@@ -1,4 +1,4 @@
-package sample.GActions;
+package sample.Skills;
 
 import sample.*;
 import sample.Shells.AstralArrowShell;

@@ -1,4 +1,6 @@
-package sample;
+package sample.GActions;
+
+import sample.*;
 
 public class KillAction extends AbstractGAction {
     @Override
