@@ -4,6 +4,7 @@ import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class Player {
     public static final Player NEUTRAL = new Player("Neutral", Color.GREY);
@@ -11,6 +12,7 @@ public class Player {
     private int score;
     private Color color;
     private List<GUnit> availableUnits = new ArrayList<GUnit>();
+    private boolean AI;
 
     @Override
     public String toString() {
@@ -20,7 +22,8 @@ public class Player {
     public Player(String name, Color color) {
         this.name = name;
         this.color = color;
-        score = 0;
+        this.score = 0;
+        this.AI = false;
     }
 
     public Color getColor() {
@@ -73,5 +76,43 @@ public class Player {
 
     public String getName() {
         return name;
+    }
+
+
+    public boolean isAI() {
+        return AI;
+    }
+
+    public void setAI(boolean AI) {
+        this.AI = AI;
+    }
+
+    public void makeTurn() {
+        final List<GUnit> units = getActiveUnits();
+        int totalProfit = 0;
+        GameCell placeChoice = null;
+        GUnit unitChoice = null;
+        for (GUnit unit : units) {
+            final Set<GameCell> cellsToGo = unit.getCellsToGo();
+            for (GameCell cell : cellsToGo) {
+                int cellValue = unit.estimate(cell);
+                if (cellValue > totalProfit) {
+                    totalProfit = cellValue;
+                    placeChoice = cell;
+                    unitChoice = unit;
+                }
+                final List<GAction> unitSkills = unit.getSkills();
+                for (GAction unitSkill : unitSkills) {
+                    unitSkill.setOwner(unit);
+                    final List<? extends PlaceHaving> aims = unitSkill.getAims();
+                    for (PlaceHaving aim : aims) {
+                        cellValue += unitSkill.estimate(aim);
+
+                    }
+                }
+            }
+        }
+        unitChoice.go(placeChoice);
+        GameModel.MODEL.endTurn();
     }
 }

@@ -1,6 +1,8 @@
 package sample;
 
 
+import java.util.List;
+
 public interface GAction {
 
     boolean canSelect(Selectable obj);
@@ -21,4 +23,7 @@ public interface GAction {
 
     String getDescription();
 
+    List<? extends PlaceHaving> getAims();
+
+    int estimate(PlaceHaving aim);
 }

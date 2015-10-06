@@ -1,5 +1,5 @@
 package sample;
 
-public interface PlaceHaving {
+public interface PlaceHaving extends Selectable {
     XY getXy();
 }

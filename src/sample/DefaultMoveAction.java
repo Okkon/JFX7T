@@ -43,7 +43,11 @@ public class DefaultMoveAction extends Skill implements MoveAction {
     @Override
     public void go(GUnit unit, GameCell gameCell) {
         final Collection<Way> lastFoundWays = GameModel.MODEL.getLastFoundWays();
-        final List<GameCell> wayToCell = getWayToCell(lastFoundWays, gameCell);
+        List<GameCell> wayToCell = getWayToCell(lastFoundWays, gameCell);
+        if (wayToCell.isEmpty()) {
+            final Collection<Way> allWays = GameModel.MODEL.findAllWays(unit, MoveAction.DEFAULT);
+            wayToCell = getWayToCell(allWays, gameCell);
+        }
         for (GameCell cell : wayToCell) {
             GameModel.MODEL.log("base", "UnitMove", unit.getName(), unit.getXy(), cell.getXy());
             step(unit, cell);

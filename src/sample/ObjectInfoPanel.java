@@ -127,6 +127,10 @@ public class ObjectInfoPanel extends GridPane {
 
     public Image getSkillImage(GAction skill) {
         final String imagePath = String.format("file:res/img/skills/%s.jpg", skill.getClass().getSimpleName().toLowerCase());
-        return new Image(imagePath);
+        Image image = new Image(imagePath);
+        if (image.getPixelReader() == null) {
+            image = new Image("file:res/img/skills/unknown.jpg");
+        }
+        return image;
     }
 }

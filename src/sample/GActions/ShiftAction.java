@@ -3,11 +3,9 @@ package sample.GActions;
 import sample.*;
 
 public class ShiftAction extends AbstractGAction {
-    @Override
-    public void onSelect() {
+    public ShiftAction() {
         aimType = AimType.Object;
         aimFilters.clear();
-        super.onSelect();
     }
 
     @Override

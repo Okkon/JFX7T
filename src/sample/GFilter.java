@@ -2,7 +2,7 @@ package sample;
 
 
 public interface GFilter {
-    public boolean isOk(Selectable obj);
+    boolean isOk(Selectable obj);
 
     GObject getObj();
 

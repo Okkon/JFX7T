@@ -1,7 +1,7 @@
 package sample;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import static sample.FilterFactory.FilterType;
@@ -21,17 +21,7 @@ public abstract class AbstractGAction implements GAction {
 
     @Override
     public void onSelect() {
-        Collection<? extends Selectable> possibleAims = null;
-        for (GFilter aimFilter : aimFilters) {
-            aimFilter.setObj(owner);
-        }
-        if (AimType.Cell.equals(aimType)) {
-            possibleAims = GameModel.MODEL.getCells(aimFilters);
-        }
-        if (AimType.Object.equals(aimType)) {
-            possibleAims = GameModel.MODEL.getObjects(aimFilters);
-        }
-        GameModel.MODEL.showSelectionPossibility(possibleAims);
+        GameModel.MODEL.showSelectionPossibility(getAims());
     }
 
     @Override
@@ -47,6 +37,26 @@ public abstract class AbstractGAction implements GAction {
     @Override
     public String getDescription() {
         return NameHelper.getName("skillDescription", getClass().getSimpleName());
+    }
+
+    @Override
+    public List<? extends PlaceHaving> getAims() {
+        List<? extends PlaceHaving> possibleAims = Collections.EMPTY_LIST;
+        for (GFilter aimFilter : aimFilters) {
+            aimFilter.setObj(owner);
+        }
+        if (AimType.Cell.equals(aimType)) {
+            possibleAims = GameModel.MODEL.getCells(aimFilters);
+        }
+        if (AimType.Object.equals(aimType)) {
+            possibleAims = GameModel.MODEL.getObjects(aimFilters);
+        }
+        return possibleAims;
+    }
+
+    @Override
+    public int estimate(PlaceHaving aim) {
+        return 0;
     }
 
     private void logActionStart() {

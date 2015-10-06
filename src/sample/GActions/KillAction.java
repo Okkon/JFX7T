@@ -3,11 +3,9 @@ package sample.GActions;
 import sample.*;
 
 public class KillAction extends AbstractGAction {
-    @Override
-    public void onSelect() {
+    public KillAction() {
         aimType = AimType.Object;
         aimFilters.clear();
-        super.onSelect();
     }
 
     @Override

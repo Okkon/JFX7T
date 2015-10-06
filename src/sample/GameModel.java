@@ -85,6 +85,7 @@ public class GameModel {
             unit.setPlayer(p1);
         }
         final Player p2 = new Player("P2", Color.CORAL);
+        p2.setAI(true);
         final List<GUnit> p2AvailableUnits = p2.getAvailableUnits();
         for (GUnit gUnit : commonUnits) {
             p2AvailableUnits.add(gUnit.copy());
@@ -200,6 +201,9 @@ public class GameModel {
             startHour();
         } else {
             setActivePlayer(nextPlayer);
+            if (nextPlayer.isAI()) {
+                nextPlayer.makeTurn();
+            }
         }
         cancel();
     }
@@ -414,6 +418,9 @@ public class GameModel {
         setActivePlayer(players.get(r.nextInt(players.size() - 1)));
         graphics.showTurnNumber();
         cancel();
+        if (getActivePlayer().isAI()) {
+            getActivePlayer().makeTurn();
+        }
     }
 
     public void setActingUnit(GObject actingUnit) {
@@ -448,6 +455,12 @@ public class GameModel {
         return result;
     }
 
+    public List<GObject> getObjects(GFilter... filters) {
+        List<GFilter> filterList = new ArrayList<GFilter>();
+        Collections.addAll(filterList, filters);
+        return getObjects(filterList);
+    }
+
     public boolean canAttack(GObject attacker, @SuppressWarnings("unused") Selectable aim) {
         for (GMod mod : attacker.getMods()) {
             if (mod.disablesAttack()) {
@@ -457,7 +470,7 @@ public class GameModel {
         return true;
     }
 
-    public Collection<? extends Selectable> getCells(List<GFilter> filters) {
+    public List<GameCell> getCells(List<GFilter> filters) {
         List<GameCell> cells = new ArrayList<GameCell>();
         for (GameCell cell : board.values()) {
             boolean isOk = true;

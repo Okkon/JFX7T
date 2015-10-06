@@ -50,6 +50,7 @@ public class GUnit extends GObject {
         baseAction.setOwner(this);
         moveType = MoveAction.DEFAULT;
         attackAction = AttackAction.DEFAULT;
+        skills.add(attackAction);
         skills.add(new EndTurnAction());
     }
 
@@ -209,6 +210,11 @@ public class GUnit extends GObject {
         this.mp = MP;
     }
 
+    public int estimate(GameCell cell) {
+        final MainTower mainTower = TowerHelper.getPlayersMainTower(getPlayer());
+        return Math.abs(cell.getXy().getX() - mainTower.getXy().getX());
+    }
+
     private class BaseUnitAction extends AbstractGAction {
         @Override
         public void act(Selectable obj) {
@@ -267,7 +273,7 @@ public class GUnit extends GObject {
         return NameHelper.getName("unitTypes", getType().toString());
     }
 
-    private void go(GameCell gameCell) {
+    public void go(GameCell gameCell) {
         moveType.setOwner(this);
         moveType.perform(gameCell);
     }
