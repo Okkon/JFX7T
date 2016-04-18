@@ -1,5 +1,7 @@
 package sample;
 
+import sample.GActions.AbstractGAction;
+
 public abstract class Skill extends AbstractGAction {
 
     public Skill() {

@@ -1,6 +1,7 @@
 package sample;
 
 import sample.Events.UnitEndTurnEvent;
+import sample.GActions.AbstractGAction;
 import sample.Skills.EndTurnAction;
 import sample.Skills.TeleportToTower;
 

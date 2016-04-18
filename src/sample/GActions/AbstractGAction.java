@@ -1,4 +1,6 @@
-package sample;
+package sample.GActions;
+
+import sample.*;
 
 import java.util.ArrayList;
 import java.util.Collections;

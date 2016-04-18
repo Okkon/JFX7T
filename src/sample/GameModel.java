@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.scene.paint.Color;
+import sample.Events.GEvent;
 import sample.GActions.*;
 
 import java.util.*;

@@ -1,6 +1,6 @@
 package sample.Skills;
 
-import sample.AbstractGAction;
+import sample.GActions.AbstractGAction;
 import sample.GameModel;
 import sample.Selectable;
 

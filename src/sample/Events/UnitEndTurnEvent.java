@@ -1,6 +1,5 @@
 package sample.Events;
 
-import sample.GEvent;
 import sample.GUnit;
 
 

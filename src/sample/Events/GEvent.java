@@ -1,5 +1,7 @@
-package sample;
+package sample.Events;
 
+
+import sample.GameModel;
 
 public abstract class GEvent {
 

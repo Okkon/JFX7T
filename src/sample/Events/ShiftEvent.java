@@ -1,6 +1,5 @@
 package sample.Events;
 
-import sample.GEvent;
 import sample.GObject;
 import sample.GameCell;
 import sample.GameModel;

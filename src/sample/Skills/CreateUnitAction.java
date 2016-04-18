@@ -1,6 +1,7 @@
 package sample.Skills;
 
 import sample.*;
+import sample.GActions.AbstractGAction;
 
 import java.util.List;
 
