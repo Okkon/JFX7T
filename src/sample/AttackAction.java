@@ -9,6 +9,7 @@ public class AttackAction extends Skill {
 
     private AttackAction() {
         super();
+        aimType = AimType.Object;
         addAimFilter(IS_NEAR, "AimIsTooFar");
         addAimFilter(IS_UNIT, "NotUnit");
         addAimFilter(CAN_BE_ATTACKED, "CanAttack");

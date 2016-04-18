@@ -1,10 +1,10 @@
 package sample.Skills;
 
-import sample.GActions.AbstractGAction;
 import sample.GameModel;
 import sample.Selectable;
+import sample.Skill;
 
-public class EndTurnAction extends AbstractGAction {
+public class EndTurnAction extends Skill {
     public EndTurnAction() {
         endsTurn = true;
     }
