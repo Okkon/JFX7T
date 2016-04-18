@@ -9,6 +9,12 @@ public class ShiftEvent extends GEvent {
     private GameCell finishCell;
     private GObject object;
 
+    public ShiftEvent(GObject object, GameCell toCell) {
+        this.object = object;
+        this.startCell = object.getPlace();
+        this.finishCell = toCell;
+    }
+
     public void setStartCell(GameCell startCell) {
         this.startCell = startCell;
     }

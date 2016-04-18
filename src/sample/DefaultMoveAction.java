@@ -1,5 +1,7 @@
 package sample;
 
+import sample.Events.MoveEvent;
+
 import java.util.*;
 
 public class DefaultMoveAction extends Skill implements MoveAction {
@@ -62,8 +64,11 @@ public class DefaultMoveAction extends Skill implements MoveAction {
 
     private void step(GUnit unit, GameCell toCell) {
         final int stepPrice = calculateStepPrice(unit.getPlace(), toCell);
-        unit.shift(toCell);
-        unit.looseMP(stepPrice);
+        MoveEvent moveEvent = new MoveEvent();
+        moveEvent.setUnit(unit);
+        moveEvent.setToCell(toCell);
+        moveEvent.setStepPrice(stepPrice);
+        moveEvent.process();
     }
 
     private List<GameCell> getWayToCell(Collection<Way> lastFoundWays, GameCell gameCell) {

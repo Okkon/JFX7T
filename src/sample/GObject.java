@@ -46,9 +46,7 @@ public abstract class GObject implements Selectable, PlaceHaving {
 
     public void shift(GameCell cellToGo) {
         if (cellToGo != null && cellToGo.getObj() == null) {
-            final ShiftEvent shiftEvent = new ShiftEvent();
-            shiftEvent.setObject(this);
-            shiftEvent.setFinishCell(cellToGo);
+            final ShiftEvent shiftEvent = new ShiftEvent(this, cellToGo);
             shiftEvent.process();
         }
     }

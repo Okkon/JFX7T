@@ -1,5 +1,6 @@
 package sample;
 
+import sample.Events.ShiftEvent;
 import sample.Events.UnitEndTurnEvent;
 import sample.Filters.FilterFactory;
 import sample.Filters.GFilter;
@@ -39,7 +40,8 @@ public class GUnit extends GObject {
         if (nextCell != null) {
             final GObject obj = nextCell.getObj();
             if (obj == null) {
-                shift(nextCell);
+                ShiftEvent shiftEvent = new ShiftEvent(this, nextCell);
+                shiftEvent.process();
             } else {
                 obj.takeHit(Hit.createHit(this, obj, 1, 0, DamageType.PHYSICAL));
                 this.takeHit(Hit.createHit(obj, this, 1, 0, DamageType.PHYSICAL));

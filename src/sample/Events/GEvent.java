@@ -4,11 +4,15 @@ package sample.Events;
 import sample.GameModel;
 
 public abstract class GEvent {
+    public static GEvent lastEvent;
+
+    private GEvent predecessor;
 
     public void process() {
         doBeforeEvent();
         visualize();
         perform();
+        lastEvent = this;
         doAfterEvent();
     }
 
@@ -33,4 +37,11 @@ public abstract class GEvent {
 
     protected abstract void perform();
 
+    public void setPredecessor(GEvent predecessor) {
+        this.predecessor = predecessor;
+    }
+
+    public GEvent getPredecessor() {
+        return predecessor;
+    }
 }
