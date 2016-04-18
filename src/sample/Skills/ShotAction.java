@@ -1,5 +1,6 @@
-package sample;
+package sample.Skills;
 
+import sample.*;
 import sample.Filters.FilterFactory;
 
 import static sample.Filters.FilterFactory.FilterType.*;

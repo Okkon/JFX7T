@@ -49,7 +49,7 @@ public class FilterFactory {
                 gFilter = new IsNearFriendlyTower();
                 break;
             case BELONG_TO_PLAYER:
-                gFilter = new BelongToPlayerFilter().setPlayer(params.length > 0 ? (Player) params[0] : model.getActivePlayer());
+                gFilter = new BelongsToActivePlayerFilter();
                 break;
             case NOT_IN_DANGER:
                 gFilter = new NotInDangerFilter();
@@ -191,17 +191,12 @@ public class FilterFactory {
         }
     }
 
-    private static class BelongToPlayerFilter extends AbstractGFilter {
+    private static class BelongsToActivePlayerFilter extends AbstractGFilter {
         private Player player;
 
         @Override
         public boolean isOk(Selectable obj) {
-            return player.equals(((GObject) obj).getPlayer());
-        }
-
-        public GFilter setPlayer(Player player) {
-            this.player = player;
-            return BelongToPlayerFilter.this;
+            return GameModel.MODEL.getActivePlayer().equals(((GObject) obj).getPlayer());
         }
     }
 

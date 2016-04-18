@@ -13,7 +13,7 @@ public class GameModel {
     private Collection<Way> lastFoundWays;
     Set<GObject> objects = new HashSet<GObject>();
     public static GameModel MODEL = new GameModel();
-    private GAction[] possibleActions = {new ChangeOwnerAction(), new ShiftAction(), new CreateAction(), new KillAction(), new KillAllUnitsAction()};
+    private GAction[] possibleActions = {new ChangeOwnerAction(), new ShiftAction(), new CreateAction(), new KillAction()};
     private GAction selectedAction = possibleActions[0];
     private Map<XY, GameCell> board = new HashMap<XY, GameCell>();
     private MainVisualizer graphics;
