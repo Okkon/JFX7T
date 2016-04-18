@@ -97,8 +97,8 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
     public void setPlayer(Player player) {
         final Color color = player.getColor();
         token.setStroke(color);
-        //StrokeTransition transition = StrokeTransitionBuilder.create().shape(token).toValue(color).duration(MyConst.ANIMATION_DURATION.multiply(2)).build();
-        //GraphicsHelper.getInstance().addTransition(transition);
+//        StrokeTransition transition = StrokeTransitionBuilder.create().shape(token).toValue(color).duration(MyConst.ANIMATION_DURATION.multiply(2)).build();
+//        GraphicsHelper.getInstance().addTransition(transition);
         /*String hex = "#" + Integer.toHexString(color.hashCode());
         token.setStyle("-fx-stroke: " + hex);*/
     }
@@ -179,6 +179,29 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
     @Override
     public Image getImage() {
         return image;
+    }
+
+    @Override
+    public void changeOwner(Player newOwner) {
+        ScaleTransition transition = new ScaleTransition();
+        transition.setNode(token);
+        transition.setDuration(MyConst.ANIMATION_DURATION.divide(3d));
+        final double sizeChange = 2d;
+        transition.setToX(sizeChange);
+        transition.setToY(sizeChange);
+        StrokeTransition strokeTransition = new StrokeTransition(
+                MyConst.ANIMATION_DURATION.divide(3d),
+                this.token
+                );
+        strokeTransition.setToValue(newOwner.getColor());
+        ScaleTransition transition2 = new ScaleTransition();
+        transition2.setNode(token);
+        transition2.setDuration(MyConst.ANIMATION_DURATION.divide(3d));
+        transition2.setToX(1d);
+        transition2.setToY(1d);
+        GraphicsHelper.getInstance().addTransition(transition);
+        GraphicsHelper.getInstance().addTransition(strokeTransition);
+        GraphicsHelper.getInstance().addTransition(transition2);
     }
 
     @Override

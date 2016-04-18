@@ -1,18 +1,21 @@
 package sample.GActions;
 
 import sample.*;
+import sample.Filters.GFilter;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static sample.FilterFactory.FilterType;
-import static sample.FilterFactory.getFilter;
+import static sample.Filters.FilterFactory.FilterType;
+import static sample.Filters.FilterFactory.getFilter;
 
 
 public abstract class AbstractGAction implements GAction {
-    protected List<GFilter> aimFilters = new ArrayList<GFilter>();
     protected List<GFilter> ownerFilters = new ArrayList<GFilter>();
+    protected List<PlaceHaving> aims = new ArrayList<PlaceHaving>();
+    protected List<List<GFilter>> filters = new ArrayList<List<GFilter>>();
+    protected List<GFilter> aimFilters = new ArrayList<GFilter>();
     protected GObject owner;
     protected boolean endsTurn = false;
     protected AimType aimType = AimType.Anything;
@@ -59,6 +62,16 @@ public abstract class AbstractGAction implements GAction {
     @Override
     public int estimate(PlaceHaving aim) {
         return 0;
+    }
+
+    @Override
+    public void tryToSelect(PlaceHaving obj) {
+        if (canSelect(obj)) {
+            aims.add(obj);
+            if (aims.size() == filters.size()) {
+                //perform();
+            }
+        }
     }
 
     private void logActionStart() {

@@ -26,4 +26,6 @@ public interface GAction {
     List<? extends PlaceHaving> getAims();
 
     int estimate(PlaceHaving aim);
+
+    void tryToSelect(PlaceHaving obj);
 }

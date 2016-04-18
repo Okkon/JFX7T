@@ -1,6 +1,7 @@
 package sample.GActions;
 
 import sample.*;
+import sample.Filters.FilterFactory;
 
 public class ShiftAction extends AbstractGAction {
     public ShiftAction() {

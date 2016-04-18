@@ -112,7 +112,9 @@ public class Player {
                 }
             }
         }
-        unitChoice.go(placeChoice);
+        if (unitChoice != null) {
+            unitChoice.go(placeChoice);
+        }
         GameModel.MODEL.endTurn();
     }
 }

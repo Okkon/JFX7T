@@ -2,12 +2,13 @@ package sample.GActions;
 
 
 import sample.*;
+import sample.Filters.GFilter;
 
 import java.util.Collection;
 import java.util.List;
 
-import static sample.FilterFactory.FilterType.*;
-import static sample.FilterFactory.getFilters;
+import static sample.Filters.FilterFactory.FilterType.*;
+import static sample.Filters.FilterFactory.getFilters;
 
 public class SelectAction extends AbstractGAction {
     @Override

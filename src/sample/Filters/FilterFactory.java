@@ -1,4 +1,6 @@
-package sample;
+package sample.Filters;
+
+import sample.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -58,7 +60,7 @@ public class FilterFactory {
         }
         gFilter.setType(type);
         if (error != null) {
-            gFilter.setErrorText(NameHelper.getName("errorText", error));
+            gFilter.setErrorText(error);
         }
         return gFilter;
     }
@@ -79,14 +81,14 @@ public class FilterFactory {
         IS_NEAR, CAN_SEE, CAN_ACT, IS_ON_ONE_LINE, BELONG_TO_PLAYER, IS_UNIT, OBSTACLE_ON_ONE_LINE, DISTANCE_CHECK, IS_VACANT_CELL, CAN_BE_ATTACKED, NOT_IN_DANGER, IS_FRIENDLY, CLASS_FILTER, IS_NEAR_FRIENDLY_TOWER, NOT_ME
     }
 
-    private static class UnitFilter extends AbstractGFilter {
+    public static class UnitFilter extends AbstractGFilter {
         @Override
         public boolean isOk(Selectable obj) {
             return obj instanceof GUnit;
         }
     }
 
-    private static class ClassFilter extends AbstractGFilter {
+    public static class ClassFilter extends AbstractGFilter {
         private Class clazz;
 
         public ClassFilter setClass(Class clazz) {
@@ -210,7 +212,7 @@ public class FilterFactory {
         }
     }
 
-    private static class NotInDangerFilter extends AbstractGFilter {
+    public static class NotInDangerFilter extends AbstractGFilter {
         @Override
         public boolean isOk(Selectable obj) {
             return !GameModel.MODEL.isInDanger(obj);

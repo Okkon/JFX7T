@@ -1,5 +1,6 @@
 package sample;
 
+import sample.Filters.FilterFactory;
 import sample.GActions.AbstractGAction;
 
 public abstract class Skill extends AbstractGAction {

@@ -2,6 +2,7 @@ package sample;
 
 import javafx.scene.paint.Color;
 import sample.Events.GEvent;
+import sample.Filters.GFilter;
 import sample.GActions.*;
 
 import java.util.*;
@@ -12,7 +13,7 @@ public class GameModel {
     private Collection<Way> lastFoundWays;
     Set<GObject> objects = new HashSet<GObject>();
     public static GameModel MODEL = new GameModel();
-    private GAction[] possibleActions = {new SelectAction(), new ShiftAction(), new CreateAction(), new KillAction(), new KillAllUnitsAction()};
+    private GAction[] possibleActions = {new ChangeOwnerAction(), new ShiftAction(), new CreateAction(), new KillAction(), new KillAllUnitsAction()};
     private GAction selectedAction = possibleActions[0];
     private Map<XY, GameCell> board = new HashMap<XY, GameCell>();
     private MainVisualizer graphics;
@@ -411,17 +412,22 @@ public class GameModel {
     public void startHour() {
         hour++;
         log("base", "EndTurnSymbol");
-        log("base", "HourStarts", hour);
+        Player player = getRandomPlayer();
+        setActivePlayer(player);
+        graphics.showTurnNumber();
+        log("base", "HourStarts", hour, player);
         for (GObject object : objects) {
             object.startHour();
         }
-        Random r = new Random();
-        setActivePlayer(players.get(r.nextInt(players.size() - 1)));
-        graphics.showTurnNumber();
         cancel();
         if (getActivePlayer().isAI()) {
             getActivePlayer().makeTurn();
         }
+    }
+
+    private Player getRandomPlayer() {
+        Random r = new Random();
+        return players.get(r.nextInt(players.size() - 1));
     }
 
     public void setActingUnit(GObject actingUnit) {

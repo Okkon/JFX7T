@@ -5,8 +5,8 @@ import sample.GActions.AbstractGAction;
 
 import java.util.List;
 
-import static sample.FilterFactory.FilterType.IS_NEAR;
-import static sample.FilterFactory.FilterType.IS_VACANT_CELL;
+import static sample.Filters.FilterFactory.FilterType.IS_NEAR;
+import static sample.Filters.FilterFactory.FilterType.IS_VACANT_CELL;
 
 public class CreateUnitAction extends AbstractGAction {
     private int unitCounter;

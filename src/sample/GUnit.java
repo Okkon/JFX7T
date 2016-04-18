@@ -1,6 +1,8 @@
 package sample;
 
 import sample.Events.UnitEndTurnEvent;
+import sample.Filters.FilterFactory;
+import sample.Filters.GFilter;
 import sample.GActions.AbstractGAction;
 import sample.Skills.EndTurnAction;
 import sample.Skills.TeleportToTower;

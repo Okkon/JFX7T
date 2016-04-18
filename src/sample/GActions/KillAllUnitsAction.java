@@ -1,6 +1,7 @@
 package sample.GActions;
 
 import sample.*;
+import sample.Filters.FilterFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -1,5 +1,10 @@
-package sample;
+package sample.Filters;
 
+
+import sample.GObject;
+import sample.GameModel;
+import sample.NameHelper;
+import sample.Selectable;
 
 public abstract class AbstractGFilter implements GFilter {
     private GObject obj;
@@ -27,8 +32,9 @@ public abstract class AbstractGFilter implements GFilter {
     }
 
     @Override
-    public void setErrorText(String error) {
-        this.errorText = error;
+    public GFilter setErrorText(String error) {
+        this.errorText = NameHelper.getName("errorText", error);
+        return this;
     }
 
     @Override

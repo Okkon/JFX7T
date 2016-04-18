@@ -1,6 +1,8 @@
 package sample;
 
 
+import sample.Filters.FilterFactory;
+
 import java.util.List;
 
 public class TowerHelper {

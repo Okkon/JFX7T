@@ -1,6 +1,8 @@
 package sample;
 
-import static sample.FilterFactory.FilterType.*;
+import sample.Filters.FilterFactory;
+
+import static sample.Filters.FilterFactory.FilterType.*;
 
 
 public abstract class ShotAction extends Skill {
@@ -12,7 +14,7 @@ public abstract class ShotAction extends Skill {
         this.distance = distance;
         this.minDamage = minDamage;
         this.maxDamage = maxDamage;
-        ownerFilters.add(FilterFactory.getFilter(NOT_IN_DANGER, "InDanger"));
+        ownerFilters.add(new FilterFactory.NotInDangerFilter().setErrorText("InDanger"));
         addAimFilter(IS_UNIT, "NotUnit");
         addAimFilter(NOT_ME, "NotMe");
         addAimFilter(IS_ON_ONE_LINE, "NotOnOneLine");

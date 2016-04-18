@@ -1,6 +1,6 @@
 package sample;
 
-import sample.Events.TowerOwnerChangeEvent;
+import sample.Events.OwnerChangeEvent;
 import sample.Skills.Crossbow;
 
 import java.util.HashMap;
@@ -95,7 +95,7 @@ public class Tower extends GObject{
     }
 
     private void changePlayer(Player player) {
-        final TowerOwnerChangeEvent event = new TowerOwnerChangeEvent(this, player);
+        final OwnerChangeEvent event = new OwnerChangeEvent(this, player);
         event.process();
     }
 

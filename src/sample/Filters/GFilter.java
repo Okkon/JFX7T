@@ -1,5 +1,8 @@
-package sample;
+package sample.Filters;
 
+
+import sample.GObject;
+import sample.Selectable;
 
 public interface GFilter {
     boolean isOk(Selectable obj);
@@ -10,7 +13,7 @@ public interface GFilter {
 
     boolean check(Selectable obj);
 
-    void setErrorText(String error);
+    GFilter setErrorText(String error);
 
     void setType(FilterFactory.FilterType type);
 }

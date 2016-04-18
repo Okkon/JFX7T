@@ -2,7 +2,7 @@ package sample;
 
 import java.util.List;
 
-import static sample.FilterFactory.FilterType.*;
+import static sample.Filters.FilterFactory.FilterType.*;
 
 public class AttackAction extends Skill {
     public static final AttackAction DEFAULT = new AttackAction();

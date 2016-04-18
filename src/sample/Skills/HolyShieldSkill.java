@@ -1,7 +1,7 @@
 package sample.Skills;
 
 
-import sample.FilterFactory;
+import sample.Filters.FilterFactory;
 import sample.GUnit;
 import sample.Mods.HolyShield;
 import sample.Selectable;

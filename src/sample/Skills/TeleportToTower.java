@@ -1,6 +1,7 @@
 package sample.Skills;
 
 import sample.*;
+import sample.Filters.FilterFactory;
 
 
 public class TeleportToTower extends Skill {

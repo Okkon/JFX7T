@@ -25,4 +25,6 @@ public interface GObjectVisualizer extends Visualizer {
     void setPanel(GamePanel gamePanel);
 
     Image getImage();
+
+    void changeOwner(Player newOwner);
 }

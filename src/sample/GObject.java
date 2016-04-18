@@ -42,9 +42,6 @@ public abstract class GObject implements Selectable, PlaceHaving {
 
     public void setPlayer(Player player) {
         this.player = player;
-        if (visualizer != null) {
-            visualizer.setPlayer(player);
-        }
     }
 
     public void shift(GameCell cellToGo) {
