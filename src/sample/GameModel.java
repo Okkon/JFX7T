@@ -9,10 +9,10 @@ import java.util.*;
 
 
 public class GameModel {
+    public static final GameModel MODEL = new GameModel();
     public static final GAction SELECT_ACTION = new SelectAction();
     private Collection<Way> lastFoundWays;
     Set<GObject> objects = new HashSet<GObject>();
-    public static GameModel MODEL = new GameModel();
     private GAction[] possibleActions = {new ChangeOwnerAction(), new ShiftAction(), new CreateAction(), new KillAction()};
     private GAction selectedAction = possibleActions[0];
     private Map<XY, GameCell> board = new HashMap<XY, GameCell>();
