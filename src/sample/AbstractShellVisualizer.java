@@ -24,7 +24,7 @@ public abstract class AbstractShellVisualizer implements ShellVisualizer {
         path.getElements().add(new LineTo(bounds2.getMinX() + bounds2.getWidth() / 2, bounds2.getMinY() + bounds2.getHeight() / 2));
 
         PathTransition pathTransition = new PathTransition();
-        pathTransition.setDuration(MyConst.ANIMATION_DURATION);
+        pathTransition.setDuration(MyConst.SHOT_ANIMATION_DURATION);
         pathTransition.setNode(shape);
         pathTransition.setPath(path);
         pathTransition.setCycleCount(1);

@@ -64,7 +64,7 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
         path.getElements().add(new LineTo(bounds2.getMinX() + w, bounds2.getMinY() + h));
 
         PathTransition pathTransition = new PathTransition();
-        pathTransition.setDuration(MyConst.ANIMATION_DURATION);
+        pathTransition.setDuration(MyConst.MOVE_ANIMATION_DURATION);
         pathTransition.setNode(pane);
         pathTransition.setPath(path);
 
