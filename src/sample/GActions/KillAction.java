@@ -1,23 +1,26 @@
 package sample.GActions;
 
-import sample.*;
+import sample.AimType;
+import sample.GObject;
+import sample.GameCell;
+import sample.Hit;
 
 public class KillAction extends AbstractGAction {
     public KillAction() {
         aimType = AimType.Object;
-        aimFilters.clear();
+        getAimFilters().clear();
     }
 
     @Override
-    public void act(Selectable aim) {
+    public void doAction() {
         GObject gObject;
-        if (aim instanceof GameCell) {
-            GameCell cell = (GameCell) aim;
+        if (getAim() instanceof GameCell) {
+            GameCell cell = (GameCell) getAim();
             gObject = cell.getObj();
             gObject.die(new Hit());
         }
-        if (aim instanceof GObject) {
-            gObject = (GObject) aim;
+        if (getAim() instanceof GObject) {
+            gObject = (GObject) getAim();
             gObject.die(new Hit());
         }
     }

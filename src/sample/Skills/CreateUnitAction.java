@@ -33,11 +33,11 @@ public class CreateUnitAction extends AbstractGAction {
     }
 
     @Override
-    public void act(Selectable obj) {
+    public void doAction() {
         final GUnit selectedUnit = selector.getSelectedUnit();
         if (selectedUnit != null) {
             final GUnit copy = selectedUnit.copy();
-            GameModel.MODEL.createObj(copy, (GameCell) obj);
+            GameModel.MODEL.createObj(copy, (GameCell) getAim());
             unitCounter--;
             selector.close();
         } else {

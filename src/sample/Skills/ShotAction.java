@@ -52,9 +52,9 @@ public abstract class ShotAction extends Skill {
     }
 
     @Override
-    public void act(Selectable obj) {
+    public void doAction() {
         Shell shell = createShell();
-        aimAt(shell, (PlaceHaving) obj);
+        aimAt(shell, getAim());
         configureShell(shell);
         shell.fire();
     }

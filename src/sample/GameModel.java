@@ -10,7 +10,7 @@ import java.util.*;
 
 public class GameModel {
     public static final GameModel MODEL = new GameModel();
-    public static final GAction SELECT_ACTION = new SelectAction();
+    public static final AbstractGAction SELECT_ACTION = new SelectAction();
     private Collection<Way> lastFoundWays;
     Set<GObject> objects = new HashSet<GObject>();
     private GAction[] possibleActions = {new ChangeOwnerAction(), new ShiftAction(), new CreateAction(), new KillAction()};
@@ -101,8 +101,8 @@ public class GameModel {
         players.add(Player.NEUTRAL);
     }
 
-    public void press(Selectable obj) {
-        selectedAction.perform(obj);
+    public void press(PlaceHaving obj) {
+        selectedAction.tryToSelect(obj);
     }
 
     public void createObj(GObject obj, GameCell cell) {
@@ -179,6 +179,7 @@ public class GameModel {
 
     public void cancel() {
         showSelectionPossibility(null);
+        selectedAction.getAims().clear();
         select(null);
         if (selectedObj != null) {
             selectedObj.getVisualizer().setSelected(false);
@@ -420,9 +421,6 @@ public class GameModel {
             object.startHour();
         }
         cancel();
-        if (getActivePlayer().isAI()) {
-            getActivePlayer().makeTurn();
-        }
     }
 
     private Player getRandomPlayer() {
@@ -522,6 +520,38 @@ public class GameModel {
     }
 
     public void afterEvent(GEvent event) {
+
+    }
+
+    public List<? extends PlaceHaving> getAll(List<GFilter> filters) {
+        List result = new ArrayList();
+        for (GameCell cell : board.values()) {
+            boolean isOk = true;
+            for (GFilter filter : filters) {
+                if (!filter.isOk(cell)) {
+                    isOk = false;
+                    break;
+                }
+            }
+            if (isOk) {
+                result.add(cell);
+            }
+        }
+
+        boolean isOk;
+        for (GObject gObject : objects) {
+            isOk = true;
+            for (GFilter filter : filters) {
+                if (!filter.isOk(gObject)) {
+                    isOk = false;
+                    break;
+                }
+            }
+            if (isOk) {
+                result.add(gObject);
+            }
+        }
+        return result;
 
     }
 }

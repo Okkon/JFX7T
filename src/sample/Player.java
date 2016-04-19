@@ -104,7 +104,7 @@ public class Player {
                 final List<GAction> unitSkills = unit.getSkills();
                 for (GAction unitSkill : unitSkills) {
                     unitSkill.setOwner(unit);
-                    final List<? extends PlaceHaving> aims = unitSkill.getAims();
+                    final List<? extends PlaceHaving> aims = unitSkill.getPossibleAims();
                     for (PlaceHaving aim : aims) {
                         cellValue += unitSkill.estimate(aim);
 

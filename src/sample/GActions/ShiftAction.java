@@ -1,33 +1,22 @@
 package sample.GActions;
 
-import sample.*;
-import sample.Filters.FilterFactory;
+import sample.AimType;
+import sample.Filters.FilterHelper;
+import sample.GObject;
+import sample.GameCell;
 
 public class ShiftAction extends AbstractGAction {
     public ShiftAction() {
-        aimType = AimType.Object;
-        aimFilters.clear();
+        aimType = AimType.ObjectAndCells;
+        filters.add(FilterHelper.object());
+        filters.add(FilterHelper.gameCell());
     }
 
     @Override
-    public void act(Selectable aim) {
-        if (aim instanceof GameCell) {
-            GameCell cell = (GameCell) aim;
-            owner.shift(cell);
-        }
-    }
-
-    @Override
-    public boolean canSelect(Selectable obj) {
-        if (aimType == AimType.Object && obj instanceof GObject) {
-            GObject gObject = (GObject) obj;
-            setOwner(gObject);
-            aimType = AimType.Cell;
-            aimFilters.clear();
-            aimFilters.add(FilterFactory.getFilter(FilterFactory.FilterType.IS_VACANT_CELL));
-            super.onSelect();
-            return false;
-        }
-        return super.canSelect(obj);
+    public void doAction() {
+        GObject aim = (GObject) getAim();
+        GameCell place = (GameCell) getAims().get(1);
+        aim.shift(place);
+        aims.clear();
     }
 }

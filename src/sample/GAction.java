@@ -15,17 +15,19 @@ public interface GAction {
 
     void setOwner(GObject owner);
 
-    void act(Selectable aim);
+    void doAction();
 
     void onSelect();
 
-    void perform(Selectable obj);
+    void perform();
 
     String getDescription();
 
-    List<? extends PlaceHaving> getAims();
+    List<? extends PlaceHaving> getPossibleAims();
 
     int estimate(PlaceHaving aim);
 
     void tryToSelect(PlaceHaving obj);
+
+    List<PlaceHaving> getAims();
 }

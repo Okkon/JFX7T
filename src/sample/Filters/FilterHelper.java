@@ -9,4 +9,10 @@ public class FilterHelper {
         gFilters.add(new IsObjectFilter());
         return gFilters;
     }
+
+    public static List<GFilter> gameCell() {
+        List<GFilter> gFilters = new ArrayList<GFilter>();
+        gFilters.add(new FilterFactory.VacantCellFilter());
+        return gFilters;
+    }
 }

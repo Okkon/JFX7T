@@ -57,9 +57,9 @@ public class DefaultMoveAction extends Skill implements MoveAction {
     }
 
     @Override
-    public void act(Selectable obj) {
+    public void doAction() {
         final GUnit unit = (GUnit) getOwner();
-        go(unit, (GameCell) obj);
+        go(unit, (GameCell) getAim());
     }
 
     private void step(GUnit unit, GameCell toCell) {

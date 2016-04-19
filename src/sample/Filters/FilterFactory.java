@@ -173,7 +173,7 @@ public class FilterFactory {
         }
     }
 
-    private static class VacantCellFilter extends AbstractGFilter {
+    public static class VacantCellFilter extends AbstractGFilter {
         @Override
         public boolean isOk(Selectable obj) {
             if (obj instanceof GameCell) {

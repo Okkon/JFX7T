@@ -221,27 +221,42 @@ public class GUnit extends GObject {
     }
 
     private class BaseUnitAction extends AbstractGAction {
+        AbstractGAction skill;
+
         @Override
-        public void act(Selectable obj) {
+        public boolean canSelect(Selectable obj) {
             if (obj instanceof GObject) {
                 GObject gObject = (GObject) obj;
                 if (isFriendlyFor(gObject)) {
-                    GameModel.SELECT_ACTION.act(gObject);
+                    skill = GameModel.SELECT_ACTION;
                 } else {
-                    attack(gObject);
+                    skill = attackAction;
                 }
             } else if (obj instanceof GameCell) {
-                GameCell gameCell = (GameCell) obj;
-                go(gameCell);
+                skill = moveType;
             }
+
+            skill.setOwner(GUnit.this);
+            for (GFilter filter : skill.getAimFilters()) {
+                filter.setObj(getOwner());
+                if (!filter.check(obj)) {
+                    return false;
+                }
+            }
+            return true;
         }
 
         @Override
         public void onSelect() {
-            super.onSelect();
-            Set<GameCell> cells = getCellsToGo();
-            cells.add(getPlace());
-            GameModel.MODEL.showSelectionPossibility(cells);
+            if (aims.size() > 0) {
+                skill.getAims().add(this.getAim());
+                this.aims.clear();
+                skill.perform();
+            } else {
+                Set<GameCell> cells = getCellsToGo();
+                cells.add(getPlace());
+                GameModel.MODEL.showSelectionPossibility(cells);
+            }
         }
 
         @Override
@@ -252,6 +267,11 @@ public class GUnit extends GObject {
         @Override
         protected void afterPerform() {
             //do nothing
+        }
+
+        @Override
+        public void doAction() {
+
         }
     }
 
@@ -280,11 +300,7 @@ public class GUnit extends GObject {
 
     public void go(GameCell gameCell) {
         moveType.setOwner(this);
-        moveType.perform(gameCell);
+        moveType.tryToSelect(gameCell);
     }
 
-    private void attack(GObject obj) {
-        attackAction.setOwner(this);
-        attackAction.perform(obj);
-    }
 }

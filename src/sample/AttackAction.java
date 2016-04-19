@@ -16,9 +16,9 @@ public class AttackAction extends Skill {
     }
 
     @Override
-    public void act(Selectable obj) {
+    public void doAction() {
         GUnit attacker = (GUnit) getOwner();
-        GObject aim = ((GObject) obj);
+        GObject aim = ((GObject) getAim());
         Hit hit = Hit.createHit(attacker, aim);
         final List<GMod> mods = attacker.getMods();
         for (GMod mod : mods) {

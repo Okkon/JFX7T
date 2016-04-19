@@ -1,7 +1,9 @@
 package sample.Skills;
 
-import sample.*;
+import sample.AimType;
 import sample.Filters.FilterFactory;
+import sample.GameCell;
+import sample.Skill;
 
 
 public class TeleportToTower extends Skill {
@@ -12,7 +14,7 @@ public class TeleportToTower extends Skill {
     }
 
     @Override
-    public void act(Selectable obj) {
-        getOwner().shift((GameCell) obj);
+    public void doAction() {
+        getOwner().shift((GameCell) getAim());
     }
 }

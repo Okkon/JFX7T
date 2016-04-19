@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class Tower extends GObject{
+public class Tower extends GObject {
 
     public Tower() {
     }
@@ -50,7 +50,8 @@ public class Tower extends GObject{
             crossbow.setOwner(this);
             for (GUnit enemy : enemies) {
                 GameModel.MODEL.log("base", "Hits", this, enemy);
-                crossbow.act(enemy);
+                crossbow.getAims().add(enemy);
+                crossbow.doAction();
             }
         }
     }

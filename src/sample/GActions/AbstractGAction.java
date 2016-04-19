@@ -15,28 +15,37 @@ public abstract class AbstractGAction implements GAction {
     protected List<GFilter> ownerFilters = new ArrayList<GFilter>();
     protected List<PlaceHaving> aims = new ArrayList<PlaceHaving>();
     protected List<List<GFilter>> filters = new ArrayList<List<GFilter>>();
-    protected List<GFilter> aimFilters = new ArrayList<GFilter>();
     protected GObject owner;
     protected boolean endsTurn = false;
     protected AimType aimType = AimType.Anything;
 
     protected void addAimFilter(FilterType filter, String error, Object... params) {
-        aimFilters.add(getFilter(filter, error, params));
+        getAimFilters().add(getFilter(filter, error, params));
+    }
+
+    public List<GFilter> getAimFilters() {
+        if (filters.isEmpty()) {
+            filters.add(new ArrayList<GFilter>());
+        }
+        return filters.get(aims.size());
     }
 
     @Override
     public void onSelect() {
-        GameModel.MODEL.showSelectionPossibility(getAims());
+        if (aims.size() < filters.size()) {
+            GameModel.MODEL.showSelectionPossibility(getPossibleAims());
+        } else {
+            perform();
+        }
     }
 
     @Override
-    public void perform(Selectable obj) {
-        if (canSelect(obj)) {
-            logActionStart();
-            GameModel.MODEL.showSelectionPossibility(null);
-            act(obj);
-            afterPerform();
-        }
+    public void perform() {
+        logActionStart();
+        GameModel.MODEL.showSelectionPossibility(null);
+        doAction();
+        aims.clear();
+        afterPerform();
     }
 
     @Override
@@ -45,16 +54,19 @@ public abstract class AbstractGAction implements GAction {
     }
 
     @Override
-    public List<? extends PlaceHaving> getAims() {
+    public List<? extends PlaceHaving> getPossibleAims() {
         List<? extends PlaceHaving> possibleAims = Collections.EMPTY_LIST;
-        for (GFilter aimFilter : aimFilters) {
+        for (GFilter aimFilter : getAimFilters()) {
             aimFilter.setObj(owner);
         }
         if (AimType.Cell.equals(aimType)) {
-            possibleAims = GameModel.MODEL.getCells(aimFilters);
+            possibleAims = GameModel.MODEL.getCells(getAimFilters());
         }
         if (AimType.Object.equals(aimType)) {
-            possibleAims = GameModel.MODEL.getObjects(aimFilters);
+            possibleAims = GameModel.MODEL.getObjects(getAimFilters());
+        }
+        if (AimType.ObjectAndCells.equals(aimType)) {
+            possibleAims = GameModel.MODEL.getAll(getAimFilters());
         }
         return possibleAims;
     }
@@ -68,10 +80,13 @@ public abstract class AbstractGAction implements GAction {
     public void tryToSelect(PlaceHaving obj) {
         if (canSelect(obj)) {
             aims.add(obj);
-            if (aims.size() == filters.size()) {
-                //perform();
-            }
         }
+        onSelect();
+    }
+
+    @Override
+    public List<PlaceHaving> getAims() {
+        return aims;
     }
 
     private void logActionStart() {
@@ -85,11 +100,6 @@ public abstract class AbstractGAction implements GAction {
     }
 
     protected void afterPerform() {
-        if (endsTurn || (getOwner() != null && !getOwner().canAct())) {
-            GameModel.MODEL.endTurn();
-        } else if (getOwner() != null) {
-            GameModel.MODEL.select(getOwner());
-        }
         GraphicsHelper.getInstance().play();
     }
 
@@ -108,11 +118,11 @@ public abstract class AbstractGAction implements GAction {
         this.owner = owner;
     }
 
-    public abstract void act(Selectable obj);
+    public abstract void doAction();
 
     @Override
     public boolean canSelect(Selectable obj) {
-        for (GFilter filter : aimFilters) {
+        for (GFilter filter : getAimFilters()) {
             filter.setObj(getOwner());
             if (!filter.check(obj)) {
                 return false;
@@ -134,5 +144,9 @@ public abstract class AbstractGAction implements GAction {
     @Override
     public String getName() {
         return NameHelper.getName("skillNames", getClass().getSimpleName());
+    }
+
+    public PlaceHaving getAim() {
+        return aims.isEmpty() ? null : aims.get(0);
     }
 }
