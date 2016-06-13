@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Олег on 22.06.2015.
+ * Created by пїЅпїЅпїЅпїЅ on 22.06.2015.
  */
 public class ObjectInfoPanel extends GridPane {
 
@@ -34,7 +34,7 @@ public class ObjectInfoPanel extends GridPane {
             return;
         }
         setVisible(true);
-        setGridLinesVisible(true);
+//        setGridLinesVisible(true);
 
         if (obj instanceof GUnit) {
             GUnit unit = (GUnit) obj;
@@ -110,7 +110,7 @@ public class ObjectInfoPanel extends GridPane {
             imageView.setFitHeight(180);
             imageView.setPreserveRatio(true);
 
-            add(imageView, 0, 0, 1, 4);
+            add(imageView, 0, 0, 1, 5);
             add(new Label("Name: "), 1, 0);
             add(new Label(unit.toString()), 2, 0);
             add(new Label("HP:"), 1, 1);
@@ -119,12 +119,12 @@ public class ObjectInfoPanel extends GridPane {
             add(new Label(String.format("%d/%d", unit.getMP(), unit.getMaxMP())), 2, 2);
             add(new Label("Damage: "), 1, 3);
             add(new Label(String.format("%d-%d", unit.getMinDamage(), unit.getMinDamage() + unit.getRandDamage())), 2, 3);
-            add(hBox, 0, 4, REMAINING, 1);
-            add(list, 0, 5, REMAINING, 1);
-            add(textArea, 0, 6, REMAINING, 1);
+            add(new Label(), 1, 4);
+            add(hBox, 0, 5, REMAINING, 1);
+            add(list, 0, 6, REMAINING, 1);
+            add(textArea, 0, 7, REMAINING, 1);
         }
     }
-
     public Image getSkillImage(GAction skill) {
         final String imagePath = String.format("file:res/img/skills/%s.jpg", skill.getClass().getSimpleName().toLowerCase());
         Image image = new Image(imagePath);

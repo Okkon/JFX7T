@@ -115,6 +115,5 @@ public class Player {
         if (unitChoice != null) {
             unitChoice.go(placeChoice);
         }
-        GameModel.MODEL.endTurn();
     }
 }

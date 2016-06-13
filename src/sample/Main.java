@@ -24,7 +24,7 @@ public class Main extends Application {
         primaryStage.show();
 
         gameModel.locateUnits();
-        gameModel.endTurn();
+        gameModel.startGame();
     }
 
     public static void main(String[] args) {

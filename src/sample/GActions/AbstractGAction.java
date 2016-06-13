@@ -23,6 +23,16 @@ public abstract class AbstractGAction implements GAction {
         getAimFilters().add(getFilter(filter, error, params));
     }
 
+    @Override
+    public void cancel() {
+        if (aims.size() > 0) {
+            aims.remove(aims.size() - 1);
+            onSelect();
+        } else {
+            GameModel.MODEL.setAction(GameModel.CURRENT_PHASE_ACTION);
+        }
+    }
+
     public List<GFilter> getAimFilters() {
         if (filters.isEmpty()) {
             filters.add(new ArrayList<GFilter>());
@@ -46,6 +56,7 @@ public abstract class AbstractGAction implements GAction {
         doAction();
         aims.clear();
         afterPerform();
+        GameModel.MODEL.getPhase().next(this);
     }
 
     @Override
@@ -80,8 +91,8 @@ public abstract class AbstractGAction implements GAction {
     public void tryToSelect(PlaceHaving obj) {
         if (canSelect(obj)) {
             aims.add(obj);
+            onSelect();
         }
-        onSelect();
     }
 
     @Override

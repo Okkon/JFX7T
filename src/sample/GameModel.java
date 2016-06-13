@@ -11,9 +11,10 @@ import java.util.*;
 public class GameModel {
     public static final GameModel MODEL = new GameModel();
     public static final AbstractGAction SELECT_ACTION = new SelectAction();
+    public static AbstractGAction CURRENT_PHASE_ACTION = SELECT_ACTION;
     private Collection<Way> lastFoundWays;
     Set<GObject> objects = new HashSet<GObject>();
-    private GAction[] possibleActions = {new ChangeOwnerAction(), new ShiftAction(), new CreateAction(), new KillAction()};
+    private GAction[] possibleActions = {new ChangeOwnerAction(), new ShiftAction(), new KillAction()};
     private GAction selectedAction = possibleActions[0];
     private Map<XY, GameCell> board = new HashMap<XY, GameCell>();
     private MainVisualizer graphics;
@@ -23,8 +24,7 @@ public class GameModel {
     private int hour = 0;
     private Collection<? extends Selectable> possibleSelection;
     private GObject actingUnit;
-    private Map<Class, List<GEventListener>> beforeEventMap = new HashMap<Class, List<GEventListener>>();
-    private Map<Class, List<GEventListener>> afterEventMap = new HashMap<Class, List<GEventListener>>();
+    private GPhase phase;
 
     public void init() {
         initPlayers();
@@ -65,8 +65,12 @@ public class GameModel {
 
     private void generateUnit(UnitType unitType, int x, int y, int playerIndex) {
         final GObject obj = GObjectFactory.create(unitType);
-        obj.setPlayer(players.get(playerIndex));
+        obj.setPlayer(getPlayerByIndex(playerIndex));
         createObj(obj, board.get(new XY(x, y)));
+    }
+
+    private Player getPlayerByIndex(int playerIndex) {
+        return playerIndex >= players.size() ? Player.NEUTRAL : players.get(playerIndex);
     }
 
     private void initPlayers() {
@@ -87,7 +91,7 @@ public class GameModel {
             unit.setPlayer(p1);
         }
         final Player p2 = new Player("P2", Color.CORAL);
-        p2.setAI(true);
+        //p2.setAI(true);
         final List<GUnit> p2AvailableUnits = p2.getAvailableUnits();
         for (GUnit gUnit : commonUnits) {
             p2AvailableUnits.add(gUnit.copy());
@@ -98,7 +102,7 @@ public class GameModel {
         }
         players.add(p1);
         players.add(p2);
-        players.add(Player.NEUTRAL);
+//        players.add(Player.NEUTRAL);
     }
 
     public void press(PlaceHaving obj) {
@@ -178,13 +182,14 @@ public class GameModel {
     }
 
     public void cancel() {
-        showSelectionPossibility(null);
+        /*showSelectionPossibility(null);
         selectedAction.getAims().clear();
         select(null);
         if (selectedObj != null) {
             selectedObj.getVisualizer().setSelected(false);
         }
-        this.setAction(SELECT_ACTION);
+        this.setAction(CURRENT_PHASE_ACTION);*/
+        selectedAction.cancel();
     }
 
     public List<Player> getPlayers() {
@@ -201,7 +206,6 @@ public class GameModel {
         final Player nextPlayer = getNextPlayer();
         if (nextPlayer == null) {
             endHour();
-            startHour();
         } else {
             setActivePlayer(nextPlayer);
             if (nextPlayer.isAI()) {
@@ -246,6 +250,7 @@ public class GameModel {
             gObject.endHour();
         }
         log("base", "HourEnds", hour);
+        setPhase(new CreationPhase());
     }
 
     public int getHour() {
@@ -413,10 +418,10 @@ public class GameModel {
     public void startHour() {
         hour++;
         log("base", "EndTurnSymbol");
-        Player player = getRandomPlayer();
-        setActivePlayer(player);
         graphics.showTurnNumber();
+        Player player = getRandomPlayer();
         log("base", "HourStarts", hour, player);
+        setActivePlayer(player);
         for (GObject object : objects) {
             object.startHour();
         }
@@ -505,14 +510,19 @@ public class GameModel {
         return false;
     }
 
-    public boolean isTheWeakestPlayer(Player player) {
-        final int size = player.getUnits().size();
-        for (Player otherPlayer : players) {
-            if (otherPlayer != player && otherPlayer != Player.NEUTRAL && otherPlayer.getUnits().size() <= size) {
-                return false;
+    public Player findWeakestPlayer() {
+        int minArmy = Integer.MAX_VALUE;
+        Player theWeakestPlayer = null;
+        for (Player player : getPlayers()) {
+            int armySize = player.getUnits().size();
+            if (armySize < minArmy) {
+                minArmy = armySize;
+                theWeakestPlayer = player;
+            } else if (armySize == minArmy) {
+                theWeakestPlayer = null;
             }
         }
-        return true;
+        return theWeakestPlayer;
     }
 
     public void beforeEvent(GEvent event) {
@@ -553,5 +563,25 @@ public class GameModel {
         }
         return result;
 
+    }
+
+    public void startGame() {
+        hour = 0;
+        graphics.showTurnNumber();
+        CreationPhase phase = new CreationPhase();
+        setPhase(phase);
+    }
+
+    private boolean gameIsEnded() {
+        return hour > 9;
+    }
+
+    public void setPhase(GPhase phase) {
+        this.phase = phase;
+        phase.init();
+    }
+
+    public GPhase getPhase() {
+        return phase;
     }
 }

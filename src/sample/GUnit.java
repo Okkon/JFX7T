@@ -265,11 +265,6 @@ public class GUnit extends GObject {
         }
 
         @Override
-        protected void afterPerform() {
-            //do nothing
-        }
-
-        @Override
         public void doAction() {
 
         }
