@@ -1,20 +1,19 @@
 package sample.Skills;
-
 import sample.*;
 import sample.GActions.AbstractGAction;
 
 import java.util.List;
 
-import static sample.Filters.FilterFactory.FilterType.IS_NEAR;
 import static sample.Filters.FilterFactory.FilterType.IS_VACANT_CELL;
 
 public class CreateUnitAction extends AbstractGAction {
     private int unitCounter;
     private UnitSelector selector;
+    private Player player;
 
     public CreateUnitAction() {
         addAimFilter(IS_VACANT_CELL, "CellIsOccupied");
-        addAimFilter(IS_NEAR, "NotNearToMainTower");
+        //addAimFilter(IS_NEAR, "NotNearToMainTower");
         aimType = AimType.Cell;
     }
 
@@ -25,11 +24,20 @@ public class CreateUnitAction extends AbstractGAction {
     }
 
     @Override
+    public void cancel() {
+        selector.close();
+        selector = null;
+        super.cancel();
+    }
+
+    @Override
     public void onSelect() {
         super.onSelect();
-        final List<GUnit> units = getOwner().getPlayer().getAvailableUnits();
-        selector = GameModel.MODEL.provideUnitSelector(units);
-        selector.setUnitCounter(unitCounter);
+        if (unitCounter > 0 && selector == null) {
+            final List<GUnit> units = getPlayer().getAvailableUnits();
+            selector = GameModel.MODEL.provideUnitSelector(units);
+            selector.setUnitCounter(unitCounter);
+        }
     }
 
     @Override
@@ -39,7 +47,10 @@ public class CreateUnitAction extends AbstractGAction {
             final GUnit copy = selectedUnit.copy();
             GameModel.MODEL.createObj(copy, (GameCell) getAim());
             unitCounter--;
-            selector.close();
+            selector.setUnitCounter(unitCounter);
+            if (unitCounter <= 0) {
+                selector.close();
+            }
         } else {
             GameModel.MODEL.error("errorText", "NoUnitSelected");
         }
@@ -47,5 +58,17 @@ public class CreateUnitAction extends AbstractGAction {
 
     public void setUnitNumber(int unitNumber) {
         this.unitCounter = unitNumber;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public Player getPlayer() {
+        return player == null ? GameModel.MODEL.getActivePlayer() : player;
+    }
+
+    public int getUnitCount() {
+        return unitCounter;
     }
 }

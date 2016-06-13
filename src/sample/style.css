@@ -38,7 +38,7 @@
 }
 
 .hidden {
-    -fx-opacity: 0.5;
+    -fx-opacity: 0.75;
 }
 
 .tower {

@@ -5,9 +5,9 @@ import sample.Events.MoveEvent;
 import java.util.*;
 
 public class DefaultMoveAction extends Skill implements MoveAction {
-
-    public DefaultMoveAction() {
-        endsTurn = false;
+    @Override
+    public boolean endsTurn() {
+        return false;
     }
 
     @Override

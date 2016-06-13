@@ -16,11 +16,21 @@ public abstract class AbstractGAction implements GAction {
     protected List<PlaceHaving> aims = new ArrayList<PlaceHaving>();
     protected List<List<GFilter>> filters = new ArrayList<List<GFilter>>();
     protected GObject owner;
-    protected boolean endsTurn = false;
+    protected GameModel model = GameModel.MODEL;
     protected AimType aimType = AimType.Anything;
 
     protected void addAimFilter(FilterType filter, String error, Object... params) {
         getAimFilters().add(getFilter(filter, error, params));
+    }
+
+    @Override
+    public void cancel() {
+        if (aims.size() > 0) {
+            aims.remove(aims.size() - 1);
+            onSelect();
+        } else {
+            model.setAction(model.getPhaseAction());
+        }
     }
 
     public List<GFilter> getAimFilters() {
@@ -33,7 +43,7 @@ public abstract class AbstractGAction implements GAction {
     @Override
     public void onSelect() {
         if (aims.size() < filters.size()) {
-            GameModel.MODEL.showSelectionPossibility(getPossibleAims());
+            model.showSelectionPossibility(getPossibleAims());
         } else {
             perform();
         }
@@ -42,10 +52,11 @@ public abstract class AbstractGAction implements GAction {
     @Override
     public void perform() {
         logActionStart();
-        GameModel.MODEL.showSelectionPossibility(null);
+        model.showSelectionPossibility(null);
         doAction();
         aims.clear();
         afterPerform();
+        model.getPhase().next(this);
     }
 
     @Override
@@ -60,13 +71,13 @@ public abstract class AbstractGAction implements GAction {
             aimFilter.setObj(owner);
         }
         if (AimType.Cell.equals(aimType)) {
-            possibleAims = GameModel.MODEL.getCells(getAimFilters());
+            possibleAims = model.getCells(getAimFilters());
         }
         if (AimType.Object.equals(aimType)) {
-            possibleAims = GameModel.MODEL.getObjects(getAimFilters());
+            possibleAims = model.getObjects(getAimFilters());
         }
         if (AimType.ObjectAndCells.equals(aimType)) {
-            possibleAims = GameModel.MODEL.getAll(getAimFilters());
+            possibleAims = model.getAll(getAimFilters());
         }
         return possibleAims;
     }
@@ -80,8 +91,8 @@ public abstract class AbstractGAction implements GAction {
     public void tryToSelect(PlaceHaving obj) {
         if (canSelect(obj)) {
             aims.add(obj);
+            onSelect();
         }
-        onSelect();
     }
 
     @Override
@@ -91,7 +102,7 @@ public abstract class AbstractGAction implements GAction {
 
     private void logActionStart() {
         if (needsLogging()) {
-            GameModel.MODEL.log("base", "ActionPerformed", owner != null ? owner : GameModel.MODEL.getActivePlayer().getName(), getName());
+            model.log("base", "ActionPerformed", owner != null ? owner : model.getActivePlayer().getName(), getName());
         }
     }
 

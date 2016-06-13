@@ -194,7 +194,6 @@ public class GamePanel extends GridPane implements MainVisualizer {
     public void createVisualizerFor(GObject obj) {
         if (obj != null) {
             final GObjectVisualizerImpl visualizer = new GObjectVisualizerImpl(obj, this);
-            obj.setVisualizer(visualizer);
             visualizer.create(obj.getPlace());
         }
     }

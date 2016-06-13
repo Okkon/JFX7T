@@ -42,8 +42,9 @@ public class GraphicsHelper {
         getCanvas().getChildren().remove(node);
     }
 
-    public void addTransition(Transition transition) {
+    public GraphicsHelper addTransition(Transition transition) {
         transitions.add(transition);
+        return INSTANCE;
     }
 
     public void play() {

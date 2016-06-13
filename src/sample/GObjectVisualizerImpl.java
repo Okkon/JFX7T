@@ -23,6 +23,7 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
     private Image image;
 
     public GObjectVisualizerImpl(final GObject obj, GamePanel gamePanel) {
+        obj.setVisualizer(this);
         this.gamePanel = gamePanel;
         this.obj = obj;
         final int size = MyConst.OBJECT_VISUALIZER_SIZE;
@@ -35,6 +36,9 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
             image = ImageHelper.getImage(unit);
             token.setFill(new ImagePattern(image, 0, 0, 1, 1, true));
             hpLabel.setText(String.valueOf(unit.getHP()));
+            for (GMod mod : unit.getMods()) {
+                mod.applyEffect(unit);
+            }
         }
         if (obj instanceof Tower) {
             Tower tower = (Tower) obj;
@@ -78,7 +82,6 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
 
     @Override
     public void die(GameCell place) {
-        final BoardCell cell = gamePanel.getBoardCell(place);
         FadeTransition transition = new FadeTransition();
         transition.setDuration(MyConst.ANIMATION_DURATION);
         transition.setNode(pane);
@@ -125,6 +128,17 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
         hpLabel.setTranslateY(25);
         setPlayer(obj.getPlayer());
         GraphicsHelper.getInstance().add(pane);
+        if (GameModel.MODEL.getPhase() != null) {
+            ScaleTransition transition = new ScaleTransition();
+            transition.setNode(pane);
+            transition.setDuration(MyConst.ANIMATION_DURATION.divide(1d));
+            final double sizeChange = 1d;
+            transition.setFromX(0);
+            transition.setFromY(0);
+            transition.setToX(sizeChange);
+            transition.setToY(sizeChange);
+            GraphicsHelper.getInstance().addTransition(transition);
+        }
     }
 
     @Override
@@ -162,7 +176,53 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
 
     @Override
     public void startAttack(GObject aim) {
+        GObjectVisualizerImpl visualizer = (GObjectVisualizerImpl) aim.getVisualizer();
+        XY c = UIHelper.getCenter(this);
+        XY c2 = UIHelper.getCenter(visualizer);
 
+        final Shape sword = createWeapon();
+
+        GraphicsHelper.getInstance().add(sword);
+        Path path = PathBuilder.create()
+                .elements(
+                        new MoveTo(c.getX(), c.getY()),
+                        new LineTo(c2.getX(), c2.getY()))
+                .build();
+
+        PathTransition pathTransition = PathTransitionBuilder.create()
+                .node(sword)
+                .duration(MyConst.MOVE_ANIMATION_DURATION)
+                .path(path)
+                .autoReverse(true)
+                .cycleCount(2)
+                .orientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT)
+                .onFinished(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        GraphicsHelper.getInstance().remove(sword);
+                    }
+                }).build();
+        GraphicsHelper.getInstance().addTransition(pathTransition);
+    }
+
+    private Shape createWeapon() {
+        double h = pane.getHeight();
+        double w = pane.getWidth();
+        final Shape sword = new Polyline(
+                w * 1 / 5,
+                h * 1 / 2,
+                w * 4 / 5,
+                h * 1 / 2,
+                w * 2 / 5,
+                h * 1 / 2,
+                w * 2 / 5,
+                h * 3 / 5,
+                w * 2 / 5,
+                h * 2 / 5
+        );
+//        sword.setStroke(Color.BLANCHEDALMOND);
+        sword.setStrokeWidth(3);
+        return sword;
     }
 
     @Override
@@ -209,7 +269,7 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
         final BoardCell boardCell = obj.getPlace().getVisualizer();
         boardCell.setSelectionPossibility(b);
 
-        if (transition != null) {
+        /*if (transition != null) {
             transition.stop();
             setPlayer(obj.getPlayer());
         }
@@ -219,6 +279,10 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
             transition.setCycleCount(Animation.INDEFINITE);
             transition.setAutoReverse(true);
             transition.play();
-        }
+        }*/
+    }
+
+    public StackPane getPane() {
+        return pane;
     }
 }

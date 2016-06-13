@@ -10,6 +10,7 @@ public abstract class AbstractGFilter implements GFilter {
     private GObject obj;
     private FilterFactory.FilterType type;
     private String errorText;
+    protected GameModel model = GameModel.MODEL;
 
     @Override
 
@@ -26,13 +27,13 @@ public abstract class AbstractGFilter implements GFilter {
     public boolean check(Selectable obj) {
         final boolean ok = isOk(obj);
         if (!ok && errorText != null) {
-            GameModel.MODEL.error(errorText);
+            model.error(errorText);
         }
         return ok;
     }
 
     @Override
-    public GFilter setErrorText(String error) {
+    public GFilter setError(String error) {
         this.errorText = NameHelper.getName("errorText", error);
         return this;
     }

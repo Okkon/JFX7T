@@ -107,7 +107,6 @@ public class Player {
                     final List<? extends PlaceHaving> aims = unitSkill.getPossibleAims();
                     for (PlaceHaving aim : aims) {
                         cellValue += unitSkill.estimate(aim);
-
                     }
                 }
             }
@@ -115,6 +114,5 @@ public class Player {
         if (unitChoice != null) {
             unitChoice.go(placeChoice);
         }
-        GameModel.MODEL.endTurn();
     }
 }

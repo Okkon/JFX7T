@@ -1,6 +1,7 @@
 package sample;
 
 import sample.Events.ShiftEvent;
+import sample.GActions.SelectAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +10,7 @@ public abstract class GObject implements Selectable, PlaceHaving {
     protected GObjectVisualizer visualizer;
     protected GameCell place;
     protected Player player;
-    protected GAction baseAction = GameModel.SELECT_ACTION;
+    protected GAction baseAction = SelectAction.getInstance();
     private List<GMod> mods = new ArrayList<GMod>();
     protected List<GAction> skills = new ArrayList<GAction>();
 

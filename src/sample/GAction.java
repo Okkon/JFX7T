@@ -9,7 +9,7 @@ public interface GAction {
 
     boolean canBeSelected();
 
-    public String getName();
+    String getName();
 
     GObject getOwner();
 
@@ -30,4 +30,7 @@ public interface GAction {
     void tryToSelect(PlaceHaving obj);
 
     List<PlaceHaving> getAims();
+
+    void cancel();
 }
+

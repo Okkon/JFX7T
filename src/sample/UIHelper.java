@@ -2,6 +2,7 @@ package sample;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBuilder;
@@ -33,14 +34,22 @@ public class UIHelper {
         node.prefHeightProperty().setValue(size);
         node.minHeightProperty().setValue(size);
 
+        node.maxWidthProperty().setValue(size);
         node.prefWidthProperty().setValue(size);
-        node.prefWidthProperty().setValue(size);
-        node.prefWidthProperty().setValue(size);
+        node.minWidthProperty().setValue(size);
     }
 
     public static void fixWidth(Control control, int width) {
         control.prefWidthProperty().setValue(width);
-        control.prefWidthProperty().setValue(width);
-        control.prefWidthProperty().setValue(width);
+    }
+
+    public static XY getCenter(GObjectVisualizerImpl impl) {
+        return getCenter(impl.getPane().getBoundsInParent());
+    }
+
+    public static XY getCenter(Bounds bounds) {
+        return new XY(
+                new Double(bounds.getMinX() + bounds.getWidth() / 2).intValue(),
+                new Double(bounds.getMinY() + bounds.getHeight() / 2).intValue());
     }
 }

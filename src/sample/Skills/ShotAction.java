@@ -15,7 +15,7 @@ public abstract class ShotAction extends Skill {
         this.distance = distance;
         this.minDamage = minDamage;
         this.maxDamage = maxDamage;
-        ownerFilters.add(new FilterFactory.NotInDangerFilter().setErrorText("InDanger"));
+        ownerFilters.add(new FilterFactory.NotInDangerFilter().setError("InDanger"));
         addAimFilter(IS_UNIT, "NotUnit");
         addAimFilter(NOT_ME, "NotMe");
         addAimFilter(IS_ON_ONE_LINE, "NotOnOneLine");

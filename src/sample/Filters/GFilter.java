@@ -13,7 +13,7 @@ public interface GFilter {
 
     boolean check(Selectable obj);
 
-    GFilter setErrorText(String error);
+    GFilter setError(String error);
 
     void setType(FilterFactory.FilterType type);
 }

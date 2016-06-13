@@ -1,7 +1,6 @@
 package sample;
 
 import javafx.scene.paint.Color;
-import sample.Events.GEvent;
 import sample.Filters.GFilter;
 import sample.GActions.*;
 
@@ -10,11 +9,12 @@ import java.util.*;
 
 public class GameModel {
     public static final GameModel MODEL = new GameModel();
-    public static final AbstractGAction SELECT_ACTION = new SelectAction();
+    public static final AbstractGAction SELECT_ACTION = SelectAction.getInstance();
+    private AbstractGAction currentPhaseAction;
     private Collection<Way> lastFoundWays;
     Set<GObject> objects = new HashSet<GObject>();
-    private GAction[] possibleActions = {new ChangeOwnerAction(), new ShiftAction(), new CreateAction(), new KillAction()};
-    private GAction selectedAction = possibleActions[0];
+    private GAction[] possibleActions;
+    private GAction selectedAction;
     private Map<XY, GameCell> board = new HashMap<XY, GameCell>();
     private MainVisualizer graphics;
     private GObject selectedObj;
@@ -23,12 +23,13 @@ public class GameModel {
     private int hour = 0;
     private Collection<? extends Selectable> possibleSelection;
     private GObject actingUnit;
-    private Map<Class, List<GEventListener>> beforeEventMap = new HashMap<Class, List<GEventListener>>();
-    private Map<Class, List<GEventListener>> afterEventMap = new HashMap<Class, List<GEventListener>>();
+    private GPhase phase;
 
     public void init() {
         initPlayers();
         setBoard(14, 8);
+        possibleActions = new GAction[]{new ChangeOwnerAction(), new ShiftAction(), new KillAction()};
+        selectedAction = possibleActions[0];
     }
 
     public void locateUnits() {
@@ -54,19 +55,16 @@ public class GameModel {
         generateUnit(UnitType.Mage, 10, 4, 1);
         generateUnit(UnitType.Inquisitor, 8, 6, 1);
         generateUnit(UnitType.Footman, 7, 2, 1);
-
-        /*SECOND SCENARIO*/
-        /*generateUnit(UnitType.Assassin, 4, 4, 0);
-        generateUnit(UnitType.Mage, 4, 6, 0);
-        generateUnit(UnitType.Inquisitor, 5, 3, 0);
-
-        generateUnit(UnitType.Mage, 10, 4, 1);*/
     }
 
     private void generateUnit(UnitType unitType, int x, int y, int playerIndex) {
         final GObject obj = GObjectFactory.create(unitType);
-        obj.setPlayer(players.get(playerIndex));
+        obj.setPlayer(getPlayerByIndex(playerIndex));
         createObj(obj, board.get(new XY(x, y)));
+    }
+
+    private Player getPlayerByIndex(int playerIndex) {
+        return playerIndex >= players.size() ? Player.NEUTRAL : players.get(playerIndex);
     }
 
     private void initPlayers() {
@@ -87,7 +85,7 @@ public class GameModel {
             unit.setPlayer(p1);
         }
         final Player p2 = new Player("P2", Color.CORAL);
-        p2.setAI(true);
+        //p2.setAI(true);
         final List<GUnit> p2AvailableUnits = p2.getAvailableUnits();
         for (GUnit gUnit : commonUnits) {
             p2AvailableUnits.add(gUnit.copy());
@@ -98,7 +96,6 @@ public class GameModel {
         }
         players.add(p1);
         players.add(p2);
-        players.add(Player.NEUTRAL);
     }
 
     public void press(PlaceHaving obj) {
@@ -147,18 +144,14 @@ public class GameModel {
     }
 
     public void select(Selectable obj) {
-        if (obj != null) {
-            if (obj instanceof GObject) {
-                final GObject gObject = (GObject) obj;
-                if (canBeSelected(gObject)) {
-                    if (selectedObj != null) {
-                        selectedObj.getVisualizer().setSelected(false);
-                    }
-                    selectedObj = gObject;
-                    selectedObj.getVisualizer().setSelected(true);
-                    setAction(selectedObj.getBaseAction());
-                }
+        if (obj instanceof GObject) {
+            final GObject gObject = (GObject) obj;
+            if (selectedObj != null) {
+                selectedObj.getVisualizer().setSelected(false);
             }
+            selectedObj = gObject;
+            selectedObj.getVisualizer().setSelected(true);
+            setAction(selectedObj.getBaseAction());
         }
         graphics.showObjName(obj);
         graphics.showObjInfo(obj);
@@ -168,7 +161,7 @@ public class GameModel {
         boolean canBeSelected = activePlayer.equals(gObject.getPlayer()) && gObject.canAct();
         if (canBeSelected && actingUnit != null && !actingUnit.equals(gObject) && activePlayer.isOwnerFor(actingUnit)) {
             canBeSelected = false;
-            error("errorText", "OtherUnitActed");
+            error("errorText", "OtherUnitSelected");
         }
         return canBeSelected;
     }
@@ -178,13 +171,7 @@ public class GameModel {
     }
 
     public void cancel() {
-        showSelectionPossibility(null);
-        selectedAction.getAims().clear();
-        select(null);
-        if (selectedObj != null) {
-            selectedObj.getVisualizer().setSelected(false);
-        }
-        this.setAction(SELECT_ACTION);
+        selectedAction.cancel();
     }
 
     public List<Player> getPlayers() {
@@ -201,12 +188,8 @@ public class GameModel {
         final Player nextPlayer = getNextPlayer();
         if (nextPlayer == null) {
             endHour();
-            startHour();
         } else {
             setActivePlayer(nextPlayer);
-            if (nextPlayer.isAI()) {
-                nextPlayer.makeTurn();
-            }
         }
         cancel();
     }
@@ -246,6 +229,7 @@ public class GameModel {
             gObject.endHour();
         }
         log("base", "HourEnds", hour);
+        setPhase(new CreationPhase());
     }
 
     public int getHour() {
@@ -413,10 +397,10 @@ public class GameModel {
     public void startHour() {
         hour++;
         log("base", "EndTurnSymbol");
-        Player player = getRandomPlayer();
-        setActivePlayer(player);
         graphics.showTurnNumber();
+        Player player = getRandomPlayer();
         log("base", "HourStarts", hour, player);
+        setActivePlayer(player);
         for (GObject object : objects) {
             object.startHour();
         }
@@ -425,7 +409,7 @@ public class GameModel {
 
     private Player getRandomPlayer() {
         Random r = new Random();
-        return players.get(r.nextInt(players.size() - 1));
+        return players.get(r.nextInt(players.size()));
     }
 
     public void setActingUnit(GObject actingUnit) {
@@ -505,22 +489,19 @@ public class GameModel {
         return false;
     }
 
-    public boolean isTheWeakestPlayer(Player player) {
-        final int size = player.getUnits().size();
-        for (Player otherPlayer : players) {
-            if (otherPlayer != player && otherPlayer != Player.NEUTRAL && otherPlayer.getUnits().size() <= size) {
-                return false;
+    public Player findWeakestPlayer() {
+        int minArmy = Integer.MAX_VALUE;
+        Player theWeakestPlayer = null;
+        for (Player player : getPlayers()) {
+            int armySize = player.getUnits().size();
+            if (armySize < minArmy) {
+                minArmy = armySize;
+                theWeakestPlayer = player;
+            } else if (armySize == minArmy) {
+                theWeakestPlayer = null;
             }
         }
-        return true;
-    }
-
-    public void beforeEvent(GEvent event) {
-
-    }
-
-    public void afterEvent(GEvent event) {
-
+        return theWeakestPlayer;
     }
 
     public List<? extends PlaceHaving> getAll(List<GFilter> filters) {
@@ -553,5 +534,33 @@ public class GameModel {
         }
         return result;
 
+    }
+
+    public void startGame() {
+        hour = 0;
+        graphics.showTurnNumber();
+        setPhase(new GamePhase());
+//        setPhase(new CreationPhase());
+    }
+
+    private boolean gameIsEnded() {
+        return hour > 9;
+    }
+
+    public void setPhase(GPhase phase) {
+        this.phase = phase;
+        phase.init();
+    }
+
+    public GPhase getPhase() {
+        return phase;
+    }
+
+    public void setPhaseAction(AbstractGAction action) {
+        this.currentPhaseAction = action;
+    }
+
+    public AbstractGAction getPhaseAction() {
+        return currentPhaseAction;
     }
 }

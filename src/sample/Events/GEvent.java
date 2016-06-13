@@ -1,8 +1,6 @@
 package sample.Events;
 
 
-import sample.GameModel;
-
 public abstract class GEvent {
     public static GEvent lastEvent;
 
@@ -18,12 +16,12 @@ public abstract class GEvent {
 
     private void doBeforeEvent() {
         logBeforeEvent();
-        GameModel.MODEL.beforeEvent(this);
+//        GameModel.MODEL.beforeEvent(this);
     }
 
     private void doAfterEvent() {
         logAfterEvent();
-        GameModel.MODEL.afterEvent(this);
+//        GameModel.MODEL.afterEvent(this);
     }
 
     private void logAfterEvent() {
