@@ -9,21 +9,24 @@ import sample.Shell;
 public class ArrowShell extends AbstractShellVisualizer {
     @Override
     protected void configureShell(BoardCell cell, Shell shell) {
+        final double arrow_length = 0.75;
+        final double sharp_length = 0.2;
+        final double sharp_width = 0.08;
         shape = new Polyline(
-                cell.getHeight() * 3 / 5,
-                cell.getWidth() / 6 * 2,
+                cell.getWidth() * (arrow_length - sharp_length),
+                cell.getHeight() * (0.5 + sharp_width),
 
-                cell.getHeight() * 4 / 5,
-                cell.getWidth() / 2,
+                cell.getWidth() * arrow_length,
+                cell.getHeight() / 2,
 
-                cell.getHeight() * 3 / 5,
-                cell.getWidth() / 6 * 4,
+                cell.getWidth() * (arrow_length - sharp_length),
+                cell.getHeight() * (0.5 - sharp_width),
 
-                cell.getHeight() * 4 / 5,
-                cell.getWidth() / 2,
+                cell.getWidth() * arrow_length,
+                cell.getHeight() / 2,
 
-                cell.getHeight() / 5,
-                cell.getWidth() / 2
+                cell.getWidth() * (1 - arrow_length),
+                cell.getHeight() / 2
         );
     }
 }

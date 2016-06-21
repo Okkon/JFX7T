@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ public class Player {
     private Color color;
     private List<GUnit> availableUnits = new ArrayList<GUnit>();
     private boolean AI;
+    private Image image;
 
     @Override
     public String toString() {
@@ -114,5 +116,17 @@ public class Player {
         if (unitChoice != null) {
             unitChoice.go(placeChoice);
         }
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
+    public Image getImage() {
+        return image;
     }
 }

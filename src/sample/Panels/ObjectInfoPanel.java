@@ -1,4 +1,4 @@
-package sample;
+package sample.Panels;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,13 +12,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
+import sample.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by ���� on 22.06.2015.
- */
 public class ObjectInfoPanel extends GridPane {
 
     public ObjectInfoPanel() {
@@ -43,7 +41,8 @@ public class ObjectInfoPanel extends GridPane {
             textArea.setWrapText(true);
             textArea.setText(unit.getDescription());
             textArea.setEditable(false);
-            UIHelper.fixWidth(textArea, 80);
+            textArea.setPrefWidth(120);
+            UIHelper.fixHeight(textArea, 60);
 
             ListView<GMod> list = new ListView<GMod>();
             ObservableList<GMod> items = FXCollections.observableArrayList(unit.getMods());
@@ -81,7 +80,7 @@ public class ObjectInfoPanel extends GridPane {
                 Image img = getSkillImage(skill);
                 final ImageView imageView = new ImageView(img);
                 imageView.setPreserveRatio(true);
-                final int buttonSize = 64;
+                final int buttonSize = 55;
                 imageView.setFitWidth(buttonSize);
                 button.setGraphic(imageView);
                 UIHelper.fixSize(button, buttonSize);

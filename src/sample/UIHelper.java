@@ -39,6 +39,12 @@ public class UIHelper {
         node.minWidthProperty().setValue(size);
     }
 
+    public static void fixHeight(Control control, int height) {
+        control.minHeightProperty().setValue(height);
+        control.prefHeightProperty().setValue(height);
+        control.maxHeightProperty().setValue(height);
+    }
+
     public static void fixWidth(Control control, int width) {
         control.prefWidthProperty().setValue(width);
     }

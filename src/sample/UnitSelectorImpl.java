@@ -13,6 +13,8 @@ import javafx.scene.layout.HBoxBuilder;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import sample.Panels.ObjectInfoPanel;
+import sample.Panels.PlayerInfoPanel;
 
 import java.util.List;
 
@@ -36,6 +38,8 @@ public class UnitSelectorImpl implements UnitSelector {
         pane.setStyle("-fx-background-color: ivory;");
         final int unitPaneWidth = 3;
         infoPanel = new ObjectInfoPanel();
+        PlayerInfoPanel playerPanel = new PlayerInfoPanel();
+        playerPanel.setPlayer(GameModel.MODEL.getActivePlayer());
         for (int i = 0; i < units.size(); i++) {
             final GUnit unit = units.get(i);
             final Image image = ImageHelper.getImage(unit);
@@ -59,9 +63,10 @@ public class UnitSelectorImpl implements UnitSelector {
             box.getChildren().add(imageView);
             box.getStyleClass().add("unitSelector");
 
-            pane.add(box, i % unitPaneWidth, i / unitPaneWidth, 1, 1);
+            pane.add(box, i % unitPaneWidth, i / unitPaneWidth);
         }
         infoPanel.setObj(units.get(0));
+        pane.add(playerPanel, 0, units.size() / unitPaneWidth + 1, unitPaneWidth, GridPane.REMAINING);
         pane.add(infoPanel, unitPaneWidth, 0, GridPane.REMAINING, GridPane.REMAINING);
         final Label label = new Label();
         pane.add(label, 0, units.size() / unitPaneWidth + 1, unitPaneWidth, GridPane.REMAINING);

@@ -69,7 +69,8 @@ public class GameModel {
 
     private void initPlayers() {
         players = new ArrayList<Player>();
-        final Player p1 = new Player("P1", Color.RED /*Color.AZURE*/);
+        final Player p1 = new Player("P1", Color.RED);
+        p1.setImage(ImageHelper.getPlayerImage("lan"));
         List<GUnit> commonUnits = new ArrayList<GUnit>();
         commonUnits.add((GUnit) GObjectFactory.create(UnitType.Archer));
         commonUnits.add((GUnit) GObjectFactory.create(UnitType.Assassin));
@@ -84,7 +85,8 @@ public class GameModel {
         for (GUnit unit : p1AvailableUnits) {
             unit.setPlayer(p1);
         }
-        final Player p2 = new Player("P2", Color.CORAL);
+        final Player p2 = new Player("P2", Color.DARKGREEN);
+        p2.setImage(ImageHelper.getPlayerImage("mor"));
         //p2.setAI(true);
         final List<GUnit> p2AvailableUnits = p2.getAvailableUnits();
         for (GUnit gUnit : commonUnits) {

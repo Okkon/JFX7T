@@ -9,14 +9,16 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.VBoxBuilder;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import sample.Panels.ObjectInfoPanel;
+import sample.Panels.PlayerInfoPanel;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,15 +29,15 @@ public class GamePanel extends GridPane implements MainVisualizer {
     private Map<GameCell, BoardCell> cells;
     private VBox actionPanel;
     private GridPane gameInfoPanel;
-    private BorderPane controlPanel;
+    private Pane controlPanel;
     private GridPane boardPane;
     private final TextArea gameLog;
     private Label selectedObjLabel = new Label();
     private Label selectedActionLabel = new Label();
-    private Label selectedPlayer = new Label();
     private Label turnLabel = new Label();
     private Label lastActorLabel = new Label();
     private ObjectInfoPanel objInfoPanel = new ObjectInfoPanel();
+    private PlayerInfoPanel playerInfoPanel = new PlayerInfoPanel();
 
     public GamePanel(GameModel gameModel) {
         gameModel.setGraphics(this);
@@ -68,23 +70,29 @@ public class GamePanel extends GridPane implements MainVisualizer {
         gameInfoPanel.add(selectedObjLabel, 1, 0);
         gameInfoPanel.add(new Label("Selected Action - "), 0, 1);
         gameInfoPanel.add(selectedActionLabel, 1, 1);
-        gameInfoPanel.add(new Label("Selected Player - "), 0, 2);
-        gameInfoPanel.add(selectedPlayer, 1, 2);
-        gameInfoPanel.add(new Label("Turn - "), 0, 3);
-        gameInfoPanel.add(turnLabel, 1, 3);
-        gameInfoPanel.add(new Label("Acting unit - "), 0, 4);
-        gameInfoPanel.add(lastActorLabel, 1, 4);
+        gameInfoPanel.add(new Label("Turn - "), 0, 2);
+        gameInfoPanel.add(turnLabel, 1, 2);
+        gameInfoPanel.add(new Label("Acting unit - "), 0, 3);
+        gameInfoPanel.add(lastActorLabel, 1, 3);
 
         actionPanel = new VBox(5);
         for (GAction action : GameModel.MODEL.getActions()) {
             addAction(action);
         }
 
-        controlPanel = new BorderPane();
+        /*controlPanel = new BorderPane();
         controlPanel.getStyleClass().add("control-panel");
         controlPanel.setTop(gameInfoPanel);
         controlPanel.setCenter(objInfoPanel);
-        controlPanel.setBottom(actionPanel);
+        controlPanel.setBottom(actionPanel);*/
+        controlPanel = VBoxBuilder.create()
+                .children(
+                        gameInfoPanel,
+                        playerInfoPanel,
+                        objInfoPanel,
+                        actionPanel)
+                .styleClass("control-panel")
+                .build();
     }
 
     private void initBoard() {
@@ -186,8 +194,7 @@ public class GamePanel extends GridPane implements MainVisualizer {
     @Override
     public void showActivePlayer() {
         final Player player = GameModel.MODEL.getActivePlayer();
-        selectedPlayer.setText(String.valueOf(player));
-        selectedPlayer.setTextFill(player.getColor());
+        playerInfoPanel.setPlayer(player);
     }
 
     @Override
