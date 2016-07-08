@@ -2,7 +2,7 @@ package sample.Shells;
 
 import javafx.scene.effect.Glow;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
+import javafx.scene.shape.Polyline;
 import sample.AbstractShellVisualizer;
 import sample.BoardCell;
 import sample.Shell;
@@ -10,11 +10,24 @@ import sample.Shell;
 public class AstralArrowShell extends AbstractShellVisualizer {
     @Override
     protected void configureShell(BoardCell cell, Shell shell) {
-        shape = new Line(
-                cell.getHeight() / 5,
-                cell.getWidth() / 2,
-                cell.getHeight() * 4 / 5,
-                cell.getWidth() / 2
+        final double arrow_length = 0.75;
+        final double sharp_length = 0.2;
+        final double sharp_width = 0.05;
+        shape = new Polyline(
+                cell.getWidth() * (arrow_length - sharp_length),
+                cell.getHeight() * (0.5 + sharp_width),
+
+                cell.getWidth() * arrow_length,
+                cell.getHeight() / 2,
+
+                cell.getWidth() * (arrow_length - sharp_length),
+                cell.getHeight() * (0.5 - sharp_width),
+
+                cell.getWidth() * arrow_length,
+                cell.getHeight() / 2,
+
+                cell.getWidth() * (1 - arrow_length),
+                cell.getHeight() / 2
         );
         shape.setStroke(Color.AQUAMARINE);
         shape.setEffect(new Glow(15));

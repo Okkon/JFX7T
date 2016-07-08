@@ -92,7 +92,7 @@ public class GameModel {
         for (GUnit gUnit : commonUnits) {
             p2AvailableUnits.add(gUnit.copy());
         }
-        //p2AvailableUnits.add((GUnit) GObjectFactory.create(UnitType.AstralArcher));
+        p2AvailableUnits.add((GUnit) GObjectFactory.create(UnitType.AstralArcher));
         for (GUnit unit : p2AvailableUnits) {
             unit.setPlayer(p2);
         }

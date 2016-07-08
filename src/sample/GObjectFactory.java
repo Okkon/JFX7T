@@ -2,6 +2,7 @@ package sample;
 
 
 import sample.Mods.*;
+import sample.Skills.AstralBow;
 import sample.Skills.Crossbow;
 import sample.Skills.Fireball;
 
@@ -39,8 +40,9 @@ public class GObjectFactory {
                 break;
             }
             case AstralArcher: {
-                gObject = new GUnit(5, 26, 2, 2);
+                gObject = new GUnit(2, 26, 1, 2);
                 gObject.addMod(new MagicArmor(2));
+                gObject.addSkill(new AstralBow(1, 2, 60));
                 break;
             }
             case Troll: {
