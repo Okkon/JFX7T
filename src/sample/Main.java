@@ -23,8 +23,8 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        gameModel.locateUnits();
-        gameModel.startGame();
+        gameModel.startScenario(new Scenario());
+
     }
 
     public static void main(String[] args) {

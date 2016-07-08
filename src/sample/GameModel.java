@@ -1,6 +1,5 @@
 package sample;
 
-import javafx.scene.paint.Color;
 import sample.Filters.GFilter;
 import sample.GActions.*;
 
@@ -18,46 +17,21 @@ public class GameModel {
     private Map<XY, GameCell> board = new HashMap<XY, GameCell>();
     private MainVisualizer graphics;
     private GObject selectedObj;
-    private List<Player> players;
+    private List<Player> players = new ArrayList<Player>();
     private Player activePlayer;
     private int hour = 0;
     private Collection<? extends Selectable> possibleSelection;
     private GObject actingUnit;
     private GPhase phase;
+    private AbstractScenario scenario;
 
     public void init() {
-        initPlayers();
         setBoard(14, 8);
         possibleActions = new GAction[]{new ChangeOwnerAction(), new ShiftAction(), new KillAction(), new EndHourAction()};
         selectedAction = possibleActions[0];
     }
 
-    public void locateUnits() {
-        generateUnit(UnitType.MainTower, 0, 4, 0);
-        generateUnit(UnitType.MainTower, 13, 5, 1);
-
-        generateUnit(UnitType.Tower, 3, 4, 0);
-        generateUnit(UnitType.Tower, 4, 7, 0);
-        generateUnit(UnitType.Tower, 5, 1, 2);
-        generateUnit(UnitType.Tower, 7, 4, 2);
-        generateUnit(UnitType.Tower, 8, 1, 1);
-        generateUnit(UnitType.Tower, 8, 7, 1);
-        generateUnit(UnitType.Tower, 10, 3, 1);
-
-        generateUnit(UnitType.Archer, 3, 1, 0);
-        generateUnit(UnitType.Assassin, 4, 4, 0);
-        generateUnit(UnitType.Mage, 4, 6, 0);
-        generateUnit(UnitType.Inquisitor, 5, 3, 0);
-        generateUnit(UnitType.Footman, 6, 6, 0);
-
-        generateUnit(UnitType.Archer, 9, 1, 1);
-        generateUnit(UnitType.Assassin, 7, 1, 1);
-        generateUnit(UnitType.Mage, 10, 4, 1);
-        generateUnit(UnitType.Inquisitor, 8, 6, 1);
-        generateUnit(UnitType.Footman, 7, 2, 1);
-    }
-
-    private void generateUnit(UnitType unitType, int x, int y, int playerIndex) {
+    public void generateUnit(UnitType unitType, int x, int y, int playerIndex) {
         final GObject obj = GObjectFactory.create(unitType);
         obj.setPlayer(getPlayerByIndex(playerIndex));
         createObj(obj, board.get(new XY(x, y)));
@@ -65,39 +39,6 @@ public class GameModel {
 
     private Player getPlayerByIndex(int playerIndex) {
         return playerIndex >= players.size() ? Player.NEUTRAL : players.get(playerIndex);
-    }
-
-    private void initPlayers() {
-        players = new ArrayList<Player>();
-        final Player p1 = new Player("P1", Color.RED);
-        p1.setImage(ImageHelper.getPlayerImage("lan"));
-        List<GUnit> commonUnits = new ArrayList<GUnit>();
-        commonUnits.add((GUnit) GObjectFactory.create(UnitType.Archer));
-        commonUnits.add((GUnit) GObjectFactory.create(UnitType.Assassin));
-        commonUnits.add((GUnit) GObjectFactory.create(UnitType.Footman));
-        commonUnits.add((GUnit) GObjectFactory.create(UnitType.Inquisitor));
-        commonUnits.add((GUnit) GObjectFactory.create(UnitType.Mage));
-        final List<GUnit> p1AvailableUnits = p1.getAvailableUnits();
-        for (GUnit gUnit : commonUnits) {
-            p1AvailableUnits.add(gUnit.copy());
-        }
-        p1AvailableUnits.add((GUnit) GObjectFactory.create(UnitType.Troll));
-        for (GUnit unit : p1AvailableUnits) {
-            unit.setPlayer(p1);
-        }
-        final Player p2 = new Player("P2", Color.DARKGREEN);
-        p2.setImage(ImageHelper.getPlayerImage("mor"));
-        //p2.setAI(true);
-        final List<GUnit> p2AvailableUnits = p2.getAvailableUnits();
-        for (GUnit gUnit : commonUnits) {
-            p2AvailableUnits.add(gUnit.copy());
-        }
-        p2AvailableUnits.add((GUnit) GObjectFactory.create(UnitType.AstralArcher));
-        for (GUnit unit : p2AvailableUnits) {
-            unit.setPlayer(p2);
-        }
-        players.add(p1);
-        players.add(p2);
     }
 
     public void press(PlaceHaving obj) {
@@ -157,10 +98,6 @@ public class GameModel {
         }
         graphics.showObjName(obj);
         graphics.showObjInfo(obj);
-    }
-
-    public GObject createUnitCreationPanel() {
-        return graphics.createUnitCreationPanel();
     }
 
     public void cancel() {
@@ -528,13 +465,6 @@ public class GameModel {
 
     }
 
-    public void startGame() {
-        hour = 0;
-        graphics.showTurnNumber();
-        setPhase(new GamePhase());
-//        setPhase(new CreationPhase());
-    }
-
     private boolean gameIsEnded() {
         return hour > 9;
     }
@@ -554,5 +484,11 @@ public class GameModel {
 
     public AbstractGAction getPhaseAction() {
         return currentPhaseAction;
+    }
+
+    public void startScenario(AbstractScenario scenario) {
+        this.scenario = scenario;
+        graphics.showTurnNumber();
+        scenario.start();
     }
 }

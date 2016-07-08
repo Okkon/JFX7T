@@ -49,6 +49,7 @@ public class GamePanel extends GridPane implements MainVisualizer {
         });
 
         gameLog = new TextArea();
+        gameLog.setEditable(false);
         add(boardPane, 0, 0);
         add(controlPanel, 1, 0, 1, REMAINING);
         add(gameLog, 0, 1, 1, 1);

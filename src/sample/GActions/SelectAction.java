@@ -13,6 +13,12 @@ import static sample.Filters.FilterFactory.getFilters;
 public class SelectAction extends AbstractGAction {
     private static SelectAction INSTANCE;
 
+    @Override
+    public void onSelect() {
+        model.select(null);
+        super.onSelect();
+    }
+
     public static SelectAction getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new SelectAction();
