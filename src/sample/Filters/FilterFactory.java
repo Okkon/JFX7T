@@ -15,9 +15,6 @@ public class FilterFactory {
             case IS_UNIT:
                 gFilter = new UnitFilter();
                 break;
-            case IS_NEAR:
-                gFilter = new IsNearFilter();
-                break;
             case CAN_SEE:
                 gFilter = new CanSeeFilter();
                 break;
@@ -38,9 +35,6 @@ public class FilterFactory {
                 break;
             case OBSTACLE_ON_ONE_LINE:
                 gFilter = new ObstacleOnLineFilter();
-                break;
-            case IS_FRIENDLY:
-                gFilter = new IsFriendlyFilter();
                 break;
             case IS_NEAR_FRIENDLY_TOWER:
                 gFilter = new IsNearFriendlyTower();
@@ -75,7 +69,7 @@ public class FilterFactory {
     }
 
     public enum FilterType {
-        IS_NEAR, CAN_SEE, IS_ON_ONE_LINE, BELONG_TO_PLAYER, IS_UNIT, OBSTACLE_ON_ONE_LINE, DISTANCE_CHECK, IS_VACANT_CELL, CAN_BE_ATTACKED, NOT_IN_DANGER, IS_FRIENDLY, CLASS_FILTER, IS_NEAR_FRIENDLY_TOWER, NOT_ME
+        CAN_SEE, IS_ON_ONE_LINE, BELONG_TO_PLAYER, IS_UNIT, OBSTACLE_ON_ONE_LINE, DISTANCE_CHECK, IS_VACANT_CELL, CAN_BE_ATTACKED, NOT_IN_DANGER, CLASS_FILTER, IS_NEAR_FRIENDLY_TOWER, NOT_ME
     }
 
     public static class UnitFilter extends AbstractGFilter {
@@ -99,13 +93,6 @@ public class FilterFactory {
         }
     }
 
-    private static class IsNearFilter extends AbstractGFilter {
-        @Override
-        public boolean isOk(Selectable obj) {
-            return model.isNear(getObj(), (PlaceHaving) obj);
-        }
-    }
-
     private static class IsNearFriendlyTower extends AbstractGFilter {
         @Override
         public boolean isOk(Selectable obj) {
@@ -118,13 +105,6 @@ public class FilterFactory {
                 }
             }
             return false;
-        }
-    }
-
-    private static class IsFriendlyFilter extends AbstractGFilter {
-        @Override
-        public boolean isOk(Selectable obj) {
-            return getObj().isFriendlyFor((GObject) obj);
         }
     }
 

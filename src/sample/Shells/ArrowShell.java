@@ -1,6 +1,5 @@
 package sample.Shells;
 
-
 import javafx.scene.shape.Polyline;
 import sample.AbstractShellVisualizer;
 import sample.BoardCell;
@@ -11,7 +10,7 @@ public class ArrowShell extends AbstractShellVisualizer {
     protected void configureShell(BoardCell cell, Shell shell) {
         final double arrow_length = 0.75;
         final double sharp_length = 0.2;
-        final double sharp_width = 0.08;
+        final double sharp_width = 0.05;
         shape = new Polyline(
                 cell.getWidth() * (arrow_length - sharp_length),
                 cell.getHeight() * (0.5 + sharp_width),

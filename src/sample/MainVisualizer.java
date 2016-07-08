@@ -25,5 +25,4 @@ public interface MainVisualizer {
 
     UnitSelector createUnitSelector(List<GUnit> units);
 
-    void showLastActedUnit(GObject unit);
 }

@@ -9,6 +9,16 @@ public abstract class Skill extends AbstractGAction {
         ownerFilters.add(new CanActFilter().setError("UnitCantAct"));
     }
 
+    @Override
+    public void cancel() {
+        if (aims.size() > 0) {
+            aims.remove(aims.size() - 1);
+            onSelect();
+        } else {
+            model.select(getOwner());
+        }
+    }
+
     public boolean endsTurn() {
         return true;
     }

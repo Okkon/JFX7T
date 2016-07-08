@@ -9,10 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.VBoxBuilder;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -35,7 +32,6 @@ public class GamePanel extends GridPane implements MainVisualizer {
     private Label selectedObjLabel = new Label();
     private Label selectedActionLabel = new Label();
     private Label turnLabel = new Label();
-    private Label lastActorLabel = new Label();
     private ObjectInfoPanel objInfoPanel = new ObjectInfoPanel();
     private PlayerInfoPanel playerInfoPanel = new PlayerInfoPanel();
 
@@ -72,8 +68,6 @@ public class GamePanel extends GridPane implements MainVisualizer {
         gameInfoPanel.add(selectedActionLabel, 1, 1);
         gameInfoPanel.add(new Label("Turn - "), 0, 2);
         gameInfoPanel.add(turnLabel, 1, 2);
-        gameInfoPanel.add(new Label("Acting unit - "), 0, 3);
-        gameInfoPanel.add(lastActorLabel, 1, 3);
 
         actionPanel = new VBox(5);
         for (GAction action : GameModel.MODEL.getActions()) {
@@ -208,19 +202,20 @@ public class GamePanel extends GridPane implements MainVisualizer {
     @Override
     public void error(String s) {
         final Stage dialog = createDialog();
-        dialog.setScene(
-                new Scene(
-                        VBoxBuilder.create().styleClass("modal-dialog").children(
-                                ButtonBuilder.create().text(s).defaultButton(true).onAction(new EventHandler<ActionEvent>() {
-                                    @Override
-                                    public void handle(ActionEvent actionEvent) {
-                                        dialog.close();
-                                    }
-                                }).build()
-                        ).build(),
-                        Color.GRAY
-                )
+        dialog.setMinHeight(200);
+        dialog.setMinWidth(300);
+        dialog.initStyle(StageStyle.UNDECORATED);
+        final Scene scene = new Scene(
+                BorderPaneBuilder.create().styleClass("modal-dialog").minWidth(300).minHeight(200).center(
+                        ButtonBuilder.create().text(s).defaultButton(true).onAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                dialog.close();
+                            }
+                        }).build()
+                ).build()
         );
+        dialog.setScene(scene);
         dialog.showAndWait();
     }
 
@@ -229,11 +224,6 @@ public class GamePanel extends GridPane implements MainVisualizer {
         final Stage dialog = createDialog();
         dialog.initModality(Modality.NONE);
         return new UnitSelectorImpl(units, dialog);
-    }
-
-    @Override
-    public void showLastActedUnit(GObject unit) {
-        lastActorLabel.setText(unit != null ? unit.toString() : "none");
     }
 
     private Stage createDialog() {

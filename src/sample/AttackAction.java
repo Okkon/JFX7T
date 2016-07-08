@@ -1,8 +1,10 @@
 package sample;
 
-import java.util.List;
+import sample.Events.AttackEvent;
+import sample.Filters.IsNearFilter;
 
-import static sample.Filters.FilterFactory.FilterType.*;
+import static sample.Filters.FilterFactory.FilterType.CAN_BE_ATTACKED;
+import static sample.Filters.FilterFactory.FilterType.IS_UNIT;
 
 public class AttackAction extends Skill {
     public static final AttackAction DEFAULT = new AttackAction();
@@ -10,7 +12,7 @@ public class AttackAction extends Skill {
     private AttackAction() {
         super();
         aimType = AimType.Object;
-        addAimFilter(IS_NEAR, "AimIsTooFar");
+        getAimFilters().add(new IsNearFilter().setError("AimIsTooFar"));
         addAimFilter(IS_UNIT, "NotUnit");
         addAimFilter(CAN_BE_ATTACKED, "CanAttack");
     }
@@ -19,13 +21,7 @@ public class AttackAction extends Skill {
     public void doAction() {
         GUnit attacker = (GUnit) getOwner();
         GObject aim = ((GObject) getAim());
-        Hit hit = Hit.createHit(attacker, aim);
-        final List<GMod> mods = attacker.getMods();
-        for (GMod mod : mods) {
-            mod.onHit(hit);
-        }
-        attacker.getVisualizer().startAttack(aim);
-        GameModel.MODEL.log("base", "Hits", attacker, aim);
-        aim.takeHit(hit);
+        final AttackEvent attackEvent = new AttackEvent().setAttacker(attacker).setAim(aim);
+        attackEvent.process();
     }
 }

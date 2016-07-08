@@ -28,7 +28,7 @@ public class GameModel {
     public void init() {
         initPlayers();
         setBoard(14, 8);
-        possibleActions = new GAction[]{new ChangeOwnerAction(), new ShiftAction(), new KillAction()};
+        possibleActions = new GAction[]{new ChangeOwnerAction(), new ShiftAction(), new KillAction(), new EndHourAction()};
         selectedAction = possibleActions[0];
     }
 
@@ -81,7 +81,7 @@ public class GameModel {
         for (GUnit gUnit : commonUnits) {
             p1AvailableUnits.add(gUnit.copy());
         }
-        //p1AvailableUnits.add((GUnit) GObjectFactory.create(UnitType.Troll));
+        p1AvailableUnits.add((GUnit) GObjectFactory.create(UnitType.Troll));
         for (GUnit unit : p1AvailableUnits) {
             unit.setPlayer(p1);
         }
@@ -159,15 +159,6 @@ public class GameModel {
         graphics.showObjInfo(obj);
     }
 
-    protected boolean canBeSelected(GObject gObject) {
-        boolean canBeSelected = activePlayer.equals(gObject.getPlayer()) && gObject.canAct();
-        if (canBeSelected && actingUnit != null && !actingUnit.equals(gObject) && activePlayer.isOwnerFor(actingUnit)) {
-            canBeSelected = false;
-            error("errorText", "OtherUnitSelected");
-        }
-        return canBeSelected;
-    }
-
     public GObject createUnitCreationPanel() {
         return graphics.createUnitCreationPanel();
     }
@@ -193,7 +184,7 @@ public class GameModel {
         } else {
             setActivePlayer(nextPlayer);
         }
-        cancel();
+        setAction(getPhaseAction());
     }
 
     private Player getNextPlayer() {
@@ -231,6 +222,7 @@ public class GameModel {
             gObject.endHour();
         }
         log("base", "HourEnds", hour);
+        GraphicsHelper.getInstance().play();
         setPhase(new CreationPhase());
     }
 
@@ -416,10 +408,8 @@ public class GameModel {
 
     public void setActingUnit(GObject actingUnit) {
         this.actingUnit = actingUnit;
-        graphics.showLastActedUnit(actingUnit);
     }
 
-    @SuppressWarnings("unused")
     public GObject getActingUnit() {
         return actingUnit;
     }

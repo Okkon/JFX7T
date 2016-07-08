@@ -4,6 +4,7 @@ import sample.Events.ShiftEvent;
 import sample.Events.UnitEndTurnEvent;
 import sample.Filters.FilterFactory;
 import sample.Filters.GFilter;
+import sample.Filters.IsNearFilter;
 import sample.GActions.AbstractGAction;
 import sample.Skills.EndTurnAction;
 import sample.Skills.TeleportToTower;
@@ -199,7 +200,9 @@ public class GUnit extends GObject {
     }
 
     private boolean isNearToMainTower() {
-        final Collection<GFilter> filters = FilterFactory.getFilters(FilterFactory.FilterType.IS_NEAR, FilterFactory.FilterType.IS_FRIENDLY);
+        final Collection<GFilter> filters = new ArrayList<GFilter>();
+        filters.add(new IsNearFilter());
+        filters.add(new IsFriendlyFilter());
         filters.add(FilterFactory.getFilter(FilterFactory.FilterType.CLASS_FILTER, null, MainTower.class));
         for (GFilter filter : filters) {
             filter.setObj(this);
