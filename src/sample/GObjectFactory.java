@@ -60,8 +60,9 @@ public class GObjectFactory {
             }
         }
         if (gObject instanceof GUnit) {
-            GUnit object = (GUnit) gObject;
-            object.setType(type);
+            GUnit unit = (GUnit) gObject;
+            unit.setType(type);
+            unit.setActions();
         }
         return gObject;
     }

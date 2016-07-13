@@ -7,6 +7,7 @@ import sample.Filters.GFilter;
 import sample.Filters.IsNearFilter;
 import sample.GActions.AbstractGAction;
 import sample.Skills.EndTurnAction;
+import sample.Skills.ShotAction;
 import sample.Skills.TeleportToTower;
 
 import java.util.*;
@@ -28,6 +29,7 @@ public class GUnit extends GObject {
 
     private DefaultMoveAction moveType;
     private AttackAction attackAction;
+    private Skill rangeAttackAction;
 
     @Override
     public boolean isAlive() {
@@ -54,10 +56,23 @@ public class GUnit extends GObject {
         setStats(maxHp, maxMp, minDamage, randDamage);
         baseAction = new BaseUnitAction();
         baseAction.setOwner(this);
+    }
+
+    public void setActions() {
         moveType = MoveAction.DEFAULT;
         attackAction = AttackAction.DEFAULT;
+        rangeAttackAction = findRangeAttack() != null ? findRangeAttack() : attackAction;
         skills.add(attackAction);
         skills.add(new EndTurnAction());
+    }
+
+    private Skill findRangeAttack() {
+        for (GAction skill : skills) {
+            if (skill instanceof ShotAction) {
+                return (ShotAction) skill;
+            }
+        }
+        return null;
     }
 
     private void setStats(int maxHp, int maxMp, int minDamage, int randDamage) {
@@ -115,7 +130,7 @@ public class GUnit extends GObject {
     }
 
     public Set<GameCell> getCellsToGo() {
-        Set<GameCell> possibleCells = new HashSet<GameCell>();
+        Set<GameCell> possibleCells = new HashSet<>();
         final Collection<Way> allWays = GameModel.MODEL.findAllWays(this, moveType);
         for (Way way : allWays) {
             possibleCells.add(way.getDestinationCell());
@@ -189,7 +204,7 @@ public class GUnit extends GObject {
     }
 
     public List<? extends GAction> getExtraSkills() {
-        List<Skill> list = new ArrayList<Skill>();
+        List<Skill> list = new ArrayList<>();
         if (getPlace() == null) {
             return list;
         }
@@ -200,7 +215,7 @@ public class GUnit extends GObject {
     }
 
     private boolean isNearToMainTower() {
-        final Collection<GFilter> filters = new ArrayList<GFilter>();
+        final Collection<GFilter> filters = new ArrayList<>();
         filters.add(new IsNearFilter());
         filters.add(new IsFriendlyFilter());
         filters.add(FilterFactory.getFilter(FilterFactory.FilterType.CLASS_FILTER, null, MainTower.class));
@@ -232,8 +247,10 @@ public class GUnit extends GObject {
                 GObject gObject = (GObject) obj;
                 if (isFriendlyFor(gObject)) {
                     skill = GameModel.SELECT_ACTION;
-                } else {
+                } else if (XY.isNear(getXy(), ((GObject) obj).getXy())) {
                     skill = attackAction;
+                } else {
+                    skill = rangeAttackAction;
                 }
             } else if (obj instanceof GameCell) {
                 skill = moveType;

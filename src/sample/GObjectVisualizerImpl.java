@@ -19,7 +19,6 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
     private final Label hpLabel = new Label();
     private final StackPane pane = new StackPane();
     private final GObject obj;
-    private Transition transition;
     private Image image;
 
     public GObjectVisualizerImpl(final GObject obj, GamePanel gamePanel) {
