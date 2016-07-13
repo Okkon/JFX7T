@@ -186,6 +186,7 @@ public class GUnit extends GObject {
         copy.getSkills().addAll(getSkills());
         copy.setPlayer(getPlayer());
         copy.setType(getType());
+        copy.setActions();
         return copy;
     }
 

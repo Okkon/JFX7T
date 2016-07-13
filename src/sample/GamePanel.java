@@ -7,7 +7,6 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -39,12 +38,9 @@ public class GamePanel extends GridPane implements MainVisualizer {
         gameModel.setGraphics(this);
         this.model = gameModel;
         initComponents();
-        setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                if (keyEvent.getCode().equals(KeyCode.ESCAPE)) {
-                    GameModel.MODEL.cancel();
-                }
+        setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode().equals(KeyCode.ESCAPE)) {
+                GameModel.MODEL.cancel();
             }
         });
 
@@ -93,15 +89,12 @@ public class GamePanel extends GridPane implements MainVisualizer {
     private void initBoard() {
         boardPane = new GridPane();
         boardPane.setGridLinesVisible(true);
-        cells = new HashMap<GameCell, BoardCell>();
+        cells = new HashMap<>();
         final Map<XY, GameCell> board = model.getBoard();
-        final EventHandler<MouseEvent> handler = new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                BoardCell selectedCell = (BoardCell) mouseEvent.getSource();
-                model.press(selectedCell.getGameCell());
-                refresh();
-            }
+        final EventHandler<MouseEvent> handler = mouseEvent -> {
+            BoardCell selectedCell = (BoardCell) mouseEvent.getSource();
+            model.press(selectedCell.getGameCell());
+            refresh();
         };
         for (Map.Entry<XY, GameCell> entry : board.entrySet()) {
             final BoardCell boardCell = new BoardCell(entry.getValue());

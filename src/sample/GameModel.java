@@ -1,5 +1,8 @@
 package sample;
 
+import javafx.animation.PauseTransition;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import sample.Filters.GFilter;
 import sample.GActions.*;
 
@@ -159,8 +162,16 @@ public class GameModel {
             gObject.endHour();
         }
         log("base", "HourEnds", hour);
-        GraphicsHelper.getInstance().play();
-        setPhase(new CreationPhase());
+        final GraphicsHelper instance = GraphicsHelper.getInstance();
+        final PauseTransition transition = new PauseTransition();
+        transition.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                setPhase(new CreationPhase());
+            }
+        });
+        instance.addTransition(transition);
+        instance.play();
     }
 
     public int getHour() {
