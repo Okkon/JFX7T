@@ -5,6 +5,7 @@ public abstract class AbstractScenario {
 
     public void start() {
         initPlayers();
+        locateTowers();
         locateUnits();
         startGame();
     }
@@ -14,6 +15,8 @@ public abstract class AbstractScenario {
     }
 
     public abstract void initPlayers();
+
+    public abstract void locateTowers();
 
     public abstract void locateUnits();
 

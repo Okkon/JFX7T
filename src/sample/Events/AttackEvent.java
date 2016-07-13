@@ -15,7 +15,7 @@ public class AttackEvent extends GEvent {
         for (GMod mod : mods) {
             mod.onHit(hit);
         }
-        attacker.getVisualizer().startAttack(aim);
+        attacker.getVisualizer().startAttack(hit);
         GameModel.MODEL.log("base", "Hits", attacker, aim);
         aim.takeHit(hit);
 

@@ -76,7 +76,7 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
     }
 
     protected Bounds getBounds(GameCell cell) {
-        final BoardCell fromCell = (BoardCell) cell.getVisualizer();
+        final BoardCell fromCell = cell.getVisualizer();
         return fromCell.getBoundsInParent();
     }
 
@@ -175,14 +175,14 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
     }
 
     @Override
-    public void startAttack(GObject aim) {
-        GObjectVisualizerImpl visualizer = (GObjectVisualizerImpl) aim.getVisualizer();
+    public void startAttack(Hit hit) {
+        GObjectVisualizerImpl visualizer = (GObjectVisualizerImpl) hit.getAim().getVisualizer();
         XY c = UIHelper.getCenter(this);
         XY c2 = UIHelper.getCenter(visualizer);
 
-        final Shape sword = createWeapon();
+        final Shape weapon = createWeapon(hit);
 
-        GraphicsHelper.getInstance().add(sword);
+        GraphicsHelper.getInstance().add(weapon);
         Path path = PathBuilder.create()
                 .elements(
                         new MoveTo(c.getX(), c.getY()),
@@ -190,7 +190,7 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
                 .build();
 
         PathTransition pathTransition = PathTransitionBuilder.create()
-                .node(sword)
+                .node(weapon)
                 .duration(MyConst.MOVE_ANIMATION_DURATION)
                 .path(path)
                 .autoReverse(true)
@@ -199,28 +199,34 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
                 .onFinished(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-                        GraphicsHelper.getInstance().remove(sword);
+                        GraphicsHelper.getInstance().remove(weapon);
                     }
                 }).build();
         GraphicsHelper.getInstance().addTransition(pathTransition);
     }
 
-    private Shape createWeapon() {
+    private Shape createWeapon(Hit hit) {
         double h = pane.getHeight();
         double w = pane.getWidth();
         final Shape sword = new Polyline(
                 w * 1 / 5,
                 h * 1 / 2,
+
                 w * 4 / 5,
                 h * 1 / 2,
+
                 w * 2 / 5,
                 h * 1 / 2,
+
                 w * 2 / 5,
                 h * 3 / 5,
+
                 w * 2 / 5,
                 h * 2 / 5
         );
-//        sword.setStroke(Color.BLANCHEDALMOND);
+        if (DamageType.MAGIC.equals(hit.getDamageType())) {
+            sword.setStroke(Color.AQUAMARINE);
+        }
         sword.setStrokeWidth(3);
         return sword;
     }
