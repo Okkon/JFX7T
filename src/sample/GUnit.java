@@ -29,7 +29,6 @@ public class GUnit extends GObject {
 
     private DefaultMoveAction moveType;
     private AttackAction attackAction;
-    private Skill rangeAttackAction;
 
     @Override
     public boolean isAlive() {
@@ -56,12 +55,8 @@ public class GUnit extends GObject {
         setStats(maxHp, maxMp, minDamage, randDamage);
         baseAction = new BaseUnitAction();
         baseAction.setOwner(this);
-    }
-
-    public void setActions() {
         moveType = MoveAction.DEFAULT;
         attackAction = AttackAction.DEFAULT;
-        rangeAttackAction = findRangeAttack() != null ? findRangeAttack() : attackAction;
         skills.add(attackAction);
         skills.add(new EndTurnAction());
     }
@@ -186,7 +181,6 @@ public class GUnit extends GObject {
         copy.getSkills().addAll(getSkills());
         copy.setPlayer(getPlayer());
         copy.setType(getType());
-        copy.setActions();
         return copy;
     }
 
@@ -251,7 +245,7 @@ public class GUnit extends GObject {
                 } else if (XY.isNear(getXy(), ((GObject) obj).getXy())) {
                     skill = attackAction;
                 } else {
-                    skill = rangeAttackAction;
+                    skill = findRangeAttack() == null ? attackAction : findRangeAttack();
                 }
             } else if (obj instanceof GameCell) {
                 skill = moveType;
