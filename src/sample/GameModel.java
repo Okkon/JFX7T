@@ -1,8 +1,6 @@
 package sample;
 
 import javafx.animation.PauseTransition;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import sample.Filters.GFilter;
 import sample.GActions.*;
 
@@ -14,13 +12,13 @@ public class GameModel {
     public static final AbstractGAction SELECT_ACTION = SelectAction.getInstance();
     private AbstractGAction currentPhaseAction;
     private Collection<Way> lastFoundWays;
-    Set<GObject> objects = new HashSet<GObject>();
+    Set<GObject> objects = new HashSet<>();
     private GAction[] possibleActions;
     private GAction selectedAction;
-    private Map<XY, GameCell> board = new HashMap<XY, GameCell>();
+    private Map<XY, GameCell> board = new HashMap<>();
     private MainVisualizer graphics;
     private GObject selectedObj;
-    private List<Player> players = new ArrayList<Player>();
+    private List<Player> players = new ArrayList<>();
     private Player activePlayer;
     private int hour = 0;
     private Collection<? extends Selectable> possibleSelection;
@@ -156,7 +154,7 @@ public class GameModel {
     }
 
     public void endHour() {
-        List<GObject> gObjects = new ArrayList<GObject>();
+        List<GObject> gObjects = new ArrayList<>();
         gObjects.addAll(getObjects());
         for (GObject gObject : gObjects) {
             gObject.endHour();
@@ -164,12 +162,7 @@ public class GameModel {
         log("base", "HourEnds", hour);
         final GraphicsHelper instance = GraphicsHelper.getInstance();
         final PauseTransition transition = new PauseTransition();
-        transition.setOnFinished(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                setPhase(new CreationPhase());
-            }
-        });
+        transition.setOnFinished(event -> setPhase(new CreationPhase()));
         instance.addTransition(transition);
         instance.play();
     }
@@ -187,9 +180,9 @@ public class GameModel {
     }
 
     public Collection<Way> findAllWays(GUnit unit, MoveAction moveAction) {
-        Map<GameCell, Way> destinations = new HashMap<GameCell, Way>();
+        Map<GameCell, Way> destinations = new HashMap<>();
         Way start = new Way(unit.getPlace());
-        Queue<Way> wayQueue = new ArrayDeque<Way>();
+        Queue<Way> wayQueue = new ArrayDeque<>();
         wayQueue.add(start);
 
         while (!wayQueue.isEmpty()) {
@@ -211,7 +204,7 @@ public class GameModel {
 
 
     public List<GameCell> getNearCells(GameCell cell) {
-        List<GameCell> cells = new ArrayList<GameCell>();
+        List<GameCell> cells = new ArrayList<>();
         XY xy = cell.getXy();
         for (GameCell gameCell : board.values()) {
             if (XY.isNear(xy, gameCell.getXy())) {
@@ -270,7 +263,8 @@ public class GameModel {
     }
 
     public Set<GUnit> getNearUnits(GameCell cell) {
-        Set<GUnit> unitSet = new HashSet<GUnit>();
+        Set<GUnit> unitSet;
+        unitSet = new HashSet<>();
         for (GObject object : objects) {
             if (object instanceof GUnit) {
                 GUnit gUnit = (GUnit) object;
@@ -302,7 +296,7 @@ public class GameModel {
     }
 
     public List<GUnit> getEnemiesNear(GameCell place, Player player) {
-        List<GUnit> list = new ArrayList<GUnit>();
+        List<GUnit> list = new ArrayList<>();
         final Set<GUnit> nearUnits = getNearUnits(place);
         for (GUnit nearUnit : nearUnits) {
             if (player.isEnemyFor(nearUnit.player)) {
@@ -323,7 +317,7 @@ public class GameModel {
     }
 
     private List<GObject> getObjBetween(GObject observer, GObject aim) {
-        List<GObject> list = new ArrayList<GObject>();
+        List<GObject> list = new ArrayList<>();
         final Direction direction = Direction.findDirection(observer.getXy(), aim.getXy());
         GameCell currentCell = getNextCell(observer.getPlace(), direction);
         while (!aim.getPlace().equals(currentCell)) {
@@ -367,7 +361,7 @@ public class GameModel {
     }
 
     public List<GObject> getObjects(Collection<GFilter> filters) {
-        List<GObject> result = new ArrayList<GObject>();
+        List<GObject> result = new ArrayList<>();
         boolean isOk;
         for (GObject gObject : objects) {
             isOk = true;
@@ -385,7 +379,7 @@ public class GameModel {
     }
 
     public List<GObject> getObjects(GFilter... filters) {
-        List<GFilter> filterList = new ArrayList<GFilter>();
+        List<GFilter> filterList = new ArrayList<>();
         Collections.addAll(filterList, filters);
         return getObjects(filterList);
     }
@@ -400,7 +394,7 @@ public class GameModel {
     }
 
     public List<GameCell> getCells(List<GFilter> filters) {
-        List<GameCell> cells = new ArrayList<GameCell>();
+        List<GameCell> cells = new ArrayList<>();
         for (GameCell cell : board.values()) {
             boolean isOk = true;
             for (GFilter filter : filters) {
@@ -445,7 +439,7 @@ public class GameModel {
     }
 
     public List<? extends PlaceHaving> getAll(List<GFilter> filters) {
-        List result = new ArrayList();
+        List<PlaceHaving> result = new ArrayList<>();
         for (GameCell cell : board.values()) {
             boolean isOk = true;
             for (GFilter filter : filters) {

@@ -111,7 +111,7 @@ public abstract class AbstractGAction implements GAction {
     }
 
     protected void afterPerform() {
-        GraphicsHelper.getInstance().play();
+//        GraphicsHelper.getInstance().play();
     }
 
     @Override

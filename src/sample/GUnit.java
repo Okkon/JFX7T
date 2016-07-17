@@ -189,7 +189,7 @@ public class GUnit extends GObject {
         if (healedHp > 0) {
             hp += healedHp;
             getVisualizer().changeHP(hp);
-            GameModel.MODEL.log("base", "Recover", this, hp);
+            GameModel.MODEL.log("base", "Recover", this, healedHp);
         }
         return healedHp;
     }

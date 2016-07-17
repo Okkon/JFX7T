@@ -48,12 +48,14 @@ public class Scenario extends AbstractScenario {
         generateUnit(UnitType.Mage, 4, 6, 0);
         generateUnit(UnitType.Inquisitor, 5, 3, 0);
         generateUnit(UnitType.Footman, 6, 6, 0);
+        generateUnit(UnitType.Troll, 6, 4, 0);
 
         generateUnit(UnitType.Archer, 9, 1, 1);
         generateUnit(UnitType.Assassin, 7, 1, 1);
         generateUnit(UnitType.Mage, 10, 4, 1);
         generateUnit(UnitType.Inquisitor, 8, 6, 1);
         generateUnit(UnitType.Footman, 7, 2, 1);
+        generateUnit(UnitType.AstralArcher, 9, 3, 1);
     }
 
     public void locateTowers() {
@@ -64,7 +66,7 @@ public class Scenario extends AbstractScenario {
         generateUnit(UnitType.Tower, 4, 7, 0);
         generateUnit(UnitType.Tower, 5, 1, 2);
         generateUnit(UnitType.Tower, 7, 4, 2);
-        generateUnit(UnitType.Tower, 8, 1, 1);
+        generateUnit(UnitType.Tower, 8, 0, 1);
         generateUnit(UnitType.Tower, 8, 7, 1);
         generateUnit(UnitType.Tower, 10, 3, 1);
     }

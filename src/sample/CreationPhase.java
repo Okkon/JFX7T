@@ -27,7 +27,7 @@ public class CreationPhase extends GPhase {
 
     @Override
     public void init() {
-        list = new ArrayList<CreateUnitAction>();
+        list = new ArrayList<>();
         Player weakestPlayer = model.findWeakestPlayer();
         for (Player player : model.getPlayers()) {
             CreateUnitAction createUnitAction = new CreateUnitAction();

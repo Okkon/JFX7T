@@ -54,6 +54,7 @@ public class CreateUnitAction extends AbstractGAction {
         } else {
             GameModel.MODEL.error("errorText", "NoUnitSelected");
         }
+        GraphicsHelper.getInstance().play();
     }
 
     public void setUnitNumber(int unitNumber) {

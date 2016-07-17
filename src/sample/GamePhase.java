@@ -12,6 +12,7 @@ public class GamePhase extends GPhase {
                 model.select(skill.getOwner());
             }
         }
+        GraphicsHelper.getInstance().play();
     }
 
     @Override

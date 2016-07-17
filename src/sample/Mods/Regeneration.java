@@ -16,10 +16,8 @@ public class Regeneration extends AbstractGMod {
         if (object instanceof GUnit) {
             GUnit gUnit = (GUnit) object;
             if (gUnit.isWounded()) {
-                final int recoveredHp = ((GUnit) object).recover(value);
-                if (recoveredHp > 0) {
-                    GameModel.MODEL.log("mods", "Regenaration", object);
-                }
+                GameModel.MODEL.log("mods", "Regenaration", object);
+                ((GUnit) object).recover(value);
             }
         }
     }
