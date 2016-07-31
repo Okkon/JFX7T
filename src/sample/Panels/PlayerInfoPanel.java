@@ -1,17 +1,10 @@
 package sample.Panels;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import sample.Player;
-
-import java.io.File;
 
 public class PlayerInfoPanel extends GridPane {
 
@@ -47,7 +40,7 @@ public class PlayerInfoPanel extends GridPane {
         add(new Label(String.valueOf(player.getScore())), 2, 1);
         add(new Label("Units:"), 1, 2);
         add(new Label(String.format("%s/%s", player.getActiveUnits().size(), player.getUnits().size())), 2, 2);
-        Button button = new Button();
+        /*Button button = new Button();
         button.setText("Select Image");
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -60,7 +53,7 @@ public class PlayerInfoPanel extends GridPane {
                 setPlayer(player);
             }
         });
-        add(button, 1, 3, 2, 1);
+        add(button, 1, 3, 2, 1);*/
 
     }
 }

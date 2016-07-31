@@ -40,7 +40,23 @@ public class GamePanel extends GridPane implements MainVisualizer {
         initComponents();
         setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode().equals(KeyCode.ESCAPE)) {
-                GameModel.MODEL.cancel();
+                model.cancel();
+            } else {
+                final GObject selectedObj = model.getSelectedObj();
+                if (keyEvent.getCode().equals(KeyCode.TAB)) {
+                    final List<GUnit> activeUnits = model.getActivePlayer().getActiveUnits();
+                    int index = activeUnits.indexOf(selectedObj);
+                    index++;
+                    if (index >= activeUnits.size()) {
+                        index = 0;
+                    }
+                    model.select(activeUnits.get(index));
+                } else if (keyEvent.getCode().equals(KeyCode.ENTER)) {
+                    /*GObject object = selectedObj == null
+                            ? model.getActivePlayer().getActiveUnits().get(0)
+                            : selectedObj;*/
+                    model.endTurn();
+                }
             }
         });
 

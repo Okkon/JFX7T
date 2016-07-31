@@ -496,4 +496,8 @@ public class GameModel {
         graphics.showTurnNumber();
         scenario.start();
     }
+
+    public GObject getSelectedObj() {
+        return selectedObj;
+    }
 }

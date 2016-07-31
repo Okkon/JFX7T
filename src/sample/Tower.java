@@ -3,10 +3,7 @@ package sample;
 import sample.Events.OwnerChangeEvent;
 import sample.Skills.Crossbow;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Tower extends GObject {
 
@@ -53,6 +50,19 @@ public class Tower extends GObject {
                 crossbow.getAims().add(enemy);
                 crossbow.doAction();
             }
+            if (enemies.isEmpty()) {
+                final List<GUnit> friends = new ArrayList<>();
+                final Set<GUnit> nearUnits = GameModel.MODEL.getNearUnits(getPlace());
+                for (GUnit nearUnit : nearUnits) {
+                    if (nearUnit.isFriendlyFor(this)) {
+                        friends.add(nearUnit);
+                    }
+                }
+                for (GUnit friend : friends) {
+                    friend.recover(2);
+                }
+            }
+
         }
     }
 
@@ -62,7 +72,7 @@ public class Tower extends GObject {
     }
 
     private void checkControl() {
-        Map<Player, Integer> controlPower = new HashMap<Player, Integer>();
+        Map<Player, Integer> controlPower = new HashMap<>();
         Set<GUnit> unitSet = GameModel.MODEL.getNearUnits(getPlace());
         for (GUnit unit : unitSet) {
             final Player unitPlayer = unit.getPlayer();
