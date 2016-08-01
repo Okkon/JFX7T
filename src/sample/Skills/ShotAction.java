@@ -11,6 +11,17 @@ public abstract class ShotAction extends Skill {
     protected int maxDamage;
     protected int distance;
 
+    @Override
+    public String getDescription() {
+        return NameHelper.getName(
+                "skillDescription",
+                getClass().getSimpleName(),
+                distance,
+                minDamage,
+                minDamage + maxDamage
+        );
+    }
+
     public ShotAction(int distance, int minDamage, int maxDamage) {
         this.distance = distance;
         this.minDamage = minDamage;

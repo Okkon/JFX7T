@@ -16,12 +16,9 @@ public class UIHelper {
         VBox vBox = new VBox(5);
         for (final UnitType value : values) {
             if (value != null) {
-                final Button button = ButtonBuilder.create().text(value.toString()).defaultButton(true).onAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent actionEvent) {
-                        unitType[0] = value;
-                        dialog.close();
-                    }
+                final Button button = ButtonBuilder.create().text(value.toString()).defaultButton(true).onAction((EventHandler<ActionEvent>) actionEvent -> {
+                    unitType[0] = value;
+                    dialog.close();
                 }).build();
                 vBox.getChildren().add(button);
             }
@@ -43,10 +40,6 @@ public class UIHelper {
         control.minHeightProperty().setValue(height);
         control.prefHeightProperty().setValue(height);
         control.maxHeightProperty().setValue(height);
-    }
-
-    public static void fixWidth(Control control, int width) {
-        control.prefWidthProperty().setValue(width);
     }
 
     public static XY getCenter(GObjectVisualizerImpl impl) {

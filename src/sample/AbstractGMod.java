@@ -41,7 +41,7 @@ public abstract class AbstractGMod implements GMod {
 
     @Override
     public String getDescription() {
-        return NameHelper.getName("modDescription", getClass().getSimpleName());
+        return NameHelper.getName("modDescription", getClass().getSimpleName(), value);
     }
 
     @Override

@@ -7,7 +7,6 @@ import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -47,12 +46,7 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
             token.getStyleClass().add("tower");
         }
         setReady(obj.canAct());
-        token.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                GameModel.MODEL.press(obj);
-            }
-        });
+        token.setOnMousePressed(mouseEvent -> GameModel.MODEL.press(obj));
     }
 
     @Override

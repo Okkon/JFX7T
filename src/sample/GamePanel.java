@@ -44,13 +44,15 @@ public class GamePanel extends GridPane implements MainVisualizer {
             } else {
                 final GObject selectedObj = model.getSelectedObj();
                 if (keyEvent.getCode().equals(KeyCode.TAB)) {
-                    final List<GUnit> activeUnits = model.getActivePlayer().getActiveUnits();
-                    int index = activeUnits.indexOf(selectedObj);
-                    index++;
-                    if (index >= activeUnits.size()) {
-                        index = 0;
+                    if (model.getActingUnit() == null) {
+                        final List<GUnit> activeUnits = model.getActivePlayer().getActiveUnits();
+                        int index = activeUnits.indexOf(selectedObj);
+                        index++;
+                        if (index >= activeUnits.size()) {
+                            index = 0;
+                        }
+                        model.select(activeUnits.get(index));
                     }
-                    model.select(activeUnits.get(index));
                 } else if (keyEvent.getCode().equals(KeyCode.ENTER)) {
                     /*GObject object = selectedObj == null
                             ? model.getActivePlayer().getActiveUnits().get(0)
@@ -87,11 +89,6 @@ public class GamePanel extends GridPane implements MainVisualizer {
             addAction(action);
         }
 
-        /*controlPanel = new BorderPane();
-        controlPanel.getStyleClass().add("control-panel");
-        controlPanel.setTop(gameInfoPanel);
-        controlPanel.setCenter(objInfoPanel);
-        controlPanel.setBottom(actionPanel);*/
         controlPanel = VBoxBuilder.create()
                 .children(
                         gameInfoPanel,
@@ -127,12 +124,7 @@ public class GamePanel extends GridPane implements MainVisualizer {
     private void addAction(final GAction action) {
         final Button button = new Button(action.getName());
         actionPanel.getChildren().add(button);
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                GameModel.MODEL.setAction(action);
-            }
-        });
+        button.setOnAction(actionEvent -> GameModel.MODEL.setAction(action));
     }
 
     @Override
@@ -217,12 +209,8 @@ public class GamePanel extends GridPane implements MainVisualizer {
         dialog.initStyle(StageStyle.UNDECORATED);
         final Scene scene = new Scene(
                 BorderPaneBuilder.create().styleClass("modal-dialog").minWidth(300).minHeight(200).center(
-                        ButtonBuilder.create().text(s).defaultButton(true).onAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent actionEvent) {
-                                dialog.close();
-                            }
-                        }).build()
+                        ButtonBuilder.create().text(s).defaultButton(true).onAction(
+                                (EventHandler<ActionEvent>) actionEvent -> dialog.close()).build()
                 ).build()
         );
         dialog.setScene(scene);
