@@ -8,18 +8,25 @@ public abstract class GEvent {
 
     public void process() {
         doBeforeEvent();
+        if (!canBePerformed()) {
+            return;
+        }
         visualize();
         perform();
         lastEvent = this;
         doAfterEvent();
     }
 
-    private void doBeforeEvent() {
+    private boolean canBePerformed() {
+        return true;
+    }
+
+    protected void doBeforeEvent() {
         logBeforeEvent();
 //        GameModel.MODEL.beforeEvent(this);
     }
 
-    private void doAfterEvent() {
+    protected void doAfterEvent() {
         logAfterEvent();
 //        GameModel.MODEL.afterEvent(this);
     }

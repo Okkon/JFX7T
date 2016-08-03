@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Way {
-    private final GameCell cell;
+    private final GameCell finishCell;
     private int length;
     private List<GameCell> points;
 
     public Way(GameCell place) {
-        this.cell = place;
+        this.finishCell = place;
         this.length = 0;
-        points = new ArrayList<GameCell>();
+        points = new ArrayList<>();
     }
 
     public GameCell getDestinationCell() {
-        return cell;
+        return finishCell;
     }
 
     public int getLength() {

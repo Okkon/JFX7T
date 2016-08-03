@@ -15,5 +15,4 @@ public interface GFilter {
 
     GFilter setError(String error);
 
-    void setType(FilterFactory.FilterType type);
 }

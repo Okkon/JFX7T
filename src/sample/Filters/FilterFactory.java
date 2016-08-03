@@ -49,7 +49,6 @@ public class FilterFactory {
                 gFilter = new NotMeFilter();
                 break;
         }
-        gFilter.setType(type);
         if (error != null) {
             gFilter.setError(error);
         }

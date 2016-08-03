@@ -25,6 +25,7 @@ public class GameModel {
     private GObject actingUnit;
     private GPhase phase;
     private AbstractScenario scenario;
+    private List<GAura> auras;
 
     public void init() {
         setBoard(14, 8);
@@ -438,40 +439,12 @@ public class GameModel {
         return theWeakestPlayer;
     }
 
-    public List<? extends PlaceHaving> getAll(List<GFilter> filters) {
+    public List<PlaceHaving> getAll(List<GFilter> filters) {
         List<PlaceHaving> result = new ArrayList<>();
-        for (GameCell cell : board.values()) {
-            boolean isOk = true;
-            for (GFilter filter : filters) {
-                if (!filter.isOk(cell)) {
-                    isOk = false;
-                    break;
-                }
-            }
-            if (isOk) {
-                result.add(cell);
-            }
-        }
-
-        boolean isOk;
-        for (GObject gObject : objects) {
-            isOk = true;
-            for (GFilter filter : filters) {
-                if (!filter.isOk(gObject)) {
-                    isOk = false;
-                    break;
-                }
-            }
-            if (isOk) {
-                result.add(gObject);
-            }
-        }
+        result.addAll(getCells(filters));
+        result.addAll(getObjects(filters));
         return result;
 
-    }
-
-    private boolean gameIsEnded() {
-        return hour > 9;
     }
 
     public void setPhase(GPhase phase) {
@@ -499,5 +472,9 @@ public class GameModel {
 
     public GObject getSelectedObj() {
         return selectedObj;
+    }
+
+    public List<GAura> getAuras() {
+        return auras;
     }
 }

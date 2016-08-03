@@ -8,12 +8,10 @@ import sample.Selectable;
 
 public abstract class AbstractGFilter implements GFilter {
     private GObject obj;
-    private FilterFactory.FilterType type;
     private String errorText;
     protected GameModel model = GameModel.MODEL;
 
     @Override
-
     public GObject getObj() {
         return obj;
     }
@@ -38,8 +36,5 @@ public abstract class AbstractGFilter implements GFilter {
         return this;
     }
 
-    @Override
-    public void setType(FilterFactory.FilterType type) {
-        this.type = type;
-    }
+
 }

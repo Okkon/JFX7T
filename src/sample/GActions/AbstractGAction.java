@@ -35,7 +35,7 @@ public abstract class AbstractGAction implements GAction {
 
     public List<GFilter> getAimFilters() {
         if (filters.isEmpty()) {
-            filters.add(new ArrayList<GFilter>());
+            filters.add(new ArrayList<>());
         }
         return filters.get(aims.size());
     }

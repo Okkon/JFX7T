@@ -1,5 +1,7 @@
 package sample;
 
+import sample.Events.ShiftEvent;
+
 public interface GMod {
     void onHit(Hit hit);
 
@@ -20,4 +22,6 @@ public interface GMod {
     String getName();
 
     String getDescription();
+
+    void onBeforeShift(ShiftEvent shiftEvent);
 }

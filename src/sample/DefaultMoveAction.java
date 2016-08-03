@@ -5,6 +5,7 @@ import sample.Events.MoveEvent;
 import java.util.*;
 
 public class DefaultMoveAction extends Skill implements MoveAction {
+
     @Override
     public boolean endsTurn() {
         return false;
@@ -12,7 +13,7 @@ public class DefaultMoveAction extends Skill implements MoveAction {
 
     @Override
     public Set<Way> getWayFromCell(Way point, GUnit unit) {
-        Set<Way> possibleWays = new HashSet<Way>();
+        Set<Way> possibleWays = new HashSet<>();
         List<GameCell> cells = getCellsWhereUnitCanGo(point, unit);
         for (GameCell cell : cells) {
             Way way = createWay(unit, point, cell);
@@ -63,11 +64,10 @@ public class DefaultMoveAction extends Skill implements MoveAction {
     }
 
     private void step(GUnit unit, GameCell toCell) {
-        final int stepPrice = calculateStepPrice(unit.getPlace(), toCell);
         MoveEvent moveEvent = new MoveEvent();
+        moveEvent.setMoveType(this);
         moveEvent.setUnit(unit);
         moveEvent.setToCell(toCell);
-        moveEvent.setStepPrice(stepPrice);
         moveEvent.process();
     }
 
@@ -93,7 +93,7 @@ public class DefaultMoveAction extends Skill implements MoveAction {
                 : null;
     }
 
-    private int calculateStepPrice(GameCell fromCell, GameCell toCell) {
+    public int calculateStepPrice(GameCell fromCell, GameCell toCell) {
         return XY.getDistance(fromCell.getXy(), toCell.getXy());
     }
 }

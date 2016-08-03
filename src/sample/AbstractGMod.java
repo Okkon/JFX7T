@@ -1,6 +1,8 @@
 package sample;
 
 
+import sample.Events.ShiftEvent;
+
 public abstract class AbstractGMod implements GMod {
     protected int value;
 
@@ -42,6 +44,11 @@ public abstract class AbstractGMod implements GMod {
     @Override
     public String getDescription() {
         return NameHelper.getName("modDescription", getClass().getSimpleName(), value);
+    }
+
+    @Override
+    public void onBeforeShift(ShiftEvent shiftEvent) {
+
     }
 
     @Override

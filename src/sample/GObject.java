@@ -11,8 +11,9 @@ public abstract class GObject implements Selectable, PlaceHaving {
     protected GameCell place;
     protected Player player;
     protected GAction baseAction = SelectAction.getInstance();
-    private List<GMod> mods = new ArrayList<GMod>();
-    protected List<GAction> skills = new ArrayList<GAction>();
+    private List<GMod> mods = new ArrayList<>();
+    protected List<GAction> skills = new ArrayList<>();
+    protected List<GAura> auras = new ArrayList<>();
 
 
     public GObject() {
@@ -91,6 +92,11 @@ public abstract class GObject implements Selectable, PlaceHaving {
     }
 
     public List<GMod> getMods() {
+        List<GMod> modList = new ArrayList<>();
+        modList.addAll(mods);
+        GameModel.MODEL.getAuras().stream().filter(aura -> aura.validFor(this)).forEach(aura -> {
+            mods.add(aura.getMod());
+        });
         return mods;
     }
 

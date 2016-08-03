@@ -1,18 +1,18 @@
 package sample.Events;
 
+import sample.DefaultMoveAction;
 import sample.GUnit;
 import sample.GameCell;
 
 public class MoveEvent extends GEvent {
     private GUnit unit;
     private GameCell toCell;
-    private int stepPrice;
+    private DefaultMoveAction moveAction;
 
     @Override
     protected void perform() {
-        unit.looseMP(stepPrice);
+        unit.looseMP(moveAction.calculateStepPrice(unit.getPlace(), toCell));
         final ShiftEvent shiftEvent = new ShiftEvent(unit, toCell);
-        shiftEvent.setPredecessor(this);
         shiftEvent.process();
     }
 
@@ -28,11 +28,7 @@ public class MoveEvent extends GEvent {
         this.toCell = toCell;
     }
 
-    public GameCell getToCell() {
-        return toCell;
-    }
-
-    public void setStepPrice(int stepPrice) {
-        this.stepPrice = stepPrice;
+    public void setMoveType(DefaultMoveAction moveType) {
+        this.moveAction = moveType;
     }
 }

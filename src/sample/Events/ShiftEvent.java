@@ -29,6 +29,12 @@ public class ShiftEvent extends GEvent {
     }
 
     @Override
+    protected void doBeforeEvent() {
+        super.doBeforeEvent();
+        object.getMods().forEach(mod -> mod.onBeforeShift(this));
+    }
+
+    @Override
     protected void visualize() {
         object.getVisualizer().changePlace(startCell, finishCell);
     }
