@@ -2,6 +2,7 @@ package sample.Skills;
 
 import sample.AimType;
 import sample.Filters.FilterFactory;
+import sample.Filters.IsVacantCellFilter;
 import sample.GameCell;
 import sample.Skill;
 
@@ -9,7 +10,7 @@ import sample.Skill;
 public class TeleportToTower extends Skill {
     public TeleportToTower() {
         this.aimType = AimType.Cell;
-        addAimFilter(FilterFactory.FilterType.IS_VACANT_CELL, "CellIsOccupied");
+        getAimFilters().add(new IsVacantCellFilter().setError("CellIsOccupied"));
         addAimFilter(FilterFactory.FilterType.IS_NEAR_FRIENDLY_TOWER, "NotNearToFriendlyTower");
     }
 
