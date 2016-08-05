@@ -1,15 +1,15 @@
 package sample;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBuilder;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -132,47 +132,17 @@ public class GamePanel extends GridPane implements MainVisualizer {
     }
 
     @Override
-    public GObject createUnitCreationPanel() {
-        final UnitType[] unitType = new UnitType[1];
-        ListView<Player> list = new ListView<Player>();
-        ObservableList<Player> items = FXCollections.observableArrayList(model.getPlayers());
-        list.setItems(items);
-        list.setPrefWidth(100);
-        list.setPrefHeight(70);
-        list.getSelectionModel().select(0);
-
-        final Stage dialog = createDialog();
-        dialog.setScene(
-                new Scene(
-                        VBoxBuilder.create().styleClass("modal-dialog").children(
-                                list,
-                                UIHelper.createUnitChoosingList(UnitType.values(), unitType, dialog)
-                        ).build(),
-                        Color.GRAY
-                )
-        );
-        dialog.showAndWait();
-        final GObject gObject = GObjectFactory.create(unitType[0]);
-        gObject.setPlayer(list.getSelectionModel().getSelectedItem());
-        return gObject;
-    }
-
-    @Override
     public void showObjInfo(Selectable obj) {
+        String s = obj != null
+                ? obj.toString()
+                : " - ";
+        selectedObjLabel.setText(s);
         objInfoPanel.setObj(obj);
     }
 
     @Override
     public void showAction(GAction action) {
         selectedActionLabel.setText(action.toString());
-    }
-
-    @Override
-    public void showObjName(Selectable obj) {
-        String s = obj != null
-                ? obj.toString()
-                : " - ";
-        selectedObjLabel.setText(s);
     }
 
     @Override

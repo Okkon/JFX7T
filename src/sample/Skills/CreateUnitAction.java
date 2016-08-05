@@ -1,10 +1,11 @@
 package sample.Skills;
 import sample.*;
+import sample.Filters.GFilter;
+import sample.Filters.IsNearFilter;
+import sample.Filters.IsVacantCellFilter;
 import sample.GActions.AbstractGAction;
 
 import java.util.List;
-
-import static sample.Filters.FilterFactory.FilterType.IS_VACANT_CELL;
 
 public class CreateUnitAction extends AbstractGAction {
     private int unitCounter;
@@ -12,8 +13,8 @@ public class CreateUnitAction extends AbstractGAction {
     private Player player;
 
     public CreateUnitAction() {
-        addAimFilter(IS_VACANT_CELL, "CellIsOccupied");
-        //addAimFilter(IS_NEAR, "NotNearToMainTower");
+        getAimFilters().add(new IsVacantCellFilter().setError("CellIsOccupied"));
+        getAimFilters().add(new IsNearFilter().setError("NotNearToMainTower"));
         aimType = AimType.Cell;
     }
 
@@ -33,6 +34,10 @@ public class CreateUnitAction extends AbstractGAction {
     @Override
     public void onSelect() {
         super.onSelect();
+        GFilter filter = findFilterByClass(IsNearFilter.class);
+        if (filter != null) {
+            filter.setObj(TowerHelper.getPlayersMainTower(model.getActivePlayer()));
+        }
         if (unitCounter > 0 && selector == null) {
             final List<GUnit> units = getPlayer().getAvailableUnits();
             selector = GameModel.MODEL.provideUnitSelector(units);

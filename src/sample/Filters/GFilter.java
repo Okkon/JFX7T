@@ -9,7 +9,7 @@ public interface GFilter {
 
     GObject getObj();
 
-    void setObj(GObject obj);
+    GFilter setObj(GObject obj);
 
     boolean check(Selectable obj);
 

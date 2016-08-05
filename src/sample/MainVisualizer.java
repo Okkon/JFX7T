@@ -5,13 +5,9 @@ import java.util.List;
 public interface MainVisualizer {
     void refresh();
 
-    GObject createUnitCreationPanel();
-
     void showObjInfo(Selectable obj);
 
     void showAction(GAction action);
-
-    void showObjName(Selectable obj);
 
     void showTurnNumber();
 

@@ -17,8 +17,9 @@ public abstract class AbstractGFilter implements GFilter {
     }
 
     @Override
-    public void setObj(GObject obj) {
+    public GFilter setObj(GObject obj) {
         this.obj = obj;
+        return this;
     }
 
     @Override

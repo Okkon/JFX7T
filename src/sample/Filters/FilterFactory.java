@@ -24,9 +24,6 @@ public class FilterFactory {
             case IS_ON_ONE_LINE:
                 gFilter = new OneLineFilter();
                 break;
-            case IS_VACANT_CELL:
-                gFilter = new VacantCellFilter();
-                break;
             case DISTANCE_CHECK:
                 gFilter = new DistanceFilter().setDistance((Integer) params[0]);
                 break;
@@ -68,7 +65,7 @@ public class FilterFactory {
     }
 
     public enum FilterType {
-        CAN_SEE, IS_ON_ONE_LINE, BELONG_TO_PLAYER, IS_UNIT, OBSTACLE_ON_ONE_LINE, DISTANCE_CHECK, IS_VACANT_CELL, CAN_BE_ATTACKED, NOT_IN_DANGER, CLASS_FILTER, IS_NEAR_FRIENDLY_TOWER, NOT_ME
+        CAN_SEE, IS_ON_ONE_LINE, BELONG_TO_PLAYER, IS_UNIT, OBSTACLE_ON_ONE_LINE, DISTANCE_CHECK, CAN_BE_ATTACKED, NOT_IN_DANGER, CLASS_FILTER, IS_NEAR_FRIENDLY_TOWER, NOT_ME
     }
 
     public static class UnitFilter extends AbstractGFilter {
@@ -139,17 +136,6 @@ public class FilterFactory {
         @Override
         public boolean isOk(Selectable obj) {
             return model.onOneLine(getObj(), (GObject) obj);
-        }
-    }
-
-    public static class VacantCellFilter extends AbstractGFilter {
-        @Override
-        public boolean isOk(Selectable obj) {
-            if (obj instanceof GameCell) {
-                GameCell cell = (GameCell) obj;
-                return cell.getObj() == null;
-            }
-            return false;
         }
     }
 

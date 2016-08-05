@@ -18,7 +18,6 @@ public class GAura<H extends PlaceHaving, A extends PlaceHaving> {
         Collections.addAll(this.filters, filters);
     }
 
-
     public boolean validFor(A obj) {
         for (GFilter filter : filters) {
             filter.setObj((GObject) holder);

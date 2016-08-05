@@ -98,7 +98,6 @@ public class GameModel {
             selectedObj.getVisualizer().setSelected(true);
             setAction(selectedObj.getBaseAction());
         }
-        graphics.showObjName(obj);
         graphics.showObjInfo(obj);
     }
 

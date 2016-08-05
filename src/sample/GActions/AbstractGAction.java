@@ -12,15 +12,28 @@ import static sample.Filters.FilterFactory.getFilter;
 
 
 public abstract class AbstractGAction implements GAction {
-    protected List<GFilter> ownerFilters = new ArrayList<GFilter>();
-    protected List<PlaceHaving> aims = new ArrayList<PlaceHaving>();
-    protected List<List<GFilter>> filters = new ArrayList<List<GFilter>>();
+    protected List<GFilter> ownerFilters = new ArrayList<>();
+    protected List<PlaceHaving> aims = new ArrayList<>();
+    protected List<List<GFilter>> filters = new ArrayList<>();
     protected GObject owner;
     protected GameModel model = GameModel.MODEL;
     protected AimType aimType = AimType.Anything;
 
     protected void addAimFilter(FilterType filter, String error, Object... params) {
         getAimFilters().add(getFilter(filter, error, params));
+    }
+
+    protected void removeAimFilter(Class filterClass) {
+        getAimFilters().remove(findFilterByClass(filterClass));
+    }
+
+    protected GFilter findFilterByClass(Class filterClass) {
+        for (GFilter filter : getAimFilters()) {
+            if (filterClass.isInstance(filter)) {
+                return filter;
+            }
+        }
+        return null;
     }
 
     @Override
