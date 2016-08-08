@@ -1,6 +1,5 @@
 package sample.Shells;
 
-import javafx.scene.effect.Glow;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polyline;
 import sample.AbstractShellVisualizer;
@@ -29,7 +28,6 @@ public class AstralArrowShell extends AbstractShellVisualizer {
                 cell.getWidth() * (1 - arrow_length),
                 cell.getHeight() / 2
         );
-        shape.setStroke(Color.AQUAMARINE);
-        shape.setEffect(new Glow(15));
+        shape.setStroke(Color.BLUEVIOLET);
     }
 }

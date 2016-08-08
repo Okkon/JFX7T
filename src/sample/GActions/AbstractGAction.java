@@ -80,8 +80,10 @@ public abstract class AbstractGAction implements GAction {
     @Override
     public List<? extends PlaceHaving> getPossibleAims() {
         List<? extends PlaceHaving> possibleAims = Collections.EMPTY_LIST;
-        for (GFilter aimFilter : getAimFilters()) {
-            aimFilter.setObj(owner);
+        if (owner != null) {
+            for (GFilter aimFilter : getAimFilters()) {
+                aimFilter.setObj(owner);
+            }
         }
         if (AimType.Cell.equals(aimType)) {
             possibleAims = model.getCells(getAimFilters());
@@ -145,7 +147,7 @@ public abstract class AbstractGAction implements GAction {
     public abstract void doAction();
 
     @Override
-    public boolean canSelect(Selectable obj) {
+    public boolean canSelect(PlaceHaving obj) {
         for (GFilter filter : getAimFilters()) {
             filter.setObj(getOwner());
             if (!filter.check(obj)) {

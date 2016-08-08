@@ -4,7 +4,7 @@ package sample.Filters;
 import sample.GObject;
 import sample.GameModel;
 import sample.NameHelper;
-import sample.Selectable;
+import sample.PlaceHaving;
 
 public abstract class AbstractGFilter implements GFilter {
     private GObject obj;
@@ -23,7 +23,7 @@ public abstract class AbstractGFilter implements GFilter {
     }
 
     @Override
-    public boolean check(Selectable obj) {
+    public boolean check(PlaceHaving obj) {
         final boolean ok = isOk(obj);
         if (!ok && errorText != null) {
             model.error(errorText);

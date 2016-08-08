@@ -25,7 +25,7 @@ public class GameModel {
     private GObject actingUnit;
     private GPhase phase;
     private AbstractScenario scenario;
-    private List<GAura> auras;
+    private List<GAura> auras = new ArrayList<>();
 
     public void init() {
         setBoard(14, 8);
@@ -115,6 +115,7 @@ public class GameModel {
             selectedObj.endTurn();
             log("base", "EndsTurn", selectedObj);
         }
+        selectedObj = null;
         log("base", "EndTurnSymbol");
         final Player nextPlayer = getNextPlayer();
         if (nextPlayer == null) {

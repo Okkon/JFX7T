@@ -1,11 +1,10 @@
 package sample.Filters;
 
 import sample.PlaceHaving;
-import sample.Selectable;
 
 public class IsNearFilter extends AbstractGFilter {
     @Override
-    public boolean isOk(Selectable obj) {
+    public boolean isOk(PlaceHaving obj) {
         return model.isNear(getObj(), (PlaceHaving) obj);
     }
 }

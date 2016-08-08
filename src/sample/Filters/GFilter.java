@@ -2,16 +2,16 @@ package sample.Filters;
 
 
 import sample.GObject;
-import sample.Selectable;
+import sample.PlaceHaving;
 
 public interface GFilter {
-    boolean isOk(Selectable obj);
+    boolean isOk(PlaceHaving obj);
 
     GObject getObj();
 
     GFilter setObj(GObject obj);
 
-    boolean check(Selectable obj);
+    boolean check(PlaceHaving obj);
 
     GFilter setError(String error);
 

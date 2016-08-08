@@ -4,6 +4,7 @@ import sample.Events.OwnerChangeEvent;
 import sample.Skills.Crossbow;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Tower extends GObject {
 
@@ -53,11 +54,7 @@ public class Tower extends GObject {
             if (enemies.isEmpty()) {
                 final List<GUnit> friends = new ArrayList<>();
                 final Set<GUnit> nearUnits = GameModel.MODEL.getNearUnits(getPlace());
-                for (GUnit nearUnit : nearUnits) {
-                    if (nearUnit.isFriendlyFor(this)) {
-                        friends.add(nearUnit);
-                    }
-                }
+                friends.addAll(nearUnits.stream().filter(nearUnit -> nearUnit.isFriendlyFor(this)).collect(Collectors.toList()));
                 for (GUnit friend : friends) {
                     friend.recover(2);
                 }

@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface GAction {
 
-    boolean canSelect(Selectable obj);
+    boolean canSelect(PlaceHaving obj);
 
     boolean canBeSelected();
 

@@ -27,8 +27,8 @@ public class UnitSelectorImpl implements UnitSelector {
 
     public UnitSelectorImpl(final List<GUnit> units, final Stage dialog) {
         this.dialog = dialog;
-        dialog.setX(720);
-        dialog.setY(200);
+        dialog.setX(320);
+        dialog.setY(0);
 
         GridPane pane = new GridPane();
 //        pane.setGridLinesVisible(true);

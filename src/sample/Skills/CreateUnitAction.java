@@ -1,7 +1,5 @@
 package sample.Skills;
 import sample.*;
-import sample.Filters.GFilter;
-import sample.Filters.IsNearFilter;
 import sample.Filters.IsVacantCellFilter;
 import sample.GActions.AbstractGAction;
 
@@ -14,7 +12,7 @@ public class CreateUnitAction extends AbstractGAction {
 
     public CreateUnitAction() {
         getAimFilters().add(new IsVacantCellFilter().setError("CellIsOccupied"));
-        getAimFilters().add(new IsNearFilter().setError("NotNearToMainTower"));
+        getAimFilters().add(TowerHelper.nearMainTowerFilter().setError("NotNearToMainTower"));
         aimType = AimType.Cell;
     }
 
@@ -34,10 +32,6 @@ public class CreateUnitAction extends AbstractGAction {
     @Override
     public void onSelect() {
         super.onSelect();
-        GFilter filter = findFilterByClass(IsNearFilter.class);
-        if (filter != null) {
-            filter.setObj(TowerHelper.getPlayersMainTower(model.getActivePlayer()));
-        }
         if (unitCounter > 0 && selector == null) {
             final List<GUnit> units = getPlayer().getAvailableUnits();
             selector = GameModel.MODEL.provideUnitSelector(units);

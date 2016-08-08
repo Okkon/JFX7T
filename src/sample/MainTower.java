@@ -1,6 +1,7 @@
 package sample;
 
 
+import sample.Filters.IsNearFilter;
 import sample.Mods.Invulnerability;
 
 public class MainTower extends Tower {
@@ -10,6 +11,8 @@ public class MainTower extends Tower {
     }
 
     public MainTower() {
-        auras.add(new GAura(this, new Invulnerability(), new IsFriendlyFilter()));
+        final GAura aura = new GAura(this, new Invulnerability(), new IsFriendlyFilter(), new IsNearFilter());
+        auras.add(aura);
+        GameModel.MODEL.getAuras().add(aura);
     }
 }

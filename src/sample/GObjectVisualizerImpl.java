@@ -214,7 +214,7 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
                 h * 2 / 5
         );
         if (DamageType.MAGIC.equals(hit.getDamageType())) {
-            sword.setStroke(Color.AQUAMARINE);
+            sword.setStroke(Color.BLUEVIOLET);
         }
         sword.setStrokeWidth(3);
         return sword;

@@ -70,7 +70,7 @@ public class FilterFactory {
 
     public static class UnitFilter extends AbstractGFilter {
         @Override
-        public boolean isOk(Selectable obj) {
+        public boolean isOk(PlaceHaving obj) {
             return obj instanceof GUnit;
         }
     }
@@ -84,14 +84,14 @@ public class FilterFactory {
         }
 
         @Override
-        public boolean isOk(Selectable obj) {
+        public boolean isOk(PlaceHaving obj) {
             return clazz.isInstance(obj);
         }
     }
 
     private static class IsNearFriendlyTower extends AbstractGFilter {
         @Override
-        public boolean isOk(Selectable obj) {
+        public boolean isOk(PlaceHaving obj) {
             final Collection<GFilter> filters = getFilters(FilterType.NOT_IN_DANGER, FilterType.BELONG_TO_PLAYER);
             filters.add(getFilter(FilterType.CLASS_FILTER, null, Tower.class));
             final List<GObject> towers = model.getObjects(filters);
@@ -106,7 +106,7 @@ public class FilterFactory {
 
     private static class CanSeeFilter extends AbstractGFilter {
         @Override
-        public boolean isOk(Selectable obj) {
+        public boolean isOk(PlaceHaving obj) {
             return model.canSee(getObj(), (GObject) obj);
         }
     }
@@ -120,28 +120,28 @@ public class FilterFactory {
         }
 
         @Override
-        public boolean isOk(Selectable obj) {
+        public boolean isOk(PlaceHaving obj) {
             return XY.getDistance(getObj().getXy(), ((PlaceHaving) obj).getXy()) <= distance;
         }
     }
 
     private static class CanAttackFilter extends AbstractGFilter {
         @Override
-        public boolean isOk(Selectable obj) {
+        public boolean isOk(PlaceHaving obj) {
             return GameModel.MODEL.canAttack(getObj(), obj);
         }
     }
 
     private static class OneLineFilter extends AbstractGFilter {
         @Override
-        public boolean isOk(Selectable obj) {
+        public boolean isOk(PlaceHaving obj) {
             return model.onOneLine(getObj(), (GObject) obj);
         }
     }
 
     private static class ObstacleOnLineFilter extends AbstractGFilter {
         @Override
-        public boolean isOk(Selectable obj) {
+        public boolean isOk(PlaceHaving obj) {
             return !model.seesObstacle(getObj(), (GObject) obj);
         }
     }
@@ -150,21 +150,21 @@ public class FilterFactory {
         private Player player;
 
         @Override
-        public boolean isOk(Selectable obj) {
+        public boolean isOk(PlaceHaving obj) {
             return GameModel.MODEL.getActivePlayer().equals(((GObject) obj).getPlayer());
         }
     }
 
     private static class NotMeFilter extends AbstractGFilter {
         @Override
-        public boolean isOk(Selectable obj) {
+        public boolean isOk(PlaceHaving obj) {
             return !getObj().equals(obj);
         }
     }
 
     public static class NotInDangerFilter extends AbstractGFilter {
         @Override
-        public boolean isOk(Selectable obj) {
+        public boolean isOk(PlaceHaving obj) {
             return !GameModel.MODEL.isInDanger(obj);
         }
     }

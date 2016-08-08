@@ -1,11 +1,11 @@
 package sample.Filters;
 
 import sample.GUnit;
-import sample.Selectable;
+import sample.PlaceHaving;
 
 public class CanActFilter extends AbstractGFilter {
     @Override
-    public boolean isOk(Selectable obj) {
+    public boolean isOk(PlaceHaving obj) {
         return ((GUnit) obj).canAct();
     }
 }

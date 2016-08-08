@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import sample.Panels.ObjectInfoPanel;
 import sample.Panels.PlayerInfoPanel;
+import sample.Skills.EndTurnAction;
 
 import java.util.HashMap;
 import java.util.List;
@@ -54,10 +55,13 @@ public class GamePanel extends GridPane implements MainVisualizer {
                         model.select(activeUnits.get(index));
                     }
                 } else if (keyEvent.getCode().equals(KeyCode.ENTER)) {
-                    /*GObject object = selectedObj == null
+                    GObject object = selectedObj == null
                             ? model.getActivePlayer().getActiveUnits().get(0)
-                            : selectedObj;*/
-                    model.endTurn();
+                            : selectedObj;
+                    model.select(object);
+                    final EndTurnAction action = new EndTurnAction();
+                    action.setOwner(object);
+                    action.perform();
                 }
             }
         });

@@ -175,8 +175,8 @@ public class GUnit extends GObject {
 
     public GUnit copy() {
         GUnit copy = new GUnit(maxHp, maxMp, minDamage, randDamage);
-        copy.getMods().clear();
-        copy.getMods().addAll(getMods());
+        copy.mods.clear();
+        copy.mods.addAll(mods);
         copy.getSkills().clear();
         copy.getSkills().addAll(getSkills());
         copy.setPlayer(getPlayer());
@@ -237,15 +237,16 @@ public class GUnit extends GObject {
         AbstractGAction skill;
 
         @Override
-        public boolean canSelect(Selectable obj) {
+        public boolean canSelect(PlaceHaving obj) {
             if (obj instanceof GObject) {
                 GObject gObject = (GObject) obj;
                 if (isFriendlyFor(gObject)) {
                     skill = GameModel.SELECT_ACTION;
-                } else if (XY.isNear(getXy(), ((GObject) obj).getXy())) {
+                } else if (XY.isNear(getXy(), obj.getXy())) {
                     skill = attackAction;
                 } else {
-                    skill = findRangeAttack() == null ? attackAction : findRangeAttack();
+                    final Skill rangeAttack = findRangeAttack();
+                    skill = rangeAttack == null ? attackAction : rangeAttack;
                 }
             } else if (obj instanceof GameCell) {
                 skill = moveType;

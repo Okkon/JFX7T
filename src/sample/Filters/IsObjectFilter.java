@@ -1,11 +1,11 @@
 package sample.Filters;
 
 import sample.GObject;
-import sample.Selectable;
+import sample.PlaceHaving;
 
 public class IsObjectFilter extends AbstractGFilter {
     @Override
-    public boolean isOk(Selectable obj) {
+    public boolean isOk(PlaceHaving obj) {
         return obj instanceof GObject;
     }
 }
