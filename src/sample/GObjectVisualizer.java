@@ -20,7 +20,7 @@ public interface GObjectVisualizer extends Visualizer {
 
     void startAttack(Hit hit);
 
-    void applyEffect(String effect);
+    void applyEffect(GMod mod);
 
     void setPanel(GamePanel gamePanel);
 

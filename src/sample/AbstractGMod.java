@@ -27,11 +27,6 @@ public abstract class AbstractGMod implements GMod {
     }
 
     @Override
-    public void applyEffect(GObject gObject) {
-
-    }
-
-    @Override
     public boolean disablesAttack() {
         return false;
     }

@@ -15,8 +15,6 @@ public interface GMod {
 
     void onTurnEnd(GObject object);
 
-    void applyEffect(GObject gObject);
-
     boolean disablesAttack();
 
     String getName();

@@ -2,15 +2,18 @@ package sample;
 
 import javafx.animation.*;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.*;
+import sample.Mods.Masking;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class GObjectVisualizerImpl implements GObjectVisualizer {
     private GamePanel gamePanel;
@@ -19,6 +22,10 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
     private final StackPane pane = new StackPane();
     private final GObject obj;
     private Image image;
+    private Map<Class<? extends GMod>, Shape> modShapes = new HashMap<>();
+    private int smallRadius;
+    private final int modShapeRadius = MyConst.OBJECT_VISUALIZER_SIZE / 8;
+    private final int bigRadius = MyConst.OBJECT_VISUALIZER_SIZE / 2 + modShapeRadius;
 
     public GObjectVisualizerImpl(final GObject obj, GamePanel gamePanel) {
         obj.setVisualizer(this);
@@ -34,9 +41,6 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
             image = ImageHelper.getImage(unit);
             token.setFill(new ImagePattern(image, 0, 0, 1, 1, true));
             hpLabel.setText(String.valueOf(unit.getHP()));
-            for (GMod mod : unit.getMods()) {
-                mod.applyEffect(unit);
-            }
         }
         if (obj instanceof Tower) {
             Tower tower = (Tower) obj;
@@ -80,12 +84,7 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
         transition.setNode(pane);
         transition.setFromValue(100);
         transition.setToValue(0);
-        transition.setOnFinished(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                GraphicsHelper.getInstance().remove(pane);
-            }
-        });
+        transition.setOnFinished(actionEvent -> GraphicsHelper.getInstance().remove(pane));
         GraphicsHelper.getInstance().addTransition(transition);
     }
 
@@ -115,6 +114,7 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
         pane.getChildren().addAll(token, hpLabel);
         hpLabel.setTranslateX(25);
         hpLabel.setTranslateY(25);
+        obj.getMods().forEach(this::applyEffect);
         setPlayer(obj.getPlayer());
         GraphicsHelper.getInstance().add(pane);
         if (GameModel.MODEL.getPhase() != null) {
@@ -147,12 +147,7 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
         final double sizeChange = 2d;
         transition.setToX(sizeChange);
         transition.setToY(sizeChange);
-        transition.setOnFinished(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                hpLabel.setText(String.valueOf(hp));
-            }
-        });
+        transition.setOnFinished(actionEvent -> hpLabel.setText(String.valueOf(hp)));
         ScaleTransition transition2 = new ScaleTransition();
         transition2.setNode(hpLabel);
         transition2.setDuration(MyConst.ANIMATION_DURATION.divide(3d));
@@ -185,33 +180,33 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
                 .autoReverse(true)
                 .cycleCount(2)
                 .orientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT)
-                .onFinished(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent actionEvent) {
-                        GraphicsHelper.getInstance().remove(weapon);
-                    }
-                }).build();
+                .onFinished(actionEvent -> GraphicsHelper.getInstance().remove(weapon)).build();
         GraphicsHelper.getInstance().addTransition(pathTransition);
     }
 
     private Shape createWeapon(Hit hit) {
         double h = pane.getHeight();
         double w = pane.getWidth();
+        double swordLength = 0.6;
+        double swordPosition = 0.5;
+        double leverPosition = 0.3;
+        double leverWidth = 0.1;
+        double gap = (1 - swordLength) / 2;
         final Shape sword = new Polyline(
-                w * 1 / 5,
-                h * 1 / 2,
+                w * (gap),
+                h * swordPosition,
 
-                w * 4 / 5,
-                h * 1 / 2,
+                w * (1 - gap),
+                h * swordPosition,
 
-                w * 2 / 5,
-                h * 1 / 2,
+                w * (gap + leverPosition * swordLength),
+                h * swordPosition,
 
-                w * 2 / 5,
-                h * 3 / 5,
+                w * (gap + leverPosition * swordLength),
+                h * (swordPosition + leverWidth),
 
-                w * 2 / 5,
-                h * 2 / 5
+                w * (gap + leverPosition * swordLength),
+                h * (swordPosition - leverWidth)
         );
         if (DamageType.MAGIC.equals(hit.getDamageType())) {
             sword.setStroke(Color.BLUEVIOLET);
@@ -220,10 +215,31 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
         return sword;
     }
 
+    private Shape createModShape(GMod mod) {
+        Circle shape = new Circle(modShapeRadius);
+        shape.setStrokeWidth(1);
+        shape.setStroke(Color.BLUEVIOLET);
+        shape.setFill(Color.WHITE);
+        Tooltip t = new Tooltip(mod.getName());
+        Tooltip.install(shape, t);
+        return shape;
+    }
+
     @Override
-    public void applyEffect(String effect) {
-        token.getStyleClass().remove(effect);
-        token.getStyleClass().add(effect);
+    public void applyEffect(GMod mod) {
+        Map<Class<? extends GMod>, String> map = new HashMap<>();
+        map.put(Masking.class, "hidden");
+        String s = map.get(mod.getClass());
+        if (s != null) {
+            token.getStyleClass().remove(s);
+            token.getStyleClass().add(s);
+        }
+        Shape modShape = createModShape(mod);
+        double placeInCircle = Math.PI * (1 + 0.25 * modShapes.size());
+        modShape.setTranslateX(Math.cos(placeInCircle) * bigRadius);
+        modShape.setTranslateY(Math.sin(placeInCircle) * bigRadius);
+        modShapes.put(mod.getClass(), modShape);
+        pane.getChildren().add(modShape);
     }
 
     @Override
