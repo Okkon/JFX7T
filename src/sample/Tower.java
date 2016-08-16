@@ -46,11 +46,13 @@ public class Tower extends GObject {
             }
             Crossbow crossbow = new Crossbow(1, 2, XY.diagonalLength);
             crossbow.setOwner(this);
-            for (GUnit enemy : enemies) {
+            GUnit enemy = GameHelper.getRandom(enemies);
+            if (enemy != null) {
                 GameModel.MODEL.log("base", "Hits", this, enemy);
                 crossbow.getAims().add(enemy);
                 crossbow.doAction();
             }
+
             if (enemies.isEmpty()) {
                 final List<GUnit> friends = new ArrayList<>();
                 final Set<GUnit> nearUnits = GameModel.MODEL.getNearUnits(getPlace());
