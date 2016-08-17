@@ -1,6 +1,8 @@
 package sample.Filters;
 
-import sample.*;
+import sample.Core.*;
+import sample.Tower.Tower;
+import sample.XY;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,9 +14,6 @@ public class FilterFactory {
     public static GFilter getFilter(FilterType type, String error, Object... params) {
         GFilter gFilter = null;
         switch (type) {
-            case IS_UNIT:
-                gFilter = new UnitFilter();
-                break;
             case CAN_SEE:
                 gFilter = new CanSeeFilter();
                 break;
@@ -65,7 +64,7 @@ public class FilterFactory {
     }
 
     public enum FilterType {
-        CAN_SEE, IS_ON_ONE_LINE, BELONG_TO_PLAYER, IS_UNIT, OBSTACLE_ON_ONE_LINE, DISTANCE_CHECK, CAN_BE_ATTACKED, NOT_IN_DANGER, CLASS_FILTER, IS_NEAR_FRIENDLY_TOWER, NOT_ME
+        CAN_SEE, IS_ON_ONE_LINE, BELONG_TO_PLAYER, OBSTACLE_ON_ONE_LINE, DISTANCE_CHECK, CAN_BE_ATTACKED, NOT_IN_DANGER, CLASS_FILTER, IS_NEAR_FRIENDLY_TOWER, NOT_ME
     }
 
     public static class UnitFilter extends AbstractGFilter {
@@ -87,6 +86,10 @@ public class FilterFactory {
         public boolean isOk(PlaceHaving obj) {
             return clazz.isInstance(obj);
         }
+
+        public static ClassFilter newInstance() {
+            return new ClassFilter();
+        }
     }
 
     private static class IsNearFriendlyTower extends AbstractGFilter {
@@ -96,7 +99,7 @@ public class FilterFactory {
             filters.add(getFilter(FilterType.CLASS_FILTER, null, Tower.class));
             final List<GObject> towers = model.getObjects(filters);
             for (GObject tower : towers) {
-                if (model.isNear(tower, (PlaceHaving) obj)) {
+                if (model.isNear(tower, obj)) {
                     return true;
                 }
             }

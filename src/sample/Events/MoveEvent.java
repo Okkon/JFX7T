@@ -1,8 +1,9 @@
 package sample.Events;
 
-import sample.DefaultMoveAction;
-import sample.GUnit;
-import sample.GameCell;
+import sample.Core.DefaultMoveAction;
+import sample.Core.GEvent;
+import sample.Core.GUnit;
+import sample.Core.GameCell;
 
 public class MoveEvent extends GEvent {
     private GUnit unit;

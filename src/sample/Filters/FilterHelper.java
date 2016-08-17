@@ -1,5 +1,7 @@
 package sample.Filters;
 
+import sample.Core.GFilter;
+
 import java.util.ArrayList;
 import java.util.List;
 

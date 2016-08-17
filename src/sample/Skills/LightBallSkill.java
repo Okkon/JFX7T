@@ -1,6 +1,9 @@
 package sample.Skills;
 
-import sample.*;
+import sample.Core.DamageType;
+import sample.Core.GObject;
+import sample.Core.Hit;
+import sample.Core.Shell;
 import sample.Mods.BlindedMod;
 import sample.Shells.LightballShell;
 

@@ -1,10 +1,11 @@
 package sample.Filters;
 
 
-import sample.GObject;
-import sample.GameModel;
-import sample.NameHelper;
-import sample.PlaceHaving;
+import sample.Core.GFilter;
+import sample.Core.GObject;
+import sample.Core.GameModel;
+import sample.Core.PlaceHaving;
+import sample.Helpers.NameHelper;
 
 public abstract class AbstractGFilter implements GFilter {
     private GObject obj;

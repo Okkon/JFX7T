@@ -1,7 +1,7 @@
 package sample.Filters;
 
-import sample.GUnit;
-import sample.PlaceHaving;
+import sample.Core.GUnit;
+import sample.Core.PlaceHaving;
 
 public class CanActFilter extends AbstractGFilter {
     @Override

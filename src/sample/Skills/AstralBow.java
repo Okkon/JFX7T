@@ -1,7 +1,10 @@
 package sample.Skills;
 
-import sample.*;
+import sample.Core.DamageType;
+import sample.Core.GObject;
+import sample.Core.Shell;
 import sample.Shells.AstralArrowShell;
+import sample.Tower.Tower;
 
 public class AstralBow extends ShotAction {
 

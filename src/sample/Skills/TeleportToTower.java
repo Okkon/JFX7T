@@ -1,10 +1,10 @@
 package sample.Skills;
 
-import sample.AimType;
+import sample.Core.AimType;
+import sample.Core.GameCell;
+import sample.Core.Skill;
 import sample.Filters.FilterFactory;
 import sample.Filters.IsVacantCellFilter;
-import sample.GameCell;
-import sample.Skill;
 
 
 public class TeleportToTower extends Skill {

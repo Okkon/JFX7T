@@ -1,6 +1,6 @@
 package sample.Skills;
 
-import sample.*;
+import sample.Core.*;
 import sample.Shells.FireballShell;
 
 import java.util.ArrayList;

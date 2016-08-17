@@ -1,8 +1,9 @@
 package sample.Events;
 
-import sample.GObject;
-import sample.GameCell;
-import sample.GameModel;
+import sample.Core.GEvent;
+import sample.Core.GObject;
+import sample.Core.GameCell;
+import sample.Core.GameModel;
 
 public class ShiftEvent extends GEvent {
     private GameCell startCell;

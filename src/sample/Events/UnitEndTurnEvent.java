@@ -1,6 +1,7 @@
 package sample.Events;
 
-import sample.GUnit;
+import sample.Core.GEvent;
+import sample.Core.GUnit;
 
 
 public class UnitEndTurnEvent extends GEvent {

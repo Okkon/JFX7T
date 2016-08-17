@@ -1,10 +1,10 @@
 package sample.Mods;
 
 
-import sample.AbstractGMod;
-import sample.GObject;
-import sample.GUnit;
-import sample.GameModel;
+import sample.Core.AbstractGMod;
+import sample.Core.GObject;
+import sample.Core.GUnit;
+import sample.Core.GameModel;
 
 public class Regeneration extends AbstractGMod {
     public Regeneration(int power) {

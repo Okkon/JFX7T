@@ -1,7 +1,7 @@
 package sample.GActions;
 
-import sample.*;
-import sample.Filters.GFilter;
+import sample.Core.*;
+import sample.Helpers.NameHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;

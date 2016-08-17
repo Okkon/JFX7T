@@ -1,8 +1,8 @@
 package sample.Mods;
 
 
-import sample.AbstractGMod;
-import sample.GObject;
+import sample.Core.AbstractGMod;
+import sample.Core.GObject;
 
 public class Masking extends AbstractGMod {
     @Override

@@ -1,9 +1,9 @@
 package sample.Shells;
 
 import javafx.scene.shape.Polyline;
-import sample.AbstractShellVisualizer;
-import sample.BoardCell;
-import sample.Shell;
+import sample.Core.Shell;
+import sample.Graphics.AbstractShellVisualizer;
+import sample.Graphics.BoardCell;
 
 public class ArrowShell extends AbstractShellVisualizer {
     @Override

@@ -1,9 +1,9 @@
 package sample.GActions;
 
-import sample.AimType;
+import sample.Core.AimType;
+import sample.Core.GObject;
+import sample.Core.GameCell;
 import sample.Filters.FilterHelper;
-import sample.GObject;
-import sample.GameCell;
 
 public class ShiftAction extends AbstractGAction {
     public ShiftAction() {

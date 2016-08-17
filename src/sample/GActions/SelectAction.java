@@ -1,13 +1,14 @@
 package sample.GActions;
 
 
-import sample.AimType;
+import sample.Core.AimType;
+import sample.Core.GUnit;
+import sample.Core.GameModel;
 import sample.Filters.CanActFilter;
+import sample.Filters.FilterFactory;
 import sample.Filters.IsActingFilter;
-import sample.GameModel;
 
 import static sample.Filters.FilterFactory.FilterType.BELONG_TO_PLAYER;
-import static sample.Filters.FilterFactory.FilterType.IS_UNIT;
 import static sample.Filters.FilterFactory.getFilters;
 
 public class SelectAction extends AbstractGAction {
@@ -33,7 +34,8 @@ public class SelectAction extends AbstractGAction {
 
     private SelectAction() {
         aimType = AimType.Object;
-        this.getAimFilters().addAll(getFilters(IS_UNIT, BELONG_TO_PLAYER));
+        this.getAimFilters().addAll(getFilters(BELONG_TO_PLAYER));
+        getAimFilters().add(new FilterFactory.ClassFilter().setClass(GUnit.class));
         getAimFilters().add(new CanActFilter().setError("UnitCantAct"));
         getAimFilters().add(new IsActingFilter().setError("OtherUnitSelected"));
     }

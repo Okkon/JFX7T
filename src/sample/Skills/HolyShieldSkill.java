@@ -1,10 +1,10 @@
 package sample.Skills;
 
 
+import sample.Core.GUnit;
+import sample.Core.Skill;
 import sample.Filters.FilterFactory;
-import sample.GUnit;
 import sample.Mods.HolyShield;
-import sample.Skill;
 
 public class HolyShieldSkill extends Skill {
 

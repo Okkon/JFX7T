@@ -1,6 +1,6 @@
 package sample.Filters;
 
-import sample.PlaceHaving;
+import sample.Core.PlaceHaving;
 
 public class IsNearFilter extends AbstractGFilter {
     @Override

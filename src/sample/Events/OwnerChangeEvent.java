@@ -1,6 +1,6 @@
 package sample.Events;
 
-import sample.*;
+import sample.Core.*;
 
 
 public class OwnerChangeEvent extends GEvent {

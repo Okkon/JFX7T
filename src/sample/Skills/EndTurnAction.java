@@ -1,6 +1,6 @@
 package sample.Skills;
 
-import sample.Skill;
+import sample.Core.Skill;
 
 public class EndTurnAction extends Skill {
     @Override

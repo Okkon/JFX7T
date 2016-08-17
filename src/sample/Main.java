@@ -4,12 +4,15 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import sample.Core.GameModel;
+import sample.Core.Scenario1;
+import sample.Graphics.GamePanel;
+import sample.Graphics.GraphicsHelper;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-//        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("7T");
         GameModel gameModel = GameModel.MODEL;
         gameModel.init();
@@ -23,7 +26,7 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        gameModel.startScenario(new Scenario());
+        gameModel.startScenario(new Scenario1());
 
     }
 

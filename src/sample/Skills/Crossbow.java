@@ -1,9 +1,9 @@
 package sample.Skills;
 
-import sample.GObject;
-import sample.Shell;
+import sample.Core.GObject;
+import sample.Core.Shell;
 import sample.Shells.ArrowShell;
-import sample.Tower;
+import sample.Tower.Tower;
 
 public class Crossbow extends ShotAction {
 

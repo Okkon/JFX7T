@@ -1,9 +1,9 @@
 package sample.Mods;
 
 
-import sample.AbstractGMod;
-import sample.GameModel;
-import sample.Tower;
+import sample.Core.AbstractGMod;
+import sample.Core.GameModel;
+import sample.Tower.Tower;
 
 public class Sabotage extends AbstractGMod {
     @Override

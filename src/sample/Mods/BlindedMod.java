@@ -1,6 +1,6 @@
 package sample.Mods;
 
-import sample.AbstractGMod;
+import sample.Core.AbstractGMod;
 
 public class BlindedMod extends AbstractGMod {
     @Override

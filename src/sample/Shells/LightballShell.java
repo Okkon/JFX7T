@@ -2,9 +2,9 @@ package sample.Shells;
 
 import javafx.scene.effect.Glow;
 import javafx.scene.paint.Color;
-import sample.AbstractShellVisualizer;
-import sample.BoardCell;
-import sample.Shell;
+import sample.Core.Shell;
+import sample.Graphics.AbstractShellVisualizer;
+import sample.Graphics.BoardCell;
 
 
 public class LightballShell extends AbstractShellVisualizer {

@@ -1,10 +1,10 @@
 package sample.GActions;
 
+import sample.Core.GObject;
+import sample.Core.GameModel;
+import sample.Core.Player;
 import sample.Events.OwnerChangeEvent;
 import sample.Filters.FilterHelper;
-import sample.GObject;
-import sample.GameModel;
-import sample.Player;
 
 public class ChangeOwnerAction extends AbstractGAction {
     Player newPlayer;

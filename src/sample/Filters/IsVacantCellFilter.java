@@ -1,7 +1,7 @@
 package sample.Filters;
 
-import sample.GameCell;
-import sample.PlaceHaving;
+import sample.Core.GameCell;
+import sample.Core.PlaceHaving;
 
 /**
  * Created by kondrashov on 05.08.2016.

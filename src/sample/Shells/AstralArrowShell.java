@@ -1,33 +1,13 @@
 package sample.Shells;
 
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Polyline;
-import sample.AbstractShellVisualizer;
-import sample.BoardCell;
-import sample.Shell;
+import sample.Core.Shell;
+import sample.Graphics.BoardCell;
 
-public class AstralArrowShell extends AbstractShellVisualizer {
+public class AstralArrowShell extends ArrowShell {
     @Override
     protected void configureShell(BoardCell cell, Shell shell) {
-        final double arrow_length = 0.75;
-        final double sharp_length = 0.2;
-        final double sharp_width = 0.05;
-        shape = new Polyline(
-                cell.getWidth() * (arrow_length - sharp_length),
-                cell.getHeight() * (0.5 + sharp_width),
-
-                cell.getWidth() * arrow_length,
-                cell.getHeight() / 2,
-
-                cell.getWidth() * (arrow_length - sharp_length),
-                cell.getHeight() * (0.5 - sharp_width),
-
-                cell.getWidth() * arrow_length,
-                cell.getHeight() / 2,
-
-                cell.getWidth() * (1 - arrow_length),
-                cell.getHeight() / 2
-        );
+        super.configureShell(cell, shell);
         shape.setStroke(Color.BLUEVIOLET);
     }
 }

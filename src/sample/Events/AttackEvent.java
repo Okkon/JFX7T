@@ -1,24 +1,21 @@
 package sample.Events;
 
-import sample.*;
-
-import java.util.List;
+import sample.Core.GEvent;
+import sample.Core.GObject;
+import sample.Core.GUnit;
+import sample.GActions.AttackAction;
 
 public class AttackEvent extends GEvent {
     private GUnit attacker;
     private GObject aim;
+    private AttackAction attackAction;
 
     @Override
     protected void perform() {
-        Hit hit = Hit.createHit(attacker, aim);
-        final List<GMod> mods = attacker.getMods();
-        for (GMod mod : mods) {
-            mod.onHit(hit);
+        if (attackAction == null) {
+            attackAction = AttackAction.DEFAULT;
         }
-        attacker.getVisualizer().startAttack(hit);
-        GameModel.MODEL.log("base", "Hits", attacker, aim);
-        aim.takeHit(hit);
-
+        attackAction.attack(attacker, aim);
     }
 
     public AttackEvent setAttacker(GUnit attacker) {
@@ -29,5 +26,14 @@ public class AttackEvent extends GEvent {
     public AttackEvent setAim(GObject aim) {
         this.aim = aim;
         return this;
+    }
+
+    public AttackEvent setAttackAction(AttackAction attackAction) {
+        this.attackAction = attackAction;
+        return this;
+    }
+
+    public AttackAction getAttackAction() {
+        return attackAction;
     }
 }

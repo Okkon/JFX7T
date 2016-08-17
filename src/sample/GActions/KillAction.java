@@ -1,9 +1,9 @@
 package sample.GActions;
 
-import sample.AimType;
-import sample.GObject;
-import sample.GameCell;
-import sample.Hit;
+import sample.Core.AimType;
+import sample.Core.GObject;
+import sample.Core.GameCell;
+import sample.Core.Hit;
 
 public class KillAction extends AbstractGAction {
     public KillAction() {

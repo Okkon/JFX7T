@@ -1,7 +1,7 @@
 package sample.Filters;
 
-import sample.GObject;
-import sample.PlaceHaving;
+import sample.Core.GObject;
+import sample.Core.PlaceHaving;
 
 public class IsObjectFilter extends AbstractGFilter {
     @Override

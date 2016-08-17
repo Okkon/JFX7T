@@ -1,7 +1,9 @@
 package sample.Skills;
 
-import sample.*;
+import sample.Core.*;
+import sample.Direction;
 import sample.Filters.FilterFactory;
+import sample.Helpers.NameHelper;
 
 import static sample.Filters.FilterFactory.FilterType.*;
 
@@ -27,7 +29,7 @@ public abstract class ShotAction extends Skill {
         this.minDamage = minDamage;
         this.maxDamage = maxDamage;
         ownerFilters.add(new FilterFactory.NotInDangerFilter().setError("InDanger"));
-        addAimFilter(IS_UNIT, "NotUnit");
+        getAimFilters().add(FilterFactory.ClassFilter.newInstance().setClass(GUnit.class).setError("NotUnit"));
         addAimFilter(NOT_ME, "NotMe");
         addAimFilter(IS_ON_ONE_LINE, "NotOnOneLine");
         addAimFilter(CAN_SEE, "CantSee");

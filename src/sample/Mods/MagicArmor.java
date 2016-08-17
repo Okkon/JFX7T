@@ -1,9 +1,9 @@
 package sample.Mods;
 
-import sample.AbstractGMod;
-import sample.DamageType;
-import sample.GameModel;
-import sample.Hit;
+import sample.Core.AbstractGMod;
+import sample.Core.DamageType;
+import sample.Core.GameModel;
+import sample.Core.Hit;
 
 public class MagicArmor extends AbstractGMod {
 
