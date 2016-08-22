@@ -6,7 +6,16 @@ import sample.Core.PlaceHaving;
 /**
  * Created by kondrashov on 05.08.2016.
  */
-public class IsVacantCellFilter extends AbstractGFilter {
+public class VacantCellFilter extends AbstractGFilter {
+    private static final VacantCellFilter INSTANCE = new VacantCellFilter();
+
+    private VacantCellFilter() {
+    }
+
+    public static VacantCellFilter getInstance() {
+        return INSTANCE;
+    }
+
     @Override
     public boolean isOk(PlaceHaving obj) {
         if (obj instanceof GameCell) {

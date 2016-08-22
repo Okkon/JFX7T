@@ -49,7 +49,7 @@ public class GUnitFactory {
             }
             case "Assassin": {
                 unit = new GUnit(4, 36, 1, 2);
-                unit.setAttackAction(RoundAttackAction.Instance);
+                unit.setAttackAction(RoundAttackAction.getInstance());
                 unit.addMod(new Masking());
                 unit.addMod(new Sabotage());
                 break;

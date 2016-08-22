@@ -286,6 +286,20 @@ public class GameModel {
         return unitSet;
     }
 
+    public List<GUnit> getNearUnits(XY xy) {
+        List<GUnit> unitList;
+        unitList = new ArrayList<>();
+        for (GObject object : objects) {
+            if (object instanceof GUnit) {
+                GUnit gUnit = (GUnit) object;
+                if (XY.isNear(xy, gUnit.getXy())) {
+                    unitList.add(gUnit);
+                }
+            }
+        }
+        return unitList;
+    }
+
     public boolean canSee(GObject observer, GObject aim) {
         for (GMod mod : aim.getMods()) {
             if (mod.canHideUnit(observer, aim)) {

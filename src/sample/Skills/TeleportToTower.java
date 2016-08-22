@@ -4,13 +4,13 @@ import sample.Core.AimType;
 import sample.Core.GameCell;
 import sample.Core.Skill;
 import sample.Filters.FilterFactory;
-import sample.Filters.IsVacantCellFilter;
+import sample.Filters.VacantCellFilter;
 
 
 public class TeleportToTower extends Skill {
     public TeleportToTower() {
         this.aimType = AimType.Cell;
-        getAimFilters().add(new IsVacantCellFilter().setError("CellIsOccupied"));
+        getAimFilters().add(VacantCellFilter.getInstance().setError("CellIsOccupied"));
         addAimFilter(FilterFactory.FilterType.IS_NEAR_FRIENDLY_TOWER, "NotNearToFriendlyTower");
     }
 

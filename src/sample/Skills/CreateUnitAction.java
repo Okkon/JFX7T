@@ -1,7 +1,7 @@
 package sample.Skills;
 
 import sample.Core.*;
-import sample.Filters.IsVacantCellFilter;
+import sample.Filters.VacantCellFilter;
 import sample.GActions.AbstractGAction;
 import sample.Graphics.GraphicsHelper;
 import sample.Tower.TowerHelper;
@@ -14,7 +14,7 @@ public class CreateUnitAction extends AbstractGAction {
     private Player player;
 
     public CreateUnitAction() {
-        getAimFilters().add(new IsVacantCellFilter().setError("CellIsOccupied"));
+        getAimFilters().add(VacantCellFilter.getInstance().setError("CellIsOccupied"));
         getAimFilters().add(TowerHelper.nearMainTowerFilter().setError("NotNearToMainTower"));
         aimType = AimType.Cell;
     }

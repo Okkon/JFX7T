@@ -19,6 +19,11 @@ public abstract class Skill extends AbstractGAction {
         }
     }
 
+    @Override
+    public GUnit getOwner() {
+        return (GUnit) super.getOwner();
+    }
+
     public boolean endsTurn() {
         return true;
     }

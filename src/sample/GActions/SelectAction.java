@@ -34,7 +34,7 @@ public class SelectAction extends AbstractGAction {
 
     private SelectAction() {
         aimType = AimType.Object;
-        this.getAimFilters().addAll(getFilters(BELONG_TO_PLAYER));
+        getAimFilters().addAll(getFilters(BELONG_TO_PLAYER));
         getAimFilters().add(new FilterFactory.ClassFilter().setClass(GUnit.class));
         getAimFilters().add(new CanActFilter().setError("UnitCantAct"));
         getAimFilters().add(new IsActingFilter().setError("OtherUnitSelected"));

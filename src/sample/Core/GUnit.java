@@ -63,7 +63,7 @@ public class GUnit extends GObject {
         baseAction = new BaseUnitAction();
         baseAction.setOwner(this);
         moveType = MoveAction.DEFAULT;
-        attackAction = AttackAction.DEFAULT;
+        attackAction = AttackAction.getInstance();
         skills.add(attackAction);
         skills.add(new EndTurnAction());
     }

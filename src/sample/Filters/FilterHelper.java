@@ -8,13 +8,13 @@ import java.util.List;
 public class FilterHelper {
     public static List<GFilter> object() {
         List<GFilter> gFilters = new ArrayList<>();
-        gFilters.add(new IsObjectFilter());
+        gFilters.add(IsObjectFilter.getInstance());
         return gFilters;
     }
 
     public static List<GFilter> gameCell() {
         List<GFilter> gFilters = new ArrayList<>();
-        gFilters.add(new IsVacantCellFilter());
+        gFilters.add(VacantCellFilter.getInstance());
         return gFilters;
     }
 }

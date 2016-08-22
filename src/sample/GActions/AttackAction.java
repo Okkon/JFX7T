@@ -6,12 +6,13 @@ import sample.Events.HitEvent;
 import sample.Filters.FilterFactory;
 import sample.Filters.IsNearFilter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static sample.Filters.FilterFactory.FilterType.CAN_BE_ATTACKED;
 
 public class AttackAction extends Skill {
-    public static final AttackAction DEFAULT = new AttackAction();
+    private static final AttackAction INSTANCE = new AttackAction();
 
     protected AttackAction() {
         super();
@@ -21,22 +22,39 @@ public class AttackAction extends Skill {
         addAimFilter(CAN_BE_ATTACKED, "CanAttack");
     }
 
+    public static AttackAction getInstance() {
+        return INSTANCE;
+    }
+
     @Override
     public void doAction() {
-        GUnit attacker = (GUnit) getOwner();
-        GObject aim = ((GObject) getAim());
-        final AttackEvent attackEvent = new AttackEvent().setAttacker(attacker).setAim(aim);
+        final AttackEvent attackEvent =
+                new AttackEvent()
+                        .setAttackAction(this)
+                        .setAttacker(getOwner())
+                        .setAim(getAim());
         attackEvent.process();
     }
 
-    public void attack(GUnit attacker, GObject aim) {
-        Hit hit = Hit.createHit(attacker, aim);
-        final List<GMod> mods = attacker.getMods();
-        for (GMod mod : mods) {
-            mod.onHit(hit);
+    public void attack(GUnit attacker, PlaceHaving aim) {
+        for (GObject aimToHit : getAimsToHit(aim)) {
+            Hit hit = Hit.createHit(attacker, aimToHit);
+            final List<GMod> mods = attacker.getMods();
+            for (GMod mod : mods) {
+                mod.onHit(hit);
+            }
+            attacker.getVisualizer().startAttack(hit);
+            GameModel.MODEL.log("base", "Hits", attacker, aim);
+            new HitEvent(hit).process();
         }
-        attacker.getVisualizer().startAttack(hit);
-        GameModel.MODEL.log("base", "Hits", attacker, aim);
-        new HitEvent(hit).process();
+    }
+
+    protected List<? extends GObject> getAimsToHit(PlaceHaving aim) {
+        ArrayList<GObject> result = new ArrayList<>();
+        if (aim instanceof GObject) {
+            GObject gObject = (GObject) aim;
+            result.add(gObject);
+        }
+        return result;
     }
 }

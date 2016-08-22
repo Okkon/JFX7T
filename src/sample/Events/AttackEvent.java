@@ -1,19 +1,19 @@
 package sample.Events;
 
 import sample.Core.GEvent;
-import sample.Core.GObject;
 import sample.Core.GUnit;
+import sample.Core.PlaceHaving;
 import sample.GActions.AttackAction;
 
 public class AttackEvent extends GEvent {
     private GUnit attacker;
-    private GObject aim;
+    private PlaceHaving aim;
     private AttackAction attackAction;
 
     @Override
     protected void perform() {
         if (attackAction == null) {
-            attackAction = AttackAction.DEFAULT;
+            attackAction = AttackAction.getInstance();
         }
         attackAction.attack(attacker, aim);
     }
@@ -23,7 +23,7 @@ public class AttackEvent extends GEvent {
         return this;
     }
 
-    public AttackEvent setAim(GObject aim) {
+    public AttackEvent setAim(PlaceHaving aim) {
         this.aim = aim;
         return this;
     }
