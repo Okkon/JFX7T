@@ -384,20 +384,11 @@ public class GameModel {
         return graphics.createUnitSelector(units);
     }
 
+    /*-----------------GETTING OBJECTS------------------------*/
     public List<GObject> getObjects(Collection<GFilter> filters) {
-        List<GObject> result = new ArrayList<>();
-        boolean isOk;
-        for (GObject gObject : objects) {
-            isOk = true;
-            for (GFilter filter : filters) {
-                if (!filter.isOk(gObject)) {
-                    isOk = false;
-                    break;
-                }
-            }
-            if (isOk) {
-                result.add(gObject);
-            }
+        List<GObject> result = new ArrayList<>(objects);
+        for (GFilter filter : filters) {
+            filter.filter(result);
         }
         return result;
     }
@@ -408,6 +399,23 @@ public class GameModel {
         return getObjects(filterList);
     }
 
+    public List<GameCell> getCells(List<GFilter> filters) {
+        List<GameCell> cells = new ArrayList<>(board.values());
+        for (GFilter filter : filters) {
+            cells = (List<GameCell>) filter.filter(cells);
+        }
+        return cells;
+    }
+
+    public List<PlaceHaving> getAll(List<GFilter> filters) {
+        List<PlaceHaving> result = new ArrayList<>();
+        result.addAll(getCells(filters));
+        result.addAll(getObjects(filters));
+        return result;
+
+    }
+
+    /*--------------------------GAME CHECKS---------------------*/
     public boolean canAttack(GObject attacker, @SuppressWarnings("unused") Selectable aim) {
         for (GMod mod : attacker.getMods()) {
             if (mod.disablesAttack()) {
@@ -415,23 +423,6 @@ public class GameModel {
             }
         }
         return true;
-    }
-
-    public List<GameCell> getCells(List<GFilter> filters) {
-        List<GameCell> cells = new ArrayList<>();
-        for (GameCell cell : board.values()) {
-            boolean isOk = true;
-            for (GFilter filter : filters) {
-                if (!filter.isOk(cell)) {
-                    isOk = false;
-                    break;
-                }
-            }
-            if (isOk) {
-                cells.add(cell);
-            }
-        }
-        return cells;
     }
 
     public boolean isInDanger(Selectable obj) {
@@ -460,14 +451,6 @@ public class GameModel {
             }
         }
         return theWeakestPlayer;
-    }
-
-    public List<PlaceHaving> getAll(List<GFilter> filters) {
-        List<PlaceHaving> result = new ArrayList<>();
-        result.addAll(getCells(filters));
-        result.addAll(getObjects(filters));
-        return result;
-
     }
 
     public void setPhase(GPhase phase) {

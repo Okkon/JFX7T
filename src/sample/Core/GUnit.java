@@ -12,8 +12,8 @@ import sample.Helpers.NameHelper;
 import sample.MyConst;
 import sample.Skills.EndTurnAction;
 import sample.Skills.ShotAction;
-import sample.Skills.TeleportToTower;
 import sample.Tower.MainTower;
+import sample.Tower.TeleportToTower;
 import sample.Tower.TowerHelper;
 import sample.XY;
 

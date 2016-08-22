@@ -1,7 +1,6 @@
 package sample.Filters;
 
 import sample.Core.*;
-import sample.Tower.Tower;
 import sample.XY;
 
 import java.util.ArrayList;
@@ -32,9 +31,6 @@ public class FilterFactory {
             case OBSTACLE_ON_ONE_LINE:
                 gFilter = new ObstacleOnLineFilter();
                 break;
-            case IS_NEAR_FRIENDLY_TOWER:
-                gFilter = new IsNearFriendlyTower();
-                break;
             case BELONG_TO_PLAYER:
                 gFilter = new BelongsToActivePlayerFilter();
                 break;
@@ -56,7 +52,7 @@ public class FilterFactory {
     }
 
     public static Collection<GFilter> getFilters(FilterType... types) {
-        List<GFilter> gFilters = new ArrayList<GFilter>();
+        List<GFilter> gFilters = new ArrayList<>();
         for (FilterType type : types) {
             gFilters.add(getFilter(type));
         }
@@ -64,14 +60,7 @@ public class FilterFactory {
     }
 
     public enum FilterType {
-        CAN_SEE, IS_ON_ONE_LINE, BELONG_TO_PLAYER, OBSTACLE_ON_ONE_LINE, DISTANCE_CHECK, CAN_BE_ATTACKED, NOT_IN_DANGER, CLASS_FILTER, IS_NEAR_FRIENDLY_TOWER, NOT_ME
-    }
-
-    public static class UnitFilter extends AbstractGFilter {
-        @Override
-        public boolean isOk(PlaceHaving obj) {
-            return obj instanceof GUnit;
-        }
+        CAN_SEE, IS_ON_ONE_LINE, BELONG_TO_PLAYER, OBSTACLE_ON_ONE_LINE, DISTANCE_CHECK, CAN_BE_ATTACKED, NOT_IN_DANGER, CLASS_FILTER, NOT_ME
     }
 
     public static class ClassFilter extends AbstractGFilter {
@@ -92,21 +81,6 @@ public class FilterFactory {
         }
     }
 
-    private static class IsNearFriendlyTower extends AbstractGFilter {
-        @Override
-        public boolean isOk(PlaceHaving obj) {
-            final Collection<GFilter> filters = getFilters(FilterType.NOT_IN_DANGER, FilterType.BELONG_TO_PLAYER);
-            filters.add(getFilter(FilterType.CLASS_FILTER, null, Tower.class));
-            final List<GObject> towers = model.getObjects(filters);
-            for (GObject tower : towers) {
-                if (model.isNear(tower, obj)) {
-                    return true;
-                }
-            }
-            return false;
-        }
-    }
-
     private static class CanSeeFilter extends AbstractGFilter {
         @Override
         public boolean isOk(PlaceHaving obj) {
@@ -124,7 +98,7 @@ public class FilterFactory {
 
         @Override
         public boolean isOk(PlaceHaving obj) {
-            return XY.getDistance(getObj().getXy(), ((PlaceHaving) obj).getXy()) <= distance;
+            return XY.getDistance(getObj().getXy(), obj.getXy()) <= distance;
         }
     }
 

@@ -1,6 +1,8 @@
 package sample.Core;
 
 
+import java.util.Collection;
+
 public interface GFilter {
     boolean isOk(PlaceHaving obj);
 
@@ -12,4 +14,5 @@ public interface GFilter {
 
     GFilter setError(String error);
 
+    Collection<? extends PlaceHaving> filter(Collection<? extends PlaceHaving> obj);
 }

@@ -7,6 +7,9 @@ import sample.Core.GameModel;
 import sample.Core.PlaceHaving;
 import sample.Helpers.NameHelper;
 
+import java.util.Collection;
+import java.util.Iterator;
+
 public abstract class AbstractGFilter implements GFilter {
     private GObject obj;
     private String errorText;
@@ -36,6 +39,18 @@ public abstract class AbstractGFilter implements GFilter {
     public GFilter setError(String error) {
         this.errorText = NameHelper.getName("errorText", error);
         return this;
+    }
+
+    @Override
+    public Collection<? extends PlaceHaving> filter(Collection<? extends PlaceHaving> objects) {
+        Iterator<? extends PlaceHaving> iterator = objects.iterator();
+        while (iterator.hasNext()) {
+            PlaceHaving next = iterator.next();
+            if (!isOk(next)) {
+                iterator.remove();
+            }
+        }
+        return objects;
     }
 
 
