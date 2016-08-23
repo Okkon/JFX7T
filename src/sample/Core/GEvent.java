@@ -31,7 +31,7 @@ public abstract class GEvent {
 //        GameModel.MODEL.afterEvent(this);
     }
 
-    private void logAfterEvent() {
+    protected void logAfterEvent() {
     }
 
     protected void visualize() {

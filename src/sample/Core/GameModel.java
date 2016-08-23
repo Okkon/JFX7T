@@ -185,34 +185,6 @@ public class GameModel {
         return objects;
     }
 
-    public Collection<Way> getLastFoundWays() {
-        return lastFoundWays;
-    }
-
-    public Collection<Way> findAllWays(GUnit unit, MoveAction moveAction) {
-        Map<GameCell, Way> destinations = new HashMap<>();
-        Way start = new Way(unit.getPlace());
-        Queue<Way> wayQueue = new ArrayDeque<>();
-        wayQueue.add(start);
-
-        while (!wayQueue.isEmpty()) {
-            final Way wayPoint = wayQueue.poll();
-            Set<Way> ways = moveAction.getWayFromCell(wayPoint, unit);
-            for (Way way : ways) {
-                final Way shortestWay = destinations.get(way.getDestinationCell());
-                if (shortestWay == null || way.getLength() < shortestWay.getLength()) {
-                    destinations.put(way.getDestinationCell(), way);
-                    wayQueue.add(way);
-                }
-            }
-        }
-
-        final Collection<Way> wayCollection = destinations.values();
-        lastFoundWays = wayCollection;
-        return wayCollection;
-    }
-
-
     public List<GameCell> getNearCells(GameCell cell) {
         List<GameCell> cells = new ArrayList<>();
         XY xy = cell.getXy();

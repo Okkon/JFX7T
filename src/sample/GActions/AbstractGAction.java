@@ -23,6 +23,10 @@ public abstract class AbstractGAction implements GAction {
         getAimFilters().add(getFilter(filter, error, params));
     }
 
+    protected void addAimFilter(GFilter filter) {
+        getAimFilters().add(filter);
+    }
+
     protected void removeAimFilter(Class filterClass) {
         getAimFilters().remove(findFilterByClass(filterClass));
     }

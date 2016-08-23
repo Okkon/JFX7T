@@ -14,10 +14,11 @@ import sample.Skills.EndTurnAction;
 import sample.Skills.ShotAction;
 import sample.Tower.MainTower;
 import sample.Tower.TeleportToTower;
-import sample.Tower.TowerHelper;
 import sample.XY;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class GUnit extends GObject {
     private int hp;
@@ -34,7 +35,7 @@ public class GUnit extends GObject {
 
     protected String type;
 
-    private DefaultMoveAction moveType;
+    private MoveAction moveAction;
     private AttackAction attackAction;
 
     @Override
@@ -62,7 +63,7 @@ public class GUnit extends GObject {
         setStats(maxHp, maxMp, minDamage, randDamage);
         baseAction = new BaseUnitAction();
         baseAction.setOwner(this);
-        moveType = MoveAction.DEFAULT;
+        moveAction = MoveAction.getInstance();
         attackAction = AttackAction.getInstance();
         skills.add(attackAction);
         skills.add(new EndTurnAction());
@@ -114,8 +115,6 @@ public class GUnit extends GObject {
             if (hp <= 0) {
                 die(hit);
                 GameModel.MODEL.log("base", "Dies", this);
-            } else {
-                GameModel.MODEL.log("base", "HpLeft", this, hp);
             }
         }
         return damage;
@@ -129,15 +128,6 @@ public class GUnit extends GObject {
     @Override
     public String toString() {
         return type.toString() + (place != null ? " " + place.getXy().toString() : "");
-    }
-
-    public Set<GameCell> getCellsToGo() {
-        Set<GameCell> possibleCells = new HashSet<>();
-        final Collection<Way> allWays = GameModel.MODEL.findAllWays(this, moveType);
-        for (Way way : allWays) {
-            possibleCells.add(way.getDestinationCell());
-        }
-        return possibleCells;
     }
 
     public void setType(String type) {
@@ -235,11 +225,6 @@ public class GUnit extends GObject {
         this.mp = MP;
     }
 
-    public int estimate(GameCell cell) {
-        final MainTower mainTower = TowerHelper.getPlayersMainTower(getPlayer());
-        return Math.abs(cell.getXy().getX() - mainTower.getXy().getX());
-    }
-
     public void setAttackAction(AttackAction attackAction) {
         this.attackAction = attackAction;
     }
@@ -260,7 +245,7 @@ public class GUnit extends GObject {
                     skill = rangeAttack == null ? attackAction : rangeAttack;
                 }
             } else if (obj instanceof GameCell) {
-                skill = moveType;
+                skill = moveAction;
             }
 
             skill.setOwner(GUnit.this);
@@ -280,7 +265,8 @@ public class GUnit extends GObject {
                 this.aims.clear();
                 skill.perform();
             } else {
-                Set<GameCell> cells = getCellsToGo();
+                moveAction.setOwner(GUnit.this);
+                List<PlaceHaving> cells = (List<PlaceHaving>) moveAction.getPossibleAims();
                 cells.add(getPlace());
                 GameModel.MODEL.showSelectionPossibility(cells);
             }
@@ -321,8 +307,8 @@ public class GUnit extends GObject {
     }
 
     public void go(GameCell gameCell) {
-        moveType.setOwner(this);
-        moveType.tryToSelect(gameCell);
+        moveAction.setOwner(this);
+        moveAction.tryToSelect(gameCell);
     }
 
 }

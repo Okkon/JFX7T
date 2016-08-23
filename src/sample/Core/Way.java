@@ -4,18 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Way {
-    private final GameCell finishCell;
     private int length;
     private List<GameCell> points;
 
-    public Way(GameCell place) {
-        this.finishCell = place;
+    private Way() {
         this.length = 0;
         points = new ArrayList<>();
     }
 
-    public GameCell getDestinationCell() {
-        return finishCell;
+    public Way(GameCell place) {
+        this();
+        points.add(place);
+    }
+
+    public GameCell getLastCell() {
+        int index = points.size() - 1;
+        return index >= 0 ? points.get(index) : null;
     }
 
     public int getLength() {
@@ -35,12 +39,12 @@ public class Way {
         return sb.toString();
     }
 
-    public Way next(GameCell cell, int length) {
-        final Way way = new Way(cell);
-        way.length = length;
-        way.points.addAll(this.points);
-        way.points.add(cell);
-        return way;
+    public Way addPoint(GameCell cell, int length) {
+        final Way newWay = new Way();
+        newWay.length = this.length + length;
+        newWay.points.addAll(this.points);
+        newWay.points.add(cell);
+        return newWay;
     }
 
     public List<GameCell> getWayPoints() {

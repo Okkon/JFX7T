@@ -1,7 +1,10 @@
-package sample.Core;
+package sample.Core.Scenario;
 
 import javafx.scene.paint.Color;
-import sample.Core.Phase.GamePhase;
+import sample.Core.AbstractScenario;
+import sample.Core.GUnit;
+import sample.Core.Phase.CreationPhase;
+import sample.Core.Player;
 import sample.GUnitFactory;
 import sample.Helpers.ImageHelper;
 
@@ -12,7 +15,7 @@ import static sample.Core.ObjectType.MainTower;
 import static sample.Core.ObjectType.Tower;
 import static sample.GUnitFactory.UnitType.*;
 
-public class Scenario1 extends AbstractScenario {
+public class BaseScenario extends AbstractScenario {
 
     @Override
     public void initPlayers() {
@@ -48,23 +51,6 @@ public class Scenario1 extends AbstractScenario {
         players.add(p2);
     }
 
-    @Override
-    public void locateUnits() {
-        generateUnit(Archer, 3, 1, 0);
-        generateUnit(Assassin, 4, 4, 0);
-        generateUnit(Mage, 4, 6, 0);
-        generateUnit(Inquisitor, 5, 3, 0);
-        generateUnit(Footman, 6, 6, 0);
-        generateUnit(Troll, 6, 4, 0);
-
-        generateUnit(Archer, 9, 1, 1);
-        generateUnit(Assassin, 7, 1, 1);
-        generateUnit(Mage, 10, 4, 1);
-        generateUnit(Inquisitor, 8, 6, 1);
-        generateUnit(Footman, 7, 2, 1);
-        generateUnit(AstralArcher, 9, 3, 1);
-    }
-
     public void locateTowers() {
         generateObject(MainTower, 0, 4, 0);
         generateObject(MainTower, 13, 5, 1);
@@ -79,10 +65,13 @@ public class Scenario1 extends AbstractScenario {
     }
 
     @Override
-    public void startGame() {
-        model.setPhase(new GamePhase());
-//        setPhase(new CreationPhase());
+    public void locateUnits() {
+        //doNothing
     }
 
-
+    @Override
+    public void startGame() {
+//        model.setPhase(new GamePhase());
+        model.setPhase(new CreationPhase());
+    }
 }

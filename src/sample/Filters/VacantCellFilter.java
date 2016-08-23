@@ -11,7 +11,6 @@ public class VacantCellFilter extends AbstractGFilter {
 
     private VacantCellFilter() {
     }
-
     public static VacantCellFilter getInstance() {
         return INSTANCE;
     }

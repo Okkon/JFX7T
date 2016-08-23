@@ -5,7 +5,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import sample.Core.GameModel;
-import sample.Core.Scenario1;
+import sample.Core.Scenario.Scenario1;
 import sample.Graphics.GamePanel;
 import sample.Graphics.GraphicsHelper;
 

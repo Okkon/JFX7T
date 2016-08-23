@@ -5,7 +5,6 @@ import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class Player {
     public static final Player NEUTRAL = new Player("Neutral", Color.GREY);
@@ -87,35 +86,6 @@ public class Player {
 
     public void setAI(boolean AI) {
         this.AI = AI;
-    }
-
-    public void makeTurn() {
-        final List<GUnit> units = getActiveUnits();
-        int totalProfit = 0;
-        GameCell placeChoice = null;
-        GUnit unitChoice = null;
-        for (GUnit unit : units) {
-            final Set<GameCell> cellsToGo = unit.getCellsToGo();
-            for (GameCell cell : cellsToGo) {
-                int cellValue = unit.estimate(cell);
-                if (cellValue > totalProfit) {
-                    totalProfit = cellValue;
-                    placeChoice = cell;
-                    unitChoice = unit;
-                }
-                final List<GAction> unitSkills = unit.getSkills();
-                for (GAction unitSkill : unitSkills) {
-                    unitSkill.setOwner(unit);
-                    final List<? extends PlaceHaving> aims = unitSkill.getPossibleAims();
-                    for (PlaceHaving aim : aims) {
-                        cellValue += unitSkill.estimate(aim);
-                    }
-                }
-            }
-        }
-        if (unitChoice != null) {
-            unitChoice.go(placeChoice);
-        }
     }
 
     public int getScore() {

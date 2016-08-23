@@ -1,14 +1,11 @@
 package sample.Events;
 
-import sample.Core.DefaultMoveAction;
-import sample.Core.GEvent;
-import sample.Core.GUnit;
-import sample.Core.GameCell;
+import sample.Core.*;
 
 public class MoveEvent extends GEvent {
     private GUnit unit;
     private GameCell toCell;
-    private DefaultMoveAction moveAction;
+    private MoveAction moveAction;
 
     @Override
     protected void perform() {
@@ -21,6 +18,11 @@ public class MoveEvent extends GEvent {
         this.unit = unit;
     }
 
+    @Override
+    protected void logBeforeEvent() {
+        GameModel.MODEL.log("base", "UnitMove", unit.getName(), unit.getXy(), unit.getXy());
+    }
+
     public GUnit getUnit() {
         return unit;
     }
@@ -29,7 +31,7 @@ public class MoveEvent extends GEvent {
         this.toCell = toCell;
     }
 
-    public void setMoveType(DefaultMoveAction moveType) {
+    public void setMoveType(MoveAction moveType) {
         this.moveAction = moveType;
     }
 }

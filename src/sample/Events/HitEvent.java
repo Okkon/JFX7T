@@ -1,9 +1,6 @@
 package sample.Events;
 
-import sample.Core.GEvent;
-import sample.Core.GObject;
-import sample.Core.GameModel;
-import sample.Core.Hit;
+import sample.Core.*;
 
 /**
  * Created by kondrashov on 16.08.2016.
@@ -19,6 +16,14 @@ public class HitEvent extends GEvent {
     @Override
     protected void logBeforeEvent() {
         GameModel.MODEL.log("base", "TakesHit", this, hit.getDamageType(), hit.getDamage());
+    }
+
+    @Override
+    protected void logAfterEvent() {
+        if (hit.getAim() instanceof GUnit) {
+            GUnit unit = (GUnit) hit.getAim();
+            GameModel.MODEL.log("base", "HpLeft", this, unit.getHP());
+        }
     }
 
     @Override
