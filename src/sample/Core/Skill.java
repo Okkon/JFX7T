@@ -21,7 +21,7 @@ public abstract class Skill extends AbstractGAction {
 
     @Override
     public GUnit getOwner() {
-        return (GUnit) super.getOwner();
+        return (GUnit) super.getOwner();//TODO: what about tower?
     }
 
     public boolean endsTurn() {

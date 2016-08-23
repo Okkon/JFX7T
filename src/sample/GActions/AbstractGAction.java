@@ -56,7 +56,7 @@ public abstract class AbstractGAction implements GAction {
 
     @Override
     public void onSelect() {
-        if (allAimsSelected()) {
+        if (!allAimsSelected()) {
             setAimFilters();
             model.showSelectionPossibility(getPossibleAims());
         } else {
