@@ -14,7 +14,7 @@ import static sample.Filters.FilterFactory.getFilter;
 public abstract class AbstractGAction implements GAction {
     protected List<GFilter> ownerFilters = new ArrayList<>();
     protected List<PlaceHaving> aims = new ArrayList<>();
-    protected List<List<GFilter>> filters = new ArrayList<>();
+    protected List<GFilter> filters = new ArrayList<>();
     protected GObject owner;
     protected GameModel model = GameModel.MODEL;
     protected AimType aimType = AimType.Anything;
@@ -51,19 +51,26 @@ public abstract class AbstractGAction implements GAction {
     }
 
     public List<GFilter> getAimFilters() {
-        if (filters.isEmpty()) {
-            filters.add(new ArrayList<>());
-        }
-        return filters.get(aims.size());
+        return filters;
     }
 
     @Override
     public void onSelect() {
-        if (aims.size() < filters.size()) {
+        if (allAimsSelected()) {
+            setAimFilters();
             model.showSelectionPossibility(getPossibleAims());
         } else {
             perform();
         }
+    }
+
+    protected boolean allAimsSelected() {
+        //action performs if it has selected aims, or if it can't have any aims.
+        return filters.size() == 0 || aims.size() > 0;
+    }
+
+    protected void setAimFilters() {
+
     }
 
     @Override

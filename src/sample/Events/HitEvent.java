@@ -15,7 +15,8 @@ public class HitEvent extends GEvent {
 
     @Override
     protected void logBeforeEvent() {
-        GameModel.MODEL.log("base", "TakesHit", this, hit.getDamageType(), hit.getDamage());
+        GameModel.MODEL.log("base", "Hits", hit.getAttacker(), hit.getAim());
+        GameModel.MODEL.log("base", "TakesHit", hit.getAim(), hit.getDamageType(), hit.getDamage());
     }
 
     @Override

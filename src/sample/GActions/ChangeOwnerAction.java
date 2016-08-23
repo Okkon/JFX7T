@@ -4,13 +4,13 @@ import sample.Core.GObject;
 import sample.Core.GameModel;
 import sample.Core.Player;
 import sample.Events.OwnerChangeEvent;
-import sample.Filters.FilterHelper;
+import sample.Filters.IsObjectFilter;
 
 public class ChangeOwnerAction extends AbstractGAction {
     Player newPlayer;
 
     public ChangeOwnerAction() {
-        this.filters.add(FilterHelper.object());
+        addAimFilter(IsObjectFilter.getInstance());
     }
 
     @Override

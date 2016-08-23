@@ -17,8 +17,8 @@ public class AttackAction extends Skill {
     protected AttackAction() {
         super();
         aimType = AimType.Object;
-        getAimFilters().add(new IsNearFilter().setError("AimIsTooFar"));
-        getAimFilters().add(new FilterFactory.ClassFilter().setClass(GUnit.class).setError("NotUnit"));
+        addAimFilter(new IsNearFilter().setError("AimIsTooFar"));
+        addAimFilter(new FilterFactory.ClassFilter().setClass(GUnit.class).setError("NotUnit"));
         addAimFilter(CAN_BE_ATTACKED, "CanAttack");
     }
 
@@ -44,7 +44,6 @@ public class AttackAction extends Skill {
                 mod.onHit(hit);
             }
             attacker.getVisualizer().startAttack(hit);
-            GameModel.MODEL.log("base", "Hits", attacker, aim);
             new HitEvent(hit).process();
         }
     }
