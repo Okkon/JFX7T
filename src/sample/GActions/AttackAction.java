@@ -31,7 +31,7 @@ public class AttackAction extends Skill {
         final AttackEvent attackEvent =
                 new AttackEvent()
                         .setAttackAction(this)
-                        .setAttacker(getOwner())
+                        .setAttacker((GUnit) getOwner())
                         .setAim(getAim());
         attackEvent.process();
     }
