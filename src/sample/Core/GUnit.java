@@ -2,6 +2,7 @@ package sample.Core;
 
 import sample.Direction;
 import sample.Events.ShiftEvent;
+import sample.Events.UnitDeathEvent;
 import sample.Events.UnitEndTurnEvent;
 import sample.Filters.FilterFactory;
 import sample.Filters.IsFriendlyFilter;
@@ -9,7 +10,6 @@ import sample.Filters.IsNearFilter;
 import sample.GActions.AbstractGAction;
 import sample.GActions.AttackAction;
 import sample.Helpers.NameHelper;
-import sample.MyConst;
 import sample.Skills.EndTurnAction;
 import sample.Skills.ShotAction;
 import sample.Tower.MainTower;
@@ -92,19 +92,6 @@ public class GUnit extends GObject {
     }
 
     @Override
-    public void die(Hit hit) {
-        super.die(hit);
-        final GObject attacker = hit.getAttacker();
-        if (attacker != null && attacker.getPlayer() != null) {
-            final Player attackerPlayer = attacker.getPlayer();
-            if (!attackerPlayer.equals(Player.NEUTRAL)) {
-                int score = MyConst.SCORE_FOR_UNIT;
-                attackerPlayer.score(attackerPlayer.isOwnerFor(this) ? -score : score);
-            }
-        }
-    }
-
-    @Override
     public int takeHit(Hit hit) {
         super.takeHit(hit);
         final int damage = hit.getDamage();
@@ -113,8 +100,10 @@ public class GUnit extends GObject {
             this.hp -= takenDamage;
             getVisualizer().changeHP(hp);
             if (hp <= 0) {
-                die(hit);
-                GameModel.MODEL.log("base", "Dies", this);
+                UnitDeathEvent deathEvent = new UnitDeathEvent(this);
+                deathEvent.setHit(hit);
+                deathEvent.process();
+//                die(hit);
             }
         }
         return damage;

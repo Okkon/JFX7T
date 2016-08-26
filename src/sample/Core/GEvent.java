@@ -1,19 +1,21 @@
 package sample.Core;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public abstract class GEvent {
-    public static GEvent lastEvent;
+    private static final Map<Class, List<GEventListener<GEvent>>> listenersMap = new HashMap<>();
 
-    private GEvent predecessor;
-
-    public void process() {
+    public final void process() {
         doBeforeEvent();
         if (!canBePerformed()) {
             return;
         }
         visualize();
         perform();
-        lastEvent = this;
         doAfterEvent();
     }
 
@@ -23,12 +25,22 @@ public abstract class GEvent {
 
     protected void doBeforeEvent() {
         logBeforeEvent();
-//        GameModel.MODEL.beforeEvent(this);
+        List<GEventListener<GEvent>> listenerList = listenersMap.get(getClass());
+        if (listenerList != null) {
+            for (GEventListener<GEvent> listener : listenerList) {
+                listener.doBeforeEvent(this);
+            }
+        }
     }
 
     protected void doAfterEvent() {
+        List<GEventListener<GEvent>> listenerList = listenersMap.get(getClass());
+        if (listenerList != null) {
+            for (GEventListener<GEvent> listener : listenerList) {
+                listener.doAfterEvent(this);
+            }
+        }
         logAfterEvent();
-//        GameModel.MODEL.afterEvent(this);
     }
 
     protected void logAfterEvent() {
@@ -42,11 +54,14 @@ public abstract class GEvent {
 
     protected abstract void perform();
 
-    public void setPredecessor(GEvent predecessor) {
-        this.predecessor = predecessor;
-    }
-
-    public GEvent getPredecessor() {
-        return predecessor;
+    public static void addListener(Class eventClass, GEventListener listener) {
+        List<GEventListener<GEvent>> listenerList = listenersMap.get(eventClass);
+        if (listenerList == null) {
+            listenerList = new ArrayList<>();
+            listenerList.add(listener);
+            listenersMap.put(eventClass, listenerList);
+        } else {
+            listenerList.add(listener);
+        }
     }
 }

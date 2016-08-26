@@ -2,9 +2,12 @@ package sample.Core.Scenario;
 
 import javafx.scene.paint.Color;
 import sample.Core.AbstractScenario;
+import sample.Core.GEvent;
 import sample.Core.GUnit;
 import sample.Core.Phase.CreationPhase;
 import sample.Core.Player;
+import sample.Events.Listeners.ScoreForDeathRule;
+import sample.Events.UnitDeathEvent;
 import sample.GUnitFactory;
 import sample.Helpers.ImageHelper;
 
@@ -49,6 +52,8 @@ public class BaseScenario extends AbstractScenario {
         }
         players.add(p1);
         players.add(p2);
+
+        GEvent.addListener(UnitDeathEvent.class, new ScoreForDeathRule());
     }
 
     public void locateTowers() {

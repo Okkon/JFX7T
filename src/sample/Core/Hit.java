@@ -14,6 +14,8 @@ public class Hit {
     private GameCell to;
     private AttackAction attackAction;
 
+    private Hit() {/*prevents instance creation*/}
+
     public int getDamage() {
         return damage;
     }
