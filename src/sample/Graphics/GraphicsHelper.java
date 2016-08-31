@@ -15,7 +15,7 @@ public class GraphicsHelper {
     private List<Transition> transitions;
 
     private GraphicsHelper() {
-        transitions = new ArrayList<Transition>();
+        transitions = new ArrayList<>();
     }
 
     public static GraphicsHelper getInstance() {

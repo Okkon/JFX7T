@@ -29,7 +29,6 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
     private final GObject obj;
     private Image image;
     private Map<Class<? extends GMod>, Shape> modShapes = new HashMap<>();
-    private int smallRadius;
     private final int modShapeRadius = MyConst.OBJECT_VISUALIZER_SIZE / 8;
     private final int bigRadius = MyConst.OBJECT_VISUALIZER_SIZE / 2 + modShapeRadius;
 
@@ -222,6 +221,33 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
     }
 
     private Shape createModShape(GMod mod) {
+        /* template for mode
+        int d = 32;
+        double shieldLength = 0.8;
+        double shieldHeight = 0.8;
+        double wTab = (1 - shieldLength) / 2d;
+        double hTab = (1 - shieldHeight) / 2d;
+        double xCurve = 0.1;
+        double yCurve = 0.9 * shieldLength;
+        double rightEdge = wTab + shieldLength;
+        Path path = new Path();
+        MoveTo moveTo = new MoveTo(wTab * d, hTab * d);
+        HLineTo hLineTo = new HLineTo(rightEdge * d);
+        QuadCurveTo quadCurveTo = new QuadCurveTo(
+                (rightEdge - xCurve) * d,
+                (hTab + yCurve) * d,
+                (wTab + rightEdge)/2 * d ,
+                (hTab + shieldHeight) * d
+        );
+        QuadCurveTo quadCurveTo2 = new QuadCurveTo(
+                (hTab + xCurve) * d,
+                (hTab + yCurve) * d,
+                wTab * d,
+                hTab * d
+        );
+        path.getElements().addAll(moveTo, hLineTo, quadCurveTo, quadCurveTo2);
+        path.setStrokeWidth(2);
+        */
         Circle shape = new Circle(modShapeRadius);
         shape.setStrokeWidth(1);
         shape.setStroke(Color.BLUEVIOLET);
