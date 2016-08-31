@@ -2,13 +2,12 @@ package sample.Tower;
 
 import sample.Core.GFilter;
 import sample.Core.GObject;
+import sample.Core.GameCell;
 import sample.Core.PlaceHaving;
 import sample.Filters.AbstractGFilter;
 import sample.Filters.FilterFactory;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by kondrashov on 22.08.2016.
@@ -36,17 +35,18 @@ public class NearFriendlyTowerFilter extends AbstractGFilter {
     }
 
     @Override
-    public Collection<? extends PlaceHaving> filter(Collection<? extends PlaceHaving> objects) {
+    public void filter(Collection<? extends PlaceHaving> collection) {
         towers = getTowers();
-        ArrayList<PlaceHaving> result = new ArrayList<>();
-        for (PlaceHaving object : objects) {
-            for (GObject tower : towers) {
-                if (model.isNear(tower, object)) {
-                    result.add(object);
-                }
+        Set<GameCell> gameCells = new HashSet<>();
+        towers.forEach(o -> gameCells.addAll(model.getNearCells(o.getPlace())));
+
+        Iterator<? extends PlaceHaving> iterator = collection.iterator();
+        while (iterator.hasNext()) {
+            PlaceHaving next = iterator.next();
+            if (!gameCells.contains(next)) {
+                iterator.remove();
             }
         }
-        return result;
     }
 
     private List<GObject> getTowers() {

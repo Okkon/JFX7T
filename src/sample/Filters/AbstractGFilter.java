@@ -42,15 +42,14 @@ public abstract class AbstractGFilter implements GFilter {
     }
 
     @Override
-    public Collection<? extends PlaceHaving> filter(Collection<? extends PlaceHaving> objects) {
-        Iterator<? extends PlaceHaving> iterator = objects.iterator();
+    public void filter(Collection<? extends PlaceHaving> collection) {
+        Iterator<? extends PlaceHaving> iterator = collection.iterator();
         while (iterator.hasNext()) {
             PlaceHaving next = iterator.next();
             if (!isOk(next)) {
                 iterator.remove();
             }
         }
-        return objects;
     }
 
 

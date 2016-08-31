@@ -14,5 +14,10 @@ public interface GFilter {
 
     GFilter setError(String error);
 
-    Collection<? extends PlaceHaving> filter(Collection<? extends PlaceHaving> obj);
+    /**
+     * removes elements from collection, which isOk method returns false value
+     *
+     * @param collection
+     */
+    void filter(Collection<? extends PlaceHaving> collection);
 }

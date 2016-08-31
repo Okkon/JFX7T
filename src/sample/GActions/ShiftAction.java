@@ -27,10 +27,16 @@ public class ShiftAction extends AbstractGAction {
     }
 
     @Override
+    protected boolean allAimsSelected() {
+        return aims.size() == 2;
+    }
+
+    @Override
     public void doAction() {
         GObject aim = (GObject) getAim();
         GameCell place = (GameCell) getAims().get(1);
         aim.shift(place);
         aims.clear();
+        cancel();
     }
 }

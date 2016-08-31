@@ -46,6 +46,7 @@ public abstract class AbstractGAction implements GAction {
             aims.remove(aims.size() - 1);
             onSelect();
         } else {
+            model.select(null);
             model.setAction(model.getPhaseAction());
         }
     }

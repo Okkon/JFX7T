@@ -4,6 +4,7 @@ import sample.Core.*;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -26,13 +27,17 @@ public class CanMoveFilter extends AbstractGFilter {
     }
 
     @Override
-    public Collection<? extends PlaceHaving> filter(Collection<? extends PlaceHaving> objects) {
+    public void filter(Collection<? extends PlaceHaving> collection) {
         Set<GameCell> gameCells = new HashSet<>();
         Collection<Way> allWays = moveAction.findAllWays((GUnit) getObj(), moveAction);
-        for (Way way : allWays) {
-            gameCells.add(way.getLastCell());
+        allWays.forEach((o) -> gameCells.add(o.getLastCell()));
+        Iterator<? extends PlaceHaving> iterator = collection.iterator();
+        while (iterator.hasNext()) {
+            PlaceHaving next = iterator.next();
+            if (!gameCells.contains(next)) {
+                iterator.remove();
+            }
         }
-        return super.filter(objects);
     }
 
     public CanMoveFilter setMoveAction(MoveAction moveAction) {

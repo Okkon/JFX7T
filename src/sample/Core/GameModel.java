@@ -106,6 +106,8 @@ public class GameModel {
             selectedObj = gObject;
             selectedObj.getVisualizer().setSelected(true);
             setAction(selectedObj.getBaseAction());
+        } else {
+            selectedObj = null;
         }
         graphics.showObjInfo(obj);
     }
@@ -374,7 +376,7 @@ public class GameModel {
     public List<GameCell> getCells(List<GFilter> filters) {
         List<GameCell> cells = new ArrayList<>(board.values());
         for (GFilter filter : filters) {
-            cells = (List<GameCell>) filter.filter(cells);
+            filter.filter(cells);
         }
         return cells;
     }
