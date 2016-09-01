@@ -1,11 +1,18 @@
 package sample;
 
 
-public class XY {
+import java.util.ArrayList;
+import java.util.List;
+
+public final class XY {
     public static final int diagonalLength = 15;
     public static final int straightLength = 10;
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
+
+    public static XY get(int x, int y) {
+        return new XY(x, y);
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -16,7 +23,7 @@ public class XY {
         return false;
     }
 
-    public XY(int x, int y) {
+    private XY(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -25,16 +32,8 @@ public class XY {
         return x;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
     public int getY() {
         return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
     }
 
     @Override
@@ -49,6 +48,10 @@ public class XY {
 
     public static boolean isNear(XY p1, XY p2) {
         return !p1.equals(p2) && XY.getDistance(p1, p2) <= diagonalLength;
+    }
+
+    public boolean isNear(XY p1) {
+        return !p1.equals(this) && XY.getDistance(p1, this) <= diagonalLength;
     }
 
     public static int getDistance(XY p1, XY p2) {
@@ -81,5 +84,16 @@ public class XY {
 
     public static XY step(XY currentPlace, Direction direction) {
         return new XY(currentPlace.x + direction.getX(), currentPlace.y + direction.getY());
+    }
+
+    public List<XY> getPlaces(XY startPlace, boolean clockwise, int times) {
+        List<XY> result = new ArrayList<>();
+        result.add(startPlace);
+        Direction direction = Direction.findDirection(this, result.get(result.size() - 1));
+        for (int i = 0; i < times; i++) {
+            direction = direction.turn(clockwise);
+            result.add(this.step(direction));
+        }
+        return result;
     }
 }

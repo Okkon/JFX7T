@@ -49,7 +49,7 @@ public class UIHelper {
     }
 
     public static XY getCenter(Bounds bounds) {
-        return new XY(
+        return XY.get(
                 new Double(bounds.getMinX() + bounds.getWidth() / 2).intValue(),
                 new Double(bounds.getMinY() + bounds.getHeight() / 2).intValue());
     }

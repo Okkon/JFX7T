@@ -3,6 +3,7 @@ package sample;
 
 import sample.Core.GUnit;
 import sample.GActions.RoundAttackAction;
+import sample.GActions.SwingAttackAction;
 import sample.Mods.*;
 import sample.Skills.AstralBow;
 import sample.Skills.Crossbow;
@@ -27,6 +28,7 @@ public class GUnitFactory {
         switch (type) {
             case "Footman": {
                 unit = new GUnit(4, 21, 2, 2);
+                unit.setAttackAction(SwingAttackAction.getInstance());
                 unit.addMod(new Armor(2));
                 unit.addMod(new Shield(2));
                 break;

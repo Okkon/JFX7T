@@ -2,13 +2,10 @@ package sample.Graphics;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
@@ -85,21 +82,13 @@ public class ObjectInfoPanel extends GridPane {
                 imageView.setFitWidth(buttonSize);
                 button.setGraphic(imageView);
                 UIHelper.fixSize(button, buttonSize);
-                button.setOnMousePressed(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent mouseEvent) {
-                        if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
-                            textArea.setText(skill.getDescription());
-                        }
+                button.setOnMousePressed(mouseEvent -> {
+                    if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
+                        textArea.setText(skill.getDescription());
                     }
                 });
                 if (belongsToActivePlayer && unit.getPlace() != null) {
-                    button.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent actionEvent) {
-                            GameModel.MODEL.setAction(skill);
-                        }
-                    });
+                    button.setOnAction(actionEvent -> GameModel.MODEL.setAction(skill));
                 }
                 hBox.getChildren().add(button);
             }

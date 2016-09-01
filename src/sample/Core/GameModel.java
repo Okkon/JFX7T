@@ -14,7 +14,6 @@ public class GameModel {
     public static final GameModel MODEL = new GameModel();
     public static final AbstractGAction SELECT_ACTION = SelectAction.getInstance();
     private AbstractGAction currentPhaseAction;
-    private Collection<Way> lastFoundWays;
     Set<GObject> objects = new HashSet<>();
     private GAction[] possibleActions;
     private GAction selectedAction;
@@ -39,13 +38,13 @@ public class GameModel {
     public void generateObject(ObjectType objectType, int x, int y, int playerIndex) {
         final GObject obj = GObjectFactory.create(objectType);
         obj.setPlayer(getPlayerByIndex(playerIndex));
-        createObj(obj, board.get(new XY(x, y)));
+        createObj(obj, board.get(XY.get(x, y)));
     }
 
     public void generateUnit(String unitType, int x, int y, int playerIndex) {
         final GObject obj = GUnitFactory.create(unitType);
         obj.setPlayer(getPlayerByIndex(playerIndex));
-        createObj(obj, board.get(new XY(x, y)));
+        createObj(obj, board.get(XY.get(x, y)));
     }
 
     private Player getPlayerByIndex(int playerIndex) {
@@ -87,7 +86,7 @@ public class GameModel {
         board.clear();
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
-                final XY xy = new XY(i, j);
+                final XY xy = XY.get(i, j);
                 board.put(xy, new GameCell(xy));
             }
         }
@@ -456,5 +455,21 @@ public class GameModel {
 
     public List<GAura> getAuras() {
         return auras;
+    }
+
+    public List<GObject> getObjectsSurrounding(XY attackerPlace, XY firstAttackedPlace, int times) {
+        if (!attackerPlace.isNear(firstAttackedPlace)) {
+            throw new IllegalArgumentException("firstAttackedPlace must be near attackerPlace");
+        }
+        ArrayList<GObject> result = new ArrayList<>();
+        List<XY> places = attackerPlace.getPlaces(firstAttackedPlace, true, times);
+        places.forEach(p -> {
+            GObject obj = board.get(p).getObj();
+            if (obj != null) {
+                result.add(obj);
+            }
+        });
+
+        return result;
     }
 }

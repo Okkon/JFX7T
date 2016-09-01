@@ -69,8 +69,8 @@ public class MoveAction extends Skill {
             GameCell next = iterator.next();
             final Direction direction = Direction.findDirection(from, next.getXy());
             if (direction.isDiagonal()) {
-                final GObject obj1 = board.get(new XY(from.getX(), next.getXy().getY())).getObj();
-                final GObject obj2 = board.get(new XY(next.getXy().getX(), from.getY())).getObj();
+                final GObject obj1 = board.get(XY.get(from.getX(), next.getXy().getY())).getObj();
+                final GObject obj2 = board.get(XY.get(next.getXy().getX(), from.getY())).getObj();
                 if ((obj1 != null && obj1.blocksMoveFor(unit)) || (obj2 != null && obj2.blocksMoveFor(unit))) {
                     iterator.remove();
                 }
