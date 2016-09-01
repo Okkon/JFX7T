@@ -20,11 +20,11 @@ public class Tower extends GObject {
     }
 
     @Override
-    public void endHour() {
-        super.endHour();
+    public void onEndHour() {
+        super.onEndHour();
         attack();
         checkControl();
-        score();
+//        score();
     }
 
     private void score() {

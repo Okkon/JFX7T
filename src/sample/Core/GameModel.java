@@ -4,6 +4,7 @@ import javafx.animation.PauseTransition;
 import sample.Core.Phase.CreationPhase;
 import sample.Core.Phase.GPhase;
 import sample.*;
+import sample.Events.EndHourEvent;
 import sample.GActions.*;
 import sample.Graphics.GraphicsHelper;
 
@@ -165,12 +166,7 @@ public class GameModel {
     }
 
     public void endHour() {
-        List<GObject> gObjects = new ArrayList<>();
-        gObjects.addAll(getObjects());
-        for (GObject gObject : gObjects) {
-            gObject.endHour();
-        }
-        log("base", "HourEnds", hour);
+        new EndHourEvent(hour).process();
         final GraphicsHelper instance = GraphicsHelper.getInstance();
         final PauseTransition transition = new PauseTransition();
         transition.setOnFinished(event -> setPhase(new CreationPhase()));
@@ -335,7 +331,7 @@ public class GameModel {
         log("base", "HourStarts", hour, player);
         setActivePlayer(player);
         for (GObject object : objects) {
-            object.startHour();
+            object.onStartHour();
         }
         cancel();
     }

@@ -6,7 +6,9 @@ import sample.Core.GEvent;
 import sample.Core.GUnit;
 import sample.Core.Phase.CreationPhase;
 import sample.Core.Player;
+import sample.Events.EndHourEvent;
 import sample.Events.Listeners.ScoreForDeathRule;
+import sample.Events.Listeners.ScoreForTowers;
 import sample.Events.UnitDeathEvent;
 import sample.GUnitFactory;
 import sample.Helpers.ImageHelper;
@@ -25,7 +27,7 @@ public class BaseScenario extends AbstractScenario {
         final List<Player> players = model.getPlayers();
         final Player p1 = new Player("P1", Color.RED);
         p1.setImage(ImageHelper.getPlayerImage("lan"));
-        List<GUnit> commonUnits = new ArrayList<GUnit>();
+        List<GUnit> commonUnits = new ArrayList<>();
         commonUnits.add(GUnitFactory.create(Archer));
         commonUnits.add(GUnitFactory.create(Assassin));
         commonUnits.add(GUnitFactory.create(Footman));
@@ -35,7 +37,7 @@ public class BaseScenario extends AbstractScenario {
         for (GUnit gUnit : commonUnits) {
             p1AvailableUnits.add(gUnit.copy());
         }
-        p1AvailableUnits.add((GUnit) GUnitFactory.create(Troll));
+        p1AvailableUnits.add(GUnitFactory.create(Troll));
         for (GUnit unit : p1AvailableUnits) {
             unit.setPlayer(p1);
         }
@@ -46,7 +48,7 @@ public class BaseScenario extends AbstractScenario {
         for (GUnit gUnit : commonUnits) {
             p2AvailableUnits.add(gUnit.copy());
         }
-        p2AvailableUnits.add((GUnit) GUnitFactory.create(AstralArcher));
+        p2AvailableUnits.add(GUnitFactory.create(AstralArcher));
         for (GUnit unit : p2AvailableUnits) {
             unit.setPlayer(p2);
         }
@@ -54,6 +56,7 @@ public class BaseScenario extends AbstractScenario {
         players.add(p2);
 
         GEvent.addListener(UnitDeathEvent.class, new ScoreForDeathRule());
+        GEvent.addListener(EndHourEvent.class, new ScoreForTowers());
     }
 
     public void locateTowers() {

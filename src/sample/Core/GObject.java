@@ -120,7 +120,7 @@ public abstract class GObject implements Selectable, PlaceHaving {
         return skills;
     }
 
-    public void endHour() {
+    public void onEndHour() {
 
     }
 
@@ -132,7 +132,7 @@ public abstract class GObject implements Selectable, PlaceHaving {
         return visualizer;
     }
 
-    public void startHour() {
+    public void onStartHour() {
 
     }
 

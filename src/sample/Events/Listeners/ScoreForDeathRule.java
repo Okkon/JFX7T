@@ -5,7 +5,7 @@ import sample.Events.UnitDeathEvent;
 import sample.MyConst;
 
 
-public class ScoreForDeathRule<T extends UnitDeathEvent> extends GEventListener<UnitDeathEvent> {
+public class ScoreForDeathRule<T extends UnitDeathEvent> extends GEventListener<T> {
     @Override
     public void doAfterEvent(UnitDeathEvent event) {
         UnitDeathEvent deathEvent = event;

@@ -273,8 +273,8 @@ public class GUnit extends GObject {
     }
 
     @Override
-    public void startHour() {
-        super.startHour();
+    public void onStartHour() {
+        super.onStartHour();
         this.mp = maxMp;
         visualizer.setReady(true);
     }
