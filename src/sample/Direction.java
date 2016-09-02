@@ -5,14 +5,14 @@ import java.util.List;
 
 public class Direction {
     private static List<Direction> CLOCKWISE_DIRECTIONS = Arrays.asList(
-            new Direction(1, 1),
-            new Direction(1, 0),
             new Direction(1, -1),
-            new Direction(0, -1),
-            new Direction(-1, -1),
-            new Direction(-1, 0),
+            new Direction(1, 0),
+            new Direction(1, 1),
+            new Direction(0, 1),
             new Direction(-1, 1),
-            new Direction(0, 1)
+            new Direction(-1, 0),
+            new Direction(-1, -1),
+            new Direction(0, -1)
     );
     private final int x;
     private final int y;
@@ -70,7 +70,7 @@ public class Direction {
 
     public Direction turn(boolean clockwise) {
         int index = CLOCKWISE_DIRECTIONS.indexOf(this);
-        int next = clockwise ? index++ : index--;
+        int next = clockwise ? ++index : --index;
         if (next < 0) {
             next = CLOCKWISE_DIRECTIONS.size() - 1;
         }

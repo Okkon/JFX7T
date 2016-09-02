@@ -7,8 +7,9 @@ import java.util.List;
 
 public class SwingAttackAction extends AttackAction {
     private static final SwingAttackAction INSTANCE = new SwingAttackAction();
+    protected int power = 2;
 
-    private SwingAttackAction() {
+    protected SwingAttackAction() {
     }
 
     public static SwingAttackAction getInstance() {
@@ -17,6 +18,6 @@ public class SwingAttackAction extends AttackAction {
 
     @Override
     protected List<? extends GObject> getAimsToHit(PlaceHaving aim) {
-        return model.getObjectsSurrounding(getOwner().getPlace().getXy(), aim.getXy(), 2);
+        return model.getObjectsSurrounding(getOwner().getPlace().getXy(), aim.getXy(), power);
     }
 }

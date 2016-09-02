@@ -460,9 +460,12 @@ public class GameModel {
         ArrayList<GObject> result = new ArrayList<>();
         List<XY> places = attackerPlace.getPlaces(firstAttackedPlace, true, times);
         places.forEach(p -> {
-            GObject obj = board.get(p).getObj();
-            if (obj != null) {
-                result.add(obj);
+            GameCell gameCell = board.get(p);
+            if (gameCell != null) {
+                GObject obj = gameCell.getObj();
+                if (obj != null) {
+                    result.add(obj);
+                }
             }
         });
 

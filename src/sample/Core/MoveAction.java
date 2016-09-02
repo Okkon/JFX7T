@@ -120,9 +120,7 @@ public class MoveAction extends Skill {
     private Way findWayToCell(GUnit unit, GameCell toCell) {
         Way way = new Way(unit.getPlace());
         PriorityQueue<Way> ways = new PriorityQueue<>(
-                (o1, o2) ->
-                        (XY.getDistance(o1.getLastCell().getXy(), toCell.getXy()) + o1.getLength()) -
-                                (XY.getDistance(o1.getLastCell().getXy(), toCell.getXy()) + o1.getLength())
+                (o1, o2) -> o1.distanceFunction(toCell) - o2.distanceFunction(toCell)
         );
         ways.addAll(getWaysFromCell(way, unit));
         while (!ways.isEmpty()) {

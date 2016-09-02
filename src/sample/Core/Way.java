@@ -1,5 +1,7 @@
 package sample.Core;
 
+import sample.XY;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,5 +51,9 @@ public class Way {
 
     public List<GameCell> getWayPoints() {
         return points;
+    }
+
+    public int distanceFunction(GameCell toCell) {
+        return XY.getDistance(getLastCell().getXy(), toCell.getXy()) + getLength();
     }
 }
