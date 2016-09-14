@@ -109,6 +109,10 @@ public class GameModel {
         } else {
             selectedObj = null;
         }
+        showInfo(obj);
+    }
+
+    public void showInfo(Selectable obj) {
         graphics.showObjInfo(obj);
     }
 

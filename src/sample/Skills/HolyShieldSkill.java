@@ -9,7 +9,7 @@ import sample.Mods.HolyShield;
 public class HolyShieldSkill extends Skill {
 
     public HolyShieldSkill() {
-        getAimFilters().add(FilterFactory.getFilter(FilterFactory.FilterType.DISTANCE_CHECK, "AimIsTooFar", 60));
+        addAimFilter(FilterFactory.getFilter(FilterFactory.FilterType.DISTANCE_CHECK, "AimIsTooFar", 60));
     }
 
     @Override

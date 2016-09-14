@@ -2,14 +2,13 @@ package sample.GActions;
 
 
 import sample.Core.AimType;
+import sample.Core.GFilter;
 import sample.Core.GUnit;
 import sample.Core.GameModel;
+import sample.Filters.BelongsToActivePlayerFilter;
 import sample.Filters.CanActFilter;
 import sample.Filters.FilterFactory;
 import sample.Filters.IsActingFilter;
-
-import static sample.Filters.FilterFactory.FilterType.BELONG_TO_PLAYER;
-import static sample.Filters.FilterFactory.getFilters;
 
 public class SelectAction extends AbstractGAction {
     private static SelectAction INSTANCE;
@@ -29,15 +28,25 @@ public class SelectAction extends AbstractGAction {
 
     @Override
     public void doAction() {
-        GameModel.MODEL.select(getAim());
+        model.showInfo(getAim());
+        boolean isOk = true;
+        for (GFilter preferableAimFilter : preferableAimFilters) {
+            if (!preferableAimFilter.isOk(getAim())) {
+                isOk = false;
+                break;
+            }
+        }
+        if (isOk) {
+            GameModel.MODEL.select(getAim());
+        }
     }
 
     private SelectAction() {
         aimType = AimType.Object;
-        getAimFilters().add(new FilterFactory.ClassFilter().setClass(GUnit.class));
-        getAimFilters().addAll(getFilters(BELONG_TO_PLAYER));
-        getAimFilters().add(new CanActFilter().setError("UnitCantAct"));
-        getAimFilters().add(new IsActingFilter().setError("OtherUnitSelected"));
+        addAimFilter(new FilterFactory.ClassFilter().setClass(GUnit.class));
+        addPreferableAimFilter(new BelongsToActivePlayerFilter());
+        addAimFilter(new CanActFilter().setError("UnitCantAct"));
+        addAimFilter(new IsActingFilter().setError("OtherUnitSelected"));
     }
 
     @Override

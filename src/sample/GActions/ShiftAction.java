@@ -10,7 +10,7 @@ public class ShiftAction extends AbstractGAction {
 
     @Override
     protected void setAimFilters() {
-        getAimFilters().clear();
+        clearAimFilters();
         if (aims.isEmpty()) {
             GObject selectedObj = model.getSelectedObj();
             if (selectedObj != null) {
@@ -24,6 +24,10 @@ public class ShiftAction extends AbstractGAction {
             aimType = AimType.Cell;
             addAimFilter(VacantCellFilter.getInstance());
         }
+    }
+
+    private void clearAimFilters() {
+        aimFilters.clear();
     }
 
     @Override

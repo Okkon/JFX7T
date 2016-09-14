@@ -29,7 +29,7 @@ public abstract class ShotAction extends Skill {
         this.minDamage = minDamage;
         this.maxDamage = maxDamage;
         ownerFilters.add(new FilterFactory.NotInDangerFilter().setError("InDanger"));
-        getAimFilters().add(FilterFactory.ClassFilter.newInstance().setClass(GUnit.class).setError("NotUnit"));
+        addAimFilter(FilterFactory.ClassFilter.newInstance().setClass(GUnit.class).setError("NotUnit"));
         addAimFilter(NOT_ME, "NotMe");
         addAimFilter(IS_ON_ONE_LINE, "NotOnOneLine");
         addAimFilter(CAN_SEE, "CantSee");

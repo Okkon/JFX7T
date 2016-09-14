@@ -3,6 +3,7 @@ package sample.Tower;
 
 import sample.Core.*;
 import sample.Filters.AbstractGFilter;
+import sample.Filters.BelongsToActivePlayerFilter;
 import sample.Filters.FilterFactory;
 import sample.XY;
 
@@ -12,7 +13,7 @@ public class TowerHelper {
     public static MainTower getPlayersMainTower(Player player) {
         final List<GObject> objects = GameModel.MODEL.getObjects(
                 FilterFactory.getFilter(FilterFactory.FilterType.CLASS_FILTER, null, MainTower.class),
-                FilterFactory.getFilter(FilterFactory.FilterType.BELONG_TO_PLAYER)
+                new BelongsToActivePlayerFilter()
         );
         return (MainTower) objects.iterator().next();
     }

@@ -14,17 +14,22 @@ import static sample.Filters.FilterFactory.getFilter;
 public abstract class AbstractGAction implements GAction {
     protected List<GFilter> ownerFilters = new ArrayList<>();
     protected List<PlaceHaving> aims = new ArrayList<>();
-    protected List<GFilter> filters = new ArrayList<>();
+    protected List<GFilter> aimFilters = new ArrayList<>();
+    protected List<GFilter> preferableAimFilters = new ArrayList<>();
     protected GObject owner;
     protected GameModel model = GameModel.MODEL;
     protected AimType aimType = AimType.Anything;
 
     protected void addAimFilter(FilterType filter, String error, Object... params) {
-        getAimFilters().add(getFilter(filter, error, params));
+        aimFilters.add(getFilter(filter, error, params));
     }
 
     protected void addAimFilter(GFilter filter) {
-        getAimFilters().add(filter);
+        aimFilters.add(filter);
+    }
+
+    protected void addPreferableAimFilter(GFilter filter) {
+        preferableAimFilters.add(filter);
     }
 
     protected void removeAimFilter(Class filterClass) {
@@ -52,7 +57,7 @@ public abstract class AbstractGAction implements GAction {
     }
 
     public List<GFilter> getAimFilters() {
-        return filters;
+        return aimFilters;
     }
 
     @Override
@@ -67,7 +72,7 @@ public abstract class AbstractGAction implements GAction {
 
     protected boolean allAimsSelected() {
         //action performs if it has selected aims, or if it can't have any aims.
-        return filters.size() == 0 || aims.size() > 0;
+        return aimFilters.size() == 0 || aims.size() > 0;
     }
 
     protected void setAimFilters() {
@@ -92,19 +97,21 @@ public abstract class AbstractGAction implements GAction {
     @Override
     public List<? extends PlaceHaving> getPossibleAims() {
         List<? extends PlaceHaving> possibleAims = Collections.EMPTY_LIST;
+        List<GFilter> aimFilters = new ArrayList<>(getAimFilters());
+        aimFilters.addAll(preferableAimFilters);
         if (owner != null) {
-            for (GFilter aimFilter : getAimFilters()) {
+            for (GFilter aimFilter : aimFilters) {
                 aimFilter.setObj(owner);
             }
         }
         if (AimType.Cell.equals(aimType)) {
-            possibleAims = model.getCells(getAimFilters());
+            possibleAims = model.getCells(aimFilters);
         }
         if (AimType.Object.equals(aimType)) {
-            possibleAims = model.getObjects(getAimFilters());
+            possibleAims = model.getObjects(aimFilters);
         }
         if (AimType.ObjectAndCells.equals(aimType)) {
-            possibleAims = model.getAll(getAimFilters());
+            possibleAims = model.getAll(aimFilters);
         }
         return possibleAims;
     }

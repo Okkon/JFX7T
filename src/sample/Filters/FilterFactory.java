@@ -31,9 +31,6 @@ public class FilterFactory {
             case OBSTACLE_ON_ONE_LINE:
                 gFilter = new ObstacleOnLineFilter();
                 break;
-            case BELONG_TO_PLAYER:
-                gFilter = new BelongsToActivePlayerFilter();
-                break;
             case NOT_IN_DANGER:
                 gFilter = new NotInDangerFilter();
                 break;
@@ -60,7 +57,7 @@ public class FilterFactory {
     }
 
     public enum FilterType {
-        CAN_SEE, IS_ON_ONE_LINE, BELONG_TO_PLAYER, OBSTACLE_ON_ONE_LINE, DISTANCE_CHECK, CAN_BE_ATTACKED, NOT_IN_DANGER, CLASS_FILTER, NOT_ME
+        CAN_SEE, IS_ON_ONE_LINE, OBSTACLE_ON_ONE_LINE, DISTANCE_CHECK, CAN_BE_ATTACKED, NOT_IN_DANGER, CLASS_FILTER, NOT_ME
     }
 
     public static class ClassFilter extends AbstractGFilter {

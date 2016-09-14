@@ -5,6 +5,7 @@ import sample.Core.GObject;
 import sample.Core.GameCell;
 import sample.Core.PlaceHaving;
 import sample.Filters.AbstractGFilter;
+import sample.Filters.BelongsToActivePlayerFilter;
 import sample.Filters.FilterFactory;
 
 import java.util.*;
@@ -50,8 +51,9 @@ public class NearFriendlyTowerFilter extends AbstractGFilter {
     }
 
     private List<GObject> getTowers() {
-        final Collection<GFilter> filters = FilterFactory.getFilters(FilterFactory.FilterType.NOT_IN_DANGER, FilterFactory.FilterType.BELONG_TO_PLAYER);
+        final Collection<GFilter> filters = FilterFactory.getFilters(FilterFactory.FilterType.NOT_IN_DANGER);
         filters.add(FilterFactory.getFilter(FilterFactory.FilterType.CLASS_FILTER, null, Tower.class));
+        filters.add(new BelongsToActivePlayerFilter());
         return model.getObjects(filters);
     }
 }

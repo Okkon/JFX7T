@@ -14,8 +14,8 @@ public class CreateUnitAction extends AbstractGAction {
     private Player player;
 
     public CreateUnitAction() {
-        getAimFilters().add(VacantCellFilter.getInstance().setError("CellIsOccupied"));
-        getAimFilters().add(TowerHelper.nearMainTowerFilter().setError("NotNearToMainTower"));
+        addAimFilter(VacantCellFilter.getInstance().setError("CellIsOccupied"));
+        addAimFilter(TowerHelper.nearMainTowerFilter().setError("NotNearToMainTower"));
         aimType = AimType.Cell;
     }
 
