@@ -8,6 +8,7 @@ import java.util.Map;
 
 public abstract class GEvent {
     private static final Map<Class, List<GEventListener<GEvent>>> listenersMap = new HashMap<>();
+    protected GameModel model = GameModel.MODEL;
 
     public final void process() {
         doBeforeEvent();

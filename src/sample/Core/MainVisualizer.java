@@ -1,5 +1,7 @@
 package sample.Core;
 
+import sample.Events.ScoreChangeEvent;
+
 import java.util.List;
 
 public interface MainVisualizer {
@@ -21,4 +23,5 @@ public interface MainVisualizer {
 
     UnitSelector createUnitSelector(List<GUnit> units);
 
+    void showScoring(ScoreChangeEvent scoreChangeEvent);
 }

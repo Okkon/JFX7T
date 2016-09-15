@@ -475,4 +475,8 @@ public class GameModel {
 
         return result;
     }
+
+    public MainVisualizer getGraphics() {
+        return graphics;
+    }
 }

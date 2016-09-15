@@ -14,6 +14,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import sample.Core.*;
+import sample.Events.ScoreChangeEvent;
 import sample.MyConst;
 import sample.Skills.EndTurnAction;
 import sample.XY;
@@ -112,7 +113,6 @@ public class GamePanel extends GridPane implements MainVisualizer {
         final EventHandler<MouseEvent> handler = mouseEvent -> {
             BoardCell selectedCell = (BoardCell) mouseEvent.getSource();
             model.press(selectedCell.getGameCell());
-            refresh();
         };
         for (Map.Entry<XY, GameCell> entry : board.entrySet()) {
             final BoardCell boardCell = new BoardCell(entry.getValue());
@@ -197,6 +197,11 @@ public class GamePanel extends GridPane implements MainVisualizer {
         final Stage dialog = createDialog();
         dialog.initModality(Modality.NONE);
         return new UnitSelectorImpl(units, dialog);
+    }
+
+    @Override
+    public void showScoring(ScoreChangeEvent scoreChangeEvent) {
+
     }
 
     private Stage createDialog() {

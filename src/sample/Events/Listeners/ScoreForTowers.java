@@ -5,6 +5,7 @@ import sample.Core.GObject;
 import sample.Core.GameModel;
 import sample.Core.Player;
 import sample.Events.EndHourEvent;
+import sample.Events.ScoreChangeEvent;
 import sample.Filters.FilterFactory;
 import sample.Tower.Tower;
 
@@ -21,7 +22,7 @@ public class ScoreForTowers<T extends EndHourEvent> extends GEventListener<T> {
                 Tower tower = ((Tower) object);
                 final Player owner = tower.getPlayer();
                 if (owner != null && !owner.equals(Player.NEUTRAL)) {
-                    owner.score(hour / 3);
+                    new ScoreChangeEvent(owner, hour / 3, tower.getPlace()).process();
                 }
             }
         }
