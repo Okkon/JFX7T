@@ -55,7 +55,7 @@ public abstract class GEvent {
 
     protected abstract void perform();
 
-    public static void addListener(Class eventClass, GEventListener listener) {
+    public static void addListener(Class<? extends GEvent> eventClass, GEventListener listener) {
         List<GEventListener<GEvent>> listenerList = listenersMap.get(eventClass);
         if (listenerList == null) {
             listenerList = new ArrayList<>();
@@ -63,6 +63,14 @@ public abstract class GEvent {
             listenersMap.put(eventClass, listenerList);
         } else {
             listenerList.add(listener);
+        }
+    }
+
+
+    public static void removeListener(Class<? extends GEvent> eventClass, GEventListener listener) {
+        List<GEventListener<GEvent>> listenerList = listenersMap.get(eventClass);
+        if (listenerList != null) {
+            listenerList.remove(listener);
         }
     }
 }

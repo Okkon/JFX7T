@@ -35,7 +35,7 @@ public class GUnitFactory {
             }
             case "Inquisitor": {
                 unit = new GUnit(5, 26, 2, 2);
-                unit.addMod(new MagicSword());
+                unit.addMod(MagicSword.getInstance());
                 unit.addMod(new MagicArmor(2));
                 break;
             }
@@ -52,8 +52,9 @@ public class GUnitFactory {
             case "Assassin": {
                 unit = new GUnit(4, 36, 1, 2);
                 unit.setAttackAction(RoundAttackAction.getInstance());
-                unit.addMod(new Masking());
-                unit.addMod(new Sabotage());
+                unit.addMod(Masking.getInstance());
+                unit.addMod(Sabotage.getInstance());
+                unit.addMod2(PushAttackMod.getInstance());
                 break;
             }
             case "AstralArcher": {

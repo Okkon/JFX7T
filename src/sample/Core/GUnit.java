@@ -66,7 +66,7 @@ public class GUnit extends GObject {
         moveAction = MoveAction.getInstance();
         attackAction = AttackAction.getInstance();
         skills.add(attackAction);
-        skills.add(new EndTurnAction());
+        skills.add(EndTurnAction.getInstance());
     }
 
     private Skill findRangeAttack() {
@@ -97,6 +97,7 @@ public class GUnit extends GObject {
         final int damage = hit.getDamage();
         if (damage > 0) {
             int takenDamage = Math.min(hp, damage);
+            hit.setTakenDamage(takenDamage);
             this.hp -= takenDamage;
             getVisualizer().changeHP(hp);
             if (hp <= 0) {

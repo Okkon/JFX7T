@@ -2,8 +2,6 @@ package sample.Graphics;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.PathTransition;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.scene.shape.*;
 import sample.Core.GameCell;
@@ -18,8 +16,8 @@ public abstract class AbstractShellVisualizer implements ShellVisualizer {
 
     @Override
     public void step(GameCell cell, final GameCell nextCell) {
-        final BoardCell fromCell = (BoardCell) cell.getVisualizer();
-        final BoardCell toCell = (BoardCell) nextCell.getVisualizer();
+        final BoardCell fromCell = cell.getVisualizer();
+        final BoardCell toCell = nextCell.getVisualizer();
         final Bounds bounds = fromCell.getBoundsInParent();
         final Bounds bounds2 = toCell.getBoundsInParent();
 
@@ -46,7 +44,7 @@ public abstract class AbstractShellVisualizer implements ShellVisualizer {
     @Override
     public void create(GameCell cell, Shell shell) {
         this.shell = shell;
-        final BoardCell fromCell = (BoardCell) cell.getVisualizer();
+        final BoardCell fromCell = cell.getVisualizer();
         configureShell(fromCell, shell);
         GraphicsHelper.getInstance().add(shape);
     }
@@ -65,12 +63,7 @@ public abstract class AbstractShellVisualizer implements ShellVisualizer {
         transition.setDuration(MyConst.ANIMATION_DURATION);
         transition.setFromValue(100);
         transition.setToValue(0);
-        transition.setOnFinished(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                GraphicsHelper.getInstance().remove(shape);
-            }
-        });
+        transition.setOnFinished(actionEvent -> GraphicsHelper.getInstance().remove(shape));
         GraphicsHelper.getInstance().addTransition(transition);
     }
 }

@@ -23,7 +23,7 @@ public class HitEvent extends GEvent {
     protected void logAfterEvent() {
         if (hit.getAim() instanceof GUnit) {
             GUnit unit = (GUnit) hit.getAim();
-            GameModel.MODEL.log("base", "HpLeft", this, unit.getHP());
+            GameModel.MODEL.log("base", "HpLeft", unit, unit.getHP());
         }
     }
 
@@ -33,5 +33,9 @@ public class HitEvent extends GEvent {
         if (aim != null) {
             aim.takeHit(hit);
         }
+    }
+
+    public Hit getHit() {
+        return hit;
     }
 }

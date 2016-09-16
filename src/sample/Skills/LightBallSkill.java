@@ -20,7 +20,7 @@ public class LightBallSkill extends ShotAction {
                 final Hit hit = Hit.createHit(attacker, obj, minDamage, maxDamage, damageType);
                 final int takenDamage = obj.takeHit(hit);
                 if (takenDamage > 0) {
-                    obj.addMod(new BlindedMod());
+                    obj.addMod(BlindedMod.getInstance());
                 }
             }
         };

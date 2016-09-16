@@ -1,5 +1,6 @@
 package sample.Core;
 
+import sample.Direction;
 import sample.GActions.AttackAction;
 
 import java.util.Random;
@@ -13,6 +14,8 @@ public class Hit {
     private GameCell from;
     private GameCell to;
     private AttackAction attackAction;
+    private int takenDamage;
+    private Direction direction;
 
     private Hit() {/*prevents instance creation*/}
 
@@ -53,6 +56,8 @@ public class Hit {
         hit.from = attacker.getPlace();
         hit.to = aim.getPlace();
         hit.attackType = AttackType.MELEE;
+        hit.takenDamage = 0;
+        hit.direction = Direction.findDirection(hit.from.getXy(), hit.to.getXy());
 
         return hit;
     }
@@ -93,5 +98,17 @@ public class Hit {
 
     public void absorb() {
         setDamage(0);
+    }
+
+    public void setTakenDamage(int takenDamage) {
+        this.takenDamage = takenDamage;
+    }
+
+    public int getTakenDamage() {
+        return takenDamage;
+    }
+
+    public Direction getDirection() {
+        return direction;
     }
 }
