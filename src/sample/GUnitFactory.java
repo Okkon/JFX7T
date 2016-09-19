@@ -49,6 +49,7 @@ public class GUnitFactory {
                 unit.setAttackAction(SwingAttackAction.getInstance());
                 unit.addMod(new Armor(2));
                 unit.addMod(new Shield(2));
+                unit.addGlobalMod(GuardMod.getInstance());
                 break;
             }
             case "Inquisitor": {

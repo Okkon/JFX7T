@@ -36,6 +36,11 @@ public class GUnit extends GObject {
     protected String type;
 
     private MoveAction moveAction;
+
+    public AttackAction getAttackAction() {
+        return attackAction;
+    }
+
     private AttackAction attackAction;
 
     @Override
