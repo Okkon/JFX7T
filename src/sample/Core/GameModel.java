@@ -63,7 +63,7 @@ public class GameModel {
         obj.setPlace(cell);
         cell.setObj(obj);
         objects.add(obj);
-        for (GMod2 mod2 : obj.getMods2()) {
+        for (GlobalMod mod2 : obj.getGlobalMods()) {
             mod2.register(obj);
         }
         graphics.createVisualizerFor(obj);

@@ -15,7 +15,7 @@ public abstract class GObject implements Selectable, PlaceHaving {
     protected Player player;
     protected GAction baseAction = SelectAction.getInstance();
     protected List<GMod> mods = new ArrayList<>();
-    protected List<GMod2> mods2 = new ArrayList<>();
+    protected List<GlobalMod> globalMods = new ArrayList<>();
     protected List<GAction> skills = new ArrayList<>();
     protected List<GAura> auras = new ArrayList<>();
 
@@ -39,8 +39,8 @@ public abstract class GObject implements Selectable, PlaceHaving {
         GameModel.MODEL.getObjects().remove(this);
         place.setObj(null);
         visualizer.die(place);
-        ArrayList<GMod2> modsCopyList = new ArrayList<>(getMods2());
-        for (GMod2 mod : modsCopyList) {
+        ArrayList<GlobalMod> modsCopyList = new ArrayList<>(getGlobalMods());
+        for (GlobalMod mod : modsCopyList) {
             mod.unregister(this);
         }
     }
@@ -117,8 +117,8 @@ public abstract class GObject implements Selectable, PlaceHaving {
         }
     }
 
-    public void addMod2(GMod2 mod) {
-        mods2.add(mod);
+    public void addGlobalMod(GlobalMod mod) {
+        globalMods.add(mod);
     }
 
     public void addSkill(GAction skill) {
@@ -165,7 +165,7 @@ public abstract class GObject implements Selectable, PlaceHaving {
         return getPlayer().isEnemyFor(object);
     }
 
-    public List<GMod2> getMods2() {
-        return mods2;
+    public List<GlobalMod> getGlobalMods() {
+        return globalMods;
     }
 }

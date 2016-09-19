@@ -1,11 +1,11 @@
 package sample.GlobalMods;
 
-import sample.Core.GMod2;
 import sample.Core.GObject;
+import sample.Core.GlobalMod;
 import sample.Core.Hit;
 import sample.Events.HitEvent;
 
-public class PushAttackMod<T extends HitEvent, H extends GObject> extends GMod2<T, H> {
+public class PushAttackMod<T extends HitEvent, H extends GObject> extends GlobalMod<T, H> {
     private static final PushAttackMod INSTANCE = new PushAttackMod();
 
     private PushAttackMod() {
