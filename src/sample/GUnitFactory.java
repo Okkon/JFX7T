@@ -4,7 +4,7 @@ package sample;
 import sample.Core.GUnit;
 import sample.GActions.RoundAttackAction;
 import sample.GActions.SwingAttackAction;
-import sample.GlobalMods.PushAttackMod;
+import sample.GlobalMods.*;
 import sample.Mods.*;
 import sample.Skills.AstralBow;
 import sample.Skills.Crossbow;
@@ -14,13 +14,30 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GUnitFactory {
-    public enum UnitType {
-        Archer, Footman, Assassin, Mage, Inquisitor, Troll, AstralArcher
+    public enum UnitClass {
+        Archer, Footman, Assassin, Mage, Inquisitor,
+
+        Troll(UnitType.additional),
+        AstralArcher(UnitType.additional);
+
+        public UnitType type;
+
+        public enum UnitType {
+            base, additional
+        }
+
+        UnitClass(UnitType type) {
+            this.type = type;
+        }
+
+        UnitClass() {
+            this(UnitType.base);
+        }
     }
 
     public List<String> unitTypesList = Arrays.asList("Archer", "Footman", "Assassin", "Mage", "Inquisitor", "Troll", "AstralArcher");
 
-    public static GUnit create(UnitType type) {
+    public static GUnit create(UnitClass type) {
         return create(type.name());
     }
 

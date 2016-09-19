@@ -117,7 +117,7 @@ public class GUnit extends GObject {
 
     @Override
     public String toString() {
-        return type.toString() + (place != null ? " " + place.getXy().toString() : "");
+        return type + (place != null ? " " + place.getXy().toString() : "");
     }
 
     public void setType(String type) {
@@ -256,7 +256,7 @@ public class GUnit extends GObject {
                 skill.perform();
             } else {
                 moveAction.setOwner(GUnit.this);
-                List<PlaceHaving> cells = (List<PlaceHaving>) moveAction.getPossibleAims();
+                List<GameCell> cells = (List<GameCell>) moveAction.getPossibleAims();
                 cells.add(getPlace());
                 GameModel.MODEL.showSelectionPossibility(cells);
             }
@@ -294,11 +294,6 @@ public class GUnit extends GObject {
     @Override
     public String getName() {
         return NameHelper.getName("unitTypes", getType().toString());
-    }
-
-    public void go(GameCell gameCell) {
-        moveAction.setOwner(this);
-        moveAction.tryToSelect(gameCell);
     }
 
 }

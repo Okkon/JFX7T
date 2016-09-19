@@ -2,7 +2,7 @@ package sample.Core.Scenario;
 
 import sample.Core.Phase.GamePhase;
 
-import static sample.GUnitFactory.UnitType.*;
+import static sample.GUnitFactory.UnitClass.*;
 
 public class Scenario1 extends BaseScenario {
     @Override

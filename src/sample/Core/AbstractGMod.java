@@ -44,11 +44,6 @@ public abstract class AbstractGMod implements GMod {
     }
 
     @Override
-    public void onBeforeShift(ShiftEvent shiftEvent) {
-
-    }
-
-    @Override
     public void onHit(Hit hit) {
 
     }

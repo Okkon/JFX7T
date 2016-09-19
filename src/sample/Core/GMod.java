@@ -1,6 +1,5 @@
 package sample.Core;
 
-import sample.Events.ShiftEvent;
 import sample.Tower.Tower;
 
 public interface GMod {
@@ -22,5 +21,4 @@ public interface GMod {
 
     String getDescription();
 
-    void onBeforeShift(ShiftEvent shiftEvent);
 }

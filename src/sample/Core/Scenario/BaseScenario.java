@@ -18,7 +18,7 @@ import java.util.List;
 
 import static sample.Core.ObjectType.MainTower;
 import static sample.Core.ObjectType.Tower;
-import static sample.GUnitFactory.UnitType.*;
+import static sample.GUnitFactory.UnitClass.*;
 
 public class BaseScenario extends AbstractScenario {
 
@@ -28,11 +28,11 @@ public class BaseScenario extends AbstractScenario {
         final Player p1 = new Player("P1", Color.RED);
         p1.setImage(ImageHelper.getPlayerImage("lan"));
         List<GUnit> commonUnits = new ArrayList<>();
-        commonUnits.add(GUnitFactory.create(Archer));
-        commonUnits.add(GUnitFactory.create(Assassin));
-        commonUnits.add(GUnitFactory.create(Footman));
-        commonUnits.add(GUnitFactory.create(Inquisitor));
-        commonUnits.add(GUnitFactory.create(Mage));
+        for (GUnitFactory.UnitClass unitClass : values()) {
+            if (unitClass.type == UnitType.base) {
+                commonUnits.add(GUnitFactory.create(unitClass));
+            }
+        }
         final List<GUnit> p1AvailableUnits = p1.getAvailableUnits();
         for (GUnit gUnit : commonUnits) {
             p1AvailableUnits.add(gUnit.copy());

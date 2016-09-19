@@ -16,8 +16,8 @@ public abstract class AbstractScenario {
         model.generateObject(objectType, x, y, playerIndex);
     }
 
-    protected void generateUnit(GUnitFactory.UnitType unitType, int x, int y, int playerIndex) {
-        model.generateUnit(unitType.toString(), x, y, playerIndex);
+    protected void generateUnit(GUnitFactory.UnitClass unitClass, int x, int y, int playerIndex) {
+        model.generateUnit(unitClass.toString(), x, y, playerIndex);
     }
 
     public abstract void initPlayers();
