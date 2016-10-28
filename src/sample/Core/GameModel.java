@@ -18,7 +18,6 @@ public class GameModel {
     Set<GObject> objects = new HashSet<>();
     private GAction[] possibleActions;
     private GAction selectedAction;
-    private Map<XY, GameCell> board = new HashMap<>();
     private MainVisualizer graphics;
     private GObject selectedObj;
     private List<Player> players = new ArrayList<>();
@@ -29,9 +28,10 @@ public class GameModel {
     private GPhase phase;
     private AbstractScenario scenario;
     private List<GAura> auras = new ArrayList<>();
+    private Board board;
 
     public void init() {
-        setBoard(14, 8);
+        board = new Board(14, 8);
         possibleActions = new GAction[]{new ChangeOwnerAction(), new ShiftAction(), new KillAction(), new EndHourAction()};
         selectedAction = possibleActions[0];
     }
@@ -70,7 +70,7 @@ public class GameModel {
     }
 
 
-    public Map<XY, GameCell> getBoard() {
+    public Board getBoard() {
         return board;
     }
 
@@ -86,30 +86,12 @@ public class GameModel {
         this.graphics = graphics;
     }
 
-    private void setBoard(int x, int y) {
-        board.clear();
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
-                final XY xy = XY.get(i, j);
-                board.put(xy, new GameCell(xy));
-            }
-        }
-    }
-
     public GAction[] getActions() {
         return possibleActions;
     }
 
     public void select(Selectable obj) {
         if (obj instanceof GObject) {
-            final GObject gObject = (GObject) obj;
-            if (selectedObj != null) {
-                selectedObj.getVisualizer().setSelected(false);
-            }
-            selectedObj = gObject;
-            selectedObj.getVisualizer().setSelected(true);
-            setAction(selectedObj.getBaseAction());
-        } else {
             selectedObj = null;
         }
         showInfo(obj);
@@ -189,17 +171,6 @@ public class GameModel {
         return objects;
     }
 
-    public List<GameCell> getNearCells(GameCell cell) {
-        List<GameCell> cells = new ArrayList<>();
-        XY xy = cell.getXy();
-        for (GameCell gameCell : board.values()) {
-            if (XY.isNear(xy, gameCell.getXy())) {
-                cells.add(gameCell);
-            }
-        }
-        return cells;
-    }
-
     public void showSelectionPossibility(Collection<? extends Selectable> objects) {
         if (possibleSelection != null) {
             for (Selectable selectable : possibleSelection) {
@@ -217,18 +188,6 @@ public class GameModel {
     public void log(String res, String s, Object... objects) {
         final String message = String.format(ResourceBundle.getBundle(MyConst.RESOURCE_BUNDLE_LOCATION + res).getString(s), objects);
         graphics.log(message);
-    }
-
-    public List<GameCell> getEmptyNearCells(GameCell cell) {
-        final List<GameCell> nearCells = getNearCells(cell);
-        final Iterator<GameCell> iterator = nearCells.iterator();
-        while (iterator.hasNext()) {
-            GameCell next = iterator.next();
-            if (next.isNotEmpty()) {
-                iterator.remove();
-            }
-        }
-        return nearCells;
     }
 
     public Player getActivePlayer() {
@@ -262,9 +221,9 @@ public class GameModel {
         return unitSet;
     }
 
-    public List<GUnit> getNearUnits(XY xy) {
-        List<GUnit> unitList;
-        unitList = new ArrayList<>();
+    public Set<GUnit> getNearUnits(XY xy) {
+        Set<GUnit> unitList;
+        unitList = new HashSet<>();
         for (GObject object : objects) {
             if (object instanceof GUnit) {
                 GUnit gUnit = (GUnit) object;
@@ -376,7 +335,7 @@ public class GameModel {
     }
 
     public List<GameCell> getCells(List<GFilter> filters) {
-        List<GameCell> cells = new ArrayList<>(board.values());
+        List<GameCell> cells = new ArrayList<>(board.getAllCells());
         for (GFilter filter : filters) {
             filter.filter(cells);
         }
@@ -460,12 +419,12 @@ public class GameModel {
         return auras;
     }
 
-    public List<GObject> getObjectsSurrounding(XY attackerPlace, XY firstAttackedPlace, int times) {
+    public List<GObject> getObjectsByCircle(XY attackerPlace, XY firstAttackedPlace, int times) {
         if (!attackerPlace.isNear(firstAttackedPlace)) {
             throw new IllegalArgumentException("firstAttackedPlace must be near attackerPlace");
         }
         ArrayList<GObject> result = new ArrayList<>();
-        List<XY> places = attackerPlace.getPlaces(firstAttackedPlace, true, times);
+        List<XY> places = attackerPlace.getPlacesByCircle(firstAttackedPlace, true, times);
         places.forEach(p -> {
             GameCell gameCell = board.get(p);
             if (gameCell != null) {

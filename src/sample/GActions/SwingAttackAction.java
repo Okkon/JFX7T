@@ -18,6 +18,6 @@ public class SwingAttackAction extends AttackAction {
 
     @Override
     protected List<? extends GObject> getAimsToHit(PlaceHaving aim) {
-        return model.getObjectsSurrounding(getOwner().getPlace().getXy(), aim.getXy(), power);
+        return model.getObjectsByCircle(getOwner().getPlace().getXy(), aim.getXy(), power);
     }
 }

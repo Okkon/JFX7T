@@ -61,9 +61,9 @@ public class MoveAction extends Skill {
     }
 
     private List<GameCell> getCellsWhereUnitCanGo(Way point, GUnit unit) {
-        final List<GameCell> cells = GameModel.MODEL.getEmptyNearCells(point.getLastCell());
+        Board board = model.getBoard();
+        final List<GameCell> cells = board.getEmptyNearCells(point.getLastCell());
         final Iterator<GameCell> iterator = cells.iterator();
-        final Map<XY, GameCell> board = GameModel.MODEL.getBoard();
         final XY from = point.getLastCell().getXy();
         while (iterator.hasNext()) {
             GameCell next = iterator.next();

@@ -16,11 +16,21 @@ public final class XY {
 
     @Override
     public boolean equals(Object o) {
-        if (o instanceof XY) {
-            XY xy = (XY) o;
-            return xy.x == x && xy.y == y;
-        }
-        return false;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        XY xy = (XY) o;
+
+        if (x != xy.x) return false;
+        return y == xy.y;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = x;
+        result = 31 * result + y;
+        return result;
     }
 
     private XY(int x, int y) {
@@ -36,10 +46,14 @@ public final class XY {
         return y;
     }
 
-    @Override
-    public int hashCode() {
-        return x * 10000 + y;
+    public XY changeX(int k) {
+        return get(x + k, y);
     }
+
+    public XY changeY(int k) {
+        return get(x, y + k);
+    }
+
 
     @Override
     public String toString() {
@@ -86,7 +100,7 @@ public final class XY {
         return new XY(currentPlace.x + direction.getX(), currentPlace.y + direction.getY());
     }
 
-    public List<XY> getPlaces(XY startPlace, boolean clockwise, int times) {
+    public List<XY> getPlacesByCircle(XY startPlace, boolean clockwise, int times) {
         List<XY> result = new ArrayList<>();
         result.add(startPlace);
         Direction direction = Direction.findDirection(this, result.get(result.size() - 1));

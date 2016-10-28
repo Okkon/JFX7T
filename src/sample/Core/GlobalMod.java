@@ -3,9 +3,7 @@ package sample.Core;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by kondrashov on 16.09.2016.
- */
+
 public abstract class GlobalMod<T extends GEvent, H extends GObject> extends GEventListener<T> {
     private List<H> holderList = new ArrayList<>();
     protected Class<? extends GEvent> eventClass;
@@ -17,7 +15,7 @@ public abstract class GlobalMod<T extends GEvent, H extends GObject> extends GEv
         holderList.add(obj);
     }
 
-    public List<H> getHolders() {
+    protected List<H> getHolders() {
         return holderList;
     }
 

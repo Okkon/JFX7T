@@ -3,7 +3,10 @@ package sample.Core;
 import sample.Graphics.BoardCell;
 import sample.XY;
 
+import java.util.ArrayList;
+
 public class GameCell implements Selectable, PlaceHaving {
+    private final ArrayList<CellLink> cellLinks = new ArrayList<>();
     private XY xy;
     private GObject obj;
     private BoardCell visualizer;
@@ -39,5 +42,9 @@ public class GameCell implements Selectable, PlaceHaving {
 
     public BoardCell getVisualizer() {
         return visualizer;
+    }
+
+    public void link(GameCell cell, int length) {
+        cellLinks.add(new CellLink(this, cell, length));
     }
 }

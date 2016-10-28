@@ -39,7 +39,7 @@ public class NearFriendlyTowerFilter extends AbstractGFilter {
     public void filter(Collection<? extends PlaceHaving> collection) {
         towers = getTowers();
         Set<GameCell> gameCells = new HashSet<>();
-        towers.forEach(o -> gameCells.addAll(model.getNearCells(o.getPlace())));
+        towers.forEach(o -> gameCells.addAll(model.getBoard().getNearCells(o.getPlace())));
 
         Iterator<? extends PlaceHaving> iterator = collection.iterator();
         while (iterator.hasNext()) {
