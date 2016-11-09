@@ -15,8 +15,6 @@ public interface GMod {
 
     void onTurnEnd(GObject object);
 
-    boolean disablesAttack();
-
     String getName();
 
     String getDescription();

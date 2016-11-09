@@ -10,9 +10,7 @@ import sample.Filters.FilterFactory;
 
 import java.util.*;
 
-/**
- * Created by kondrashov on 22.08.2016.
- */
+
 public class NearFriendlyTowerFilter extends AbstractGFilter {
     private static final NearFriendlyTowerFilter INSTANCE = new NearFriendlyTowerFilter();
     private List<GObject> towers = new ArrayList<>();
@@ -28,7 +26,7 @@ public class NearFriendlyTowerFilter extends AbstractGFilter {
     public boolean isOk(PlaceHaving obj) {
         towers = getTowers();
         for (GObject tower : towers) {
-            if (model.isNear(tower, obj)) {
+            if (model.board.isNear(tower, obj)) {
                 return true;
             }
         }

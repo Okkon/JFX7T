@@ -70,11 +70,6 @@ public class Player {
         return availableUnits;
     }
 
-    public void score(int point) {
-        score += point;
-        GameModel.MODEL.log("base", "Score", this, point);
-    }
-
     public String getName() {
         return name;
     }
@@ -98,5 +93,9 @@ public class Player {
 
     public Image getImage() {
         return image;
+    }
+
+    public void changeScore(int points) {
+        this.score += points;
     }
 }

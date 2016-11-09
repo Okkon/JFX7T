@@ -65,7 +65,7 @@ public final class XY {
     }
 
     public boolean isNear(XY p1) {
-        return !p1.equals(this) && XY.getDistance(p1, this) <= diagonalLength;
+        return isNear(this, p1);
     }
 
     public static int getDistance(XY p1, XY p2) {

@@ -14,7 +14,7 @@ public class MainTower extends Tower {
     }
 
     public MainTower() {
-        final GAura aura = new GAura(this, new Invulnerability(), new IsFriendlyFilter(), new IsNearFilter());
+        final GAura aura = new GAura(this, new Invulnerability(), IsFriendlyFilter.getInstance(), IsNearFilter.getInstance());
         auras.add(aura);
         GameModel.MODEL.getAuras().add(aura);
     }

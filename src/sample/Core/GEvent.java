@@ -8,19 +8,25 @@ import java.util.Map;
 
 public abstract class GEvent {
     private static final Map<Class, List<GEventListener<GEvent>>> listenersMap = new HashMap<>();
-    protected GameModel model = GameModel.MODEL;
+    protected static final GameModel model = GameModel.MODEL;
+    private List<EventChecker<GEvent>> eventCheckers = new ArrayList<>();
 
     public final void process() {
-        doBeforeEvent();
         if (!canBePerformed()) {
             return;
         }
+        doBeforeEvent();
         visualize();
         perform();
         doAfterEvent();
     }
 
-    private boolean canBePerformed() {
+    protected boolean canBePerformed() {
+        for (EventChecker<GEvent> checker : eventCheckers) {
+            if (!checker.checkEvent(this)) {
+                return false;
+            }
+        }
         return true;
     }
 
@@ -45,6 +51,10 @@ public abstract class GEvent {
     }
 
     protected void logAfterEvent() {
+    }
+
+    protected void addChecker(EventChecker<GEvent> checker) {
+        eventCheckers.add(checker);
     }
 
     protected void visualize() {

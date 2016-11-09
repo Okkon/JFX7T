@@ -16,9 +16,6 @@ public class FilterFactory {
             case CAN_SEE:
                 gFilter = new CanSeeFilter();
                 break;
-            case CAN_BE_ATTACKED:
-                gFilter = new CanAttackFilter();
-                break;
             case IS_ON_ONE_LINE:
                 gFilter = new OneLineFilter();
                 break;
@@ -57,7 +54,7 @@ public class FilterFactory {
     }
 
     public enum FilterType {
-        CAN_SEE, IS_ON_ONE_LINE, OBSTACLE_ON_ONE_LINE, DISTANCE_CHECK, CAN_BE_ATTACKED, NOT_IN_DANGER, CLASS_FILTER, NOT_ME
+        CAN_SEE, IS_ON_ONE_LINE, OBSTACLE_ON_ONE_LINE, DISTANCE_CHECK, NOT_IN_DANGER, CLASS_FILTER, NOT_ME
     }
 
     public static class ClassFilter extends AbstractGFilter {
@@ -96,13 +93,6 @@ public class FilterFactory {
         @Override
         public boolean isOk(PlaceHaving obj) {
             return XY.getDistance(getObj().getXy(), obj.getXy()) <= distance;
-        }
-    }
-
-    private static class CanAttackFilter extends AbstractGFilter {
-        @Override
-        public boolean isOk(PlaceHaving obj) {
-            return GameModel.MODEL.canAttack(getObj(), obj);
         }
     }
 

@@ -14,6 +14,7 @@ public class ShiftEvent extends GEvent {
         this.object = object;
         this.startCell = object.getPlace();
         this.finishCell = toCell;
+        addChecker(UnitAliveChecker.getInstance());
     }
 
     public void setStartCell(GameCell startCell) {

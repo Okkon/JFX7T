@@ -11,4 +11,14 @@ public class CellLink {
         this.toCell = toCell;
         this.length = length;
     }
+
+    public GameCell getLinkedWith(GameCell gameCell) {
+        return gameCell.equals(fromCell)
+                ? toCell
+                : fromCell;
+    }
+
+    public int getLength() {
+        return length;
+    }
 }

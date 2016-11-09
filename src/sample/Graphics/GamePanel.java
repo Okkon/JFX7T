@@ -2,6 +2,7 @@ package sample.Graphics;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBuilder;
@@ -17,7 +18,6 @@ import sample.Core.*;
 import sample.Events.ScoreChangeEvent;
 import sample.MyConst;
 import sample.Skills.EndTurnAction;
-import sample.XY;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,7 +29,7 @@ public class GamePanel extends GridPane implements MainVisualizer {
     private VBox actionPanel;
     private GridPane gameInfoPanel;
     private Pane controlPanel;
-    private GridPane boardPane;
+    private Parent gameField;
     private final TextArea gameLog;
     private Label selectedObjLabel = new Label();
     private Label selectedActionLabel = new Label();
@@ -70,7 +70,7 @@ public class GamePanel extends GridPane implements MainVisualizer {
 
         gameLog = new TextArea();
         gameLog.setEditable(false);
-        add(boardPane, 0, 0);
+        add(gameField, 0, 0);
         add(controlPanel, 1, 0, 1, REMAINING);
         add(gameLog, 0, 1, 1, 1);
     }
@@ -106,23 +106,24 @@ public class GamePanel extends GridPane implements MainVisualizer {
     }
 
     private void initBoard() {
-        boardPane = new GridPane();
-        boardPane.setGridLinesVisible(true);
+        GridPane gridPane = new GridPane();
+        gameField = gridPane;
+        gridPane.setGridLinesVisible(true);
         cells = new HashMap<>();
-        final Map<XY, GameCell> board = model.getBoard();
+        Board board = model.getBoard();
         final EventHandler<MouseEvent> handler = mouseEvent -> {
             BoardCell selectedCell = (BoardCell) mouseEvent.getSource();
             model.press(selectedCell.getGameCell());
         };
-        for (Map.Entry<XY, GameCell> entry : board.entrySet()) {
-            final BoardCell boardCell = new BoardCell(entry.getValue());
+        for (GameCell cell : board.getAllCells()) {
+            final BoardCell boardCell = new BoardCell(cell);
             final int cellSize = MyConst.CELL_SIZE;
             boardCell.setMinSize(cellSize, cellSize);
             boardCell.setPrefSize(cellSize, cellSize);
             boardCell.setMaxSize(cellSize, cellSize);
             boardCell.setOnMousePressed(handler);
-            boardPane.add(boardCell, entry.getKey().getX(), entry.getKey().getY());
-            cells.put(entry.getValue(), boardCell);
+            gridPane.add(boardCell, cell.getXy().getX(), cell.getXy().getY());
+            cells.put(cell, boardCell);
         }
     }
 
@@ -217,7 +218,4 @@ public class GamePanel extends GridPane implements MainVisualizer {
         return cells.get(currentCell);
     }
 
-    public GridPane getBoardPane() {
-        return boardPane;
-    }
 }

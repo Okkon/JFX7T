@@ -28,11 +28,15 @@ public class GameModel {
     private GPhase phase;
     private AbstractScenario scenario;
     private List<GAura> auras = new ArrayList<>();
-    private Board board;
+    public Board board;
 
     public void init() {
         board = new Board(14, 8);
-        possibleActions = new GAction[]{new ChangeOwnerAction(), new ShiftAction(), new KillAction(), new EndHourAction()};
+        possibleActions = new GAction[]{
+                new ChangeOwnerAction(),
+                new ShiftAction(),
+                new KillAction(),
+                new EndHourAction()};
         selectedAction = possibleActions[0];
     }
 
@@ -194,10 +198,6 @@ public class GameModel {
         return activePlayer;
     }
 
-    public boolean isNear(GObject obj1, PlaceHaving obj2) {
-        return XY.isNear(obj1.getXy(), obj2.getXy());
-    }
-
     public void error(String s) {
         graphics.error(s);
     }
@@ -351,15 +351,6 @@ public class GameModel {
     }
 
     /*--------------------------GAME CHECKS---------------------*/
-    public boolean canAttack(GObject attacker, @SuppressWarnings("unused") Selectable aim) {
-        for (GMod mod : attacker.getMods()) {
-            if (mod.disablesAttack()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public boolean isInDanger(Selectable obj) {
         if (obj instanceof GObject) {
             GObject checkedUnit = (GObject) obj;

@@ -73,4 +73,8 @@ public class Board {
     public Collection<GameCell> getAllCells() {
         return board.values();
     }
+
+    public boolean isNear(GObject obj1, PlaceHaving obj2) {
+        return XY.isNear(obj1.getXy(), obj2.getXy());
+    }
 }

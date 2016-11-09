@@ -4,6 +4,8 @@ import sample.Graphics.BoardCell;
 import sample.XY;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GameCell implements Selectable, PlaceHaving {
     private final ArrayList<CellLink> cellLinks = new ArrayList<>();
@@ -46,5 +48,12 @@ public class GameCell implements Selectable, PlaceHaving {
 
     public void link(GameCell cell, int length) {
         cellLinks.add(new CellLink(this, cell, length));
+    }
+
+    public void getWaysFromCell() {
+        Map<GameCell, Integer> ways = new HashMap<>();
+        for (CellLink cellLink : cellLinks) {
+            ways.put(cellLink.getLinkedWith(this), cellLink.getLength());
+        }
     }
 }

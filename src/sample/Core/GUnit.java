@@ -203,8 +203,8 @@ public class GUnit extends GObject {
 
     private boolean isNearToMainTower() {
         final Collection<GFilter> filters = new ArrayList<>();
-        filters.add(new IsNearFilter());
-        filters.add(new IsFriendlyFilter());
+        filters.add(IsNearFilter.getInstance());
+        filters.add(IsFriendlyFilter.getInstance());
         filters.add(FilterFactory.ClassFilter.newInstance().setClass(MainTower.class));
         for (GFilter filter : filters) {
             filter.setObj(this);

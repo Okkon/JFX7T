@@ -17,7 +17,7 @@ public class AttackAction extends Skill {
     protected AttackAction() {
         super();
         aimType = AimType.Object;
-        addAimFilter(new IsNearFilter().setError("AimIsTooFar"));
+        addAimFilter(IsNearFilter.getInstance().setError("AimIsTooFar"));
         addAimFilter(new FilterFactory.ClassFilter().setClass(GUnit.class).setError("NotUnit"));
         addAimFilter(CAN_BE_ATTACKED, "CanAttack");
     }
