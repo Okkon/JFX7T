@@ -13,7 +13,7 @@ import java.util.*;
 /**
  * Created by kondrashov on 22.08.2016.
  */
-public class NearFriendlyTowerFilter extends AbstractGFilter {
+public class NearFriendlyTowerFilter<T extends PlaceHaving> extends AbstractGFilter<T> {
     private static final NearFriendlyTowerFilter INSTANCE = new NearFriendlyTowerFilter();
     private List<GObject> towers = new ArrayList<>();
 
@@ -36,7 +36,7 @@ public class NearFriendlyTowerFilter extends AbstractGFilter {
     }
 
     @Override
-    public void filter(Collection<? extends PlaceHaving> collection) {
+    public void filter(Collection<? extends T> collection) {
         towers = getTowers();
         Set<GameCell> gameCells = new HashSet<>();
         towers.forEach(o -> gameCells.addAll(model.getBoard().getNearCells(o.getPlace())));

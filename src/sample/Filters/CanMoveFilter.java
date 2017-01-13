@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * Created by kondrashov on 22.08.2016.
  */
-public class CanMoveFilter extends AbstractGFilter {
+public class CanMoveFilter<T extends PlaceHaving> extends AbstractGFilter<T> {
     private static final CanMoveFilter INSTANCE = new CanMoveFilter();
     private MoveAction moveAction;
 
@@ -27,7 +27,7 @@ public class CanMoveFilter extends AbstractGFilter {
     }
 
     @Override
-    public void filter(Collection<? extends PlaceHaving> collection) {
+    public void filter(Collection<? extends T> collection) {
         Set<GameCell> gameCells = new HashSet<>();
         Collection<Way> allWays = moveAction.findAllWays((GUnit) getObj(), moveAction);
         allWays.forEach((o) -> gameCells.add(o.getLastCell()));

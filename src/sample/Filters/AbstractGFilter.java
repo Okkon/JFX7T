@@ -10,7 +10,7 @@ import sample.Helpers.NameHelper;
 import java.util.Collection;
 import java.util.Iterator;
 
-public abstract class AbstractGFilter implements GFilter {
+public abstract class AbstractGFilter<T extends PlaceHaving> implements GFilter<T> {
     private GObject obj;
     private String errorText;
     protected GameModel model = GameModel.MODEL;
@@ -27,7 +27,7 @@ public abstract class AbstractGFilter implements GFilter {
     }
 
     @Override
-    public boolean check(PlaceHaving obj) {
+    public boolean check(T obj) {
         final boolean ok = isOk(obj);
         if (!ok && errorText != null) {
             model.error(errorText);
@@ -42,10 +42,10 @@ public abstract class AbstractGFilter implements GFilter {
     }
 
     @Override
-    public void filter(Collection<? extends PlaceHaving> collection) {
-        Iterator<? extends PlaceHaving> iterator = collection.iterator();
+    public void filter(Collection<? extends T> collection) {
+        Iterator<? extends T> iterator = collection.iterator();
         while (iterator.hasNext()) {
-            PlaceHaving next = iterator.next();
+            T next = iterator.next();
             if (!isOk(next)) {
                 iterator.remove();
             }

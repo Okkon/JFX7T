@@ -3,14 +3,14 @@ package sample.Core;
 
 import java.util.Collection;
 
-public interface GFilter {
-    boolean isOk(PlaceHaving obj);
+public interface GFilter<T extends PlaceHaving> {
+    boolean isOk(T obj);
 
     GObject getObj();
 
     GFilter setObj(GObject obj);
 
-    boolean check(PlaceHaving obj);
+    boolean check(T obj);
 
     GFilter setError(String error);
 
@@ -19,5 +19,5 @@ public interface GFilter {
      *
      * @param collection
      */
-    void filter(Collection<? extends PlaceHaving> collection);
+    void filter(Collection<? extends T> collection);
 }

@@ -109,20 +109,21 @@ public class GamePanel extends GridPane implements MainVisualizer {
         boardPane = new GridPane();
         boardPane.setGridLinesVisible(true);
         cells = new HashMap<>();
-        final Map<XY, GameCell> board = model.getBoard();
+        Board board = model.getBoard();
         final EventHandler<MouseEvent> handler = mouseEvent -> {
             BoardCell selectedCell = (BoardCell) mouseEvent.getSource();
             model.press(selectedCell.getGameCell());
         };
-        for (Map.Entry<XY, GameCell> entry : board.entrySet()) {
-            final BoardCell boardCell = new BoardCell(entry.getValue());
+        for (GameCell cell : board.getAllCells()) {
+            final BoardCell boardCell = new BoardCell(cell);
             final int cellSize = MyConst.CELL_SIZE;
             boardCell.setMinSize(cellSize, cellSize);
             boardCell.setPrefSize(cellSize, cellSize);
             boardCell.setMaxSize(cellSize, cellSize);
             boardCell.setOnMousePressed(handler);
-            boardPane.add(boardCell, entry.getKey().getX(), entry.getKey().getY());
-            cells.put(entry.getValue(), boardCell);
+            XY xy = cell.getXy();
+            boardPane.add(boardCell, xy.getX(), xy.getY());
+            cells.put(cell, boardCell);
         }
     }
 
