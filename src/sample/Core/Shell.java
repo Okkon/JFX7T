@@ -8,7 +8,7 @@ public abstract class Shell {
     protected GameCell cell;
     protected Direction direction;
     protected int minDamage;
-    protected int maxDamage;
+    protected int randDamage;
     protected int coveredDistance;
     protected int maxDistance;
     protected GObject attacker;
@@ -64,7 +64,8 @@ public abstract class Shell {
     }
 
     public void hit(GObject obj) {
-        final Hit hit = Hit.createHit(attacker, obj, minDamage, maxDamage, damageType);
+        final Hit hit = Hit.createHit(attacker, obj, minDamage, randDamage, damageType);
+        hit.setAttackType(AttackType.RANGE);
         obj.takeHit(hit);
     }
 
@@ -73,12 +74,12 @@ public abstract class Shell {
         this.minDamage = minDamage;
     }
 
-    public void setMaxDamage(int maxDamage) {
-        this.maxDamage = maxDamage;
+    public void setRandDamage(int randDamage) {
+        this.randDamage = randDamage;
     }
 
-    public int getMaxDamage() {
-        return maxDamage;
+    public int getRandDamage() {
+        return randDamage;
     }
 
     public void setAttacker(GObject attacker) {

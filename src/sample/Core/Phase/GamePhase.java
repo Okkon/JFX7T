@@ -9,11 +9,11 @@ public class GamePhase extends GPhase {
     public void next(GAction action) {
         if (action instanceof Skill) {
             Skill skill = (Skill) action;
-            model.setActingUnit(skill.getOwner());
-            if (skill.endsTurn() || (skill.getOwner() != null && !skill.getOwner().canAct())) {
+           model.setActingUnit(skill.getActor());
+           if (skill.endsTurn() || (skill.getActor() != null && !skill.getActor().canAct())) {
                 model.endTurn();
-            } else if (skill.getOwner() != null) {
-                model.select(skill.getOwner());
+           } else if (skill.getActor() != null) {
+              model.select(skill.getActor());
             }
         }
         GraphicsHelper.getInstance().play();

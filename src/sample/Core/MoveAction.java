@@ -90,7 +90,7 @@ public class MoveAction extends Skill {
 
     @Override
     public void doAction() {
-        final GUnit unit = (GUnit) getOwner();
+       final GUnit unit = (GUnit) getActor();
         go(unit, (GameCell) getAim());
     }
 

@@ -11,9 +11,9 @@ public interface GAction {
 
     String getName();
 
-    GObject getOwner();
+   GObject getActor();
 
-    void setOwner(GObject owner);
+   void setActor(GObject actor);
 
     void doAction();
 
@@ -27,7 +27,7 @@ public interface GAction {
 
     int estimate(PlaceHaving aim);
 
-    void tryToSelect(PlaceHaving obj);
+   void tryToSelectAction(PlaceHaving obj);
 
     List<PlaceHaving> getAims();
 

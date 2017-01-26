@@ -55,12 +55,12 @@ public abstract class ShotAction extends Skill {
 
     protected void aimAt(Shell shell, PlaceHaving obj) {
         shell.setMinDamage(getMinDamage());
-        shell.setMaxDamage(getMaxDamage());
+        shell.setRandDamage(getMaxDamage());
         shell.setMaxDistance(getDistance());
-        shell.setAttacker(getOwner());
-        shell.setCell(getOwner().getPlace());
+        shell.setAttacker(getActor());
+        shell.setCell(getActor().getPlace());
 
-        final Direction direction = Direction.findDirection(getOwner().getXy(), obj.getXy());
+        final Direction direction = Direction.findDirection(getActor().getXy(), obj.getXy());
         shell.setDirection(direction);
     }
 

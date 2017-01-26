@@ -1,7 +1,6 @@
 package sample.Core;
 
 
-import sample.Events.ShiftEvent;
 import sample.Helpers.NameHelper;
 import sample.Tower.Tower;
 

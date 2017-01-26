@@ -5,6 +5,7 @@ import sample.Core.AbstractGMod;
 import sample.Core.GObject;
 import sample.Core.GUnit;
 import sample.Core.GameModel;
+import sample.Events.HealEvent;
 
 public class Regeneration extends AbstractGMod {
     public Regeneration(int power) {
@@ -17,7 +18,7 @@ public class Regeneration extends AbstractGMod {
             GUnit gUnit = (GUnit) object;
             if (gUnit.isWounded()) {
                 GameModel.MODEL.log("mods", "Regeneration", object);
-                ((GUnit) object).recover(value);
+                new HealEvent((GUnit) object, value);
             }
         }
     }

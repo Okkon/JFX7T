@@ -9,8 +9,6 @@ import sample.Filters.IsNearFilter;
 import java.util.ArrayList;
 import java.util.List;
 
-import static sample.Filters.FilterFactory.FilterType.CAN_BE_ATTACKED;
-
 public class AttackAction extends Skill {
     private static final AttackAction INSTANCE = new AttackAction();
 
@@ -19,7 +17,6 @@ public class AttackAction extends Skill {
         aimType = AimType.Object;
         addAimFilter(new IsNearFilter().setError("AimIsTooFar"));
         addAimFilter(new FilterFactory.ClassFilter().setClass(GUnit.class).setError("NotUnit"));
-        addAimFilter(CAN_BE_ATTACKED, "CanAttack");
     }
 
     public static AttackAction getInstance() {
@@ -31,7 +28,7 @@ public class AttackAction extends Skill {
         final AttackEvent attackEvent =
                 new AttackEvent()
                         .setAttackAction(this)
-                        .setAttacker((GUnit) getOwner())
+                      .setAttacker((GUnit) getActor())
                         .setAim(getAim());
         attackEvent.process();
     }

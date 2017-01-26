@@ -1,9 +1,6 @@
 package sample.Skills;
 
-import sample.Core.DamageType;
-import sample.Core.GObject;
-import sample.Core.Hit;
-import sample.Core.Shell;
+import sample.Core.*;
 import sample.Mods.BlindedMod;
 import sample.Shells.LightballShell;
 
@@ -17,7 +14,8 @@ public class LightBallSkill extends ShotAction {
         return new Shell() {
             @Override
             public void hit(GObject obj) {
-                final Hit hit = Hit.createHit(attacker, obj, minDamage, maxDamage, damageType);
+                final Hit hit = Hit.createHit(attacker, obj, minDamage, randDamage, damageType);
+                hit.setAttackType(AttackType.RANGE);
                 final int takenDamage = obj.takeHit(hit);
                 if (takenDamage > 0) {
                     obj.addMod(BlindedMod.getInstance());

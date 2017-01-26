@@ -73,7 +73,7 @@ public class ObjectInfoPanel extends GridPane {
             unitSkills.addAll(unit.getSkills());
             unitSkills.addAll(unit.getExtraSkills());
             for (final GAction skill : unitSkills) {
-                skill.setOwner(unit);
+                skill.setActor(unit);
                 final Button button = new Button();
                 Image img = getSkillImage(skill);
                 final ImageView imageView = new ImageView(img);

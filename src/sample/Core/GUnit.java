@@ -1,6 +1,7 @@
 package sample.Core;
 
 import sample.Direction;
+import sample.Events.PushEvent;
 import sample.Events.ShiftEvent;
 import sample.Events.UnitDeathEvent;
 import sample.Events.UnitEndTurnEvent;
@@ -58,8 +59,8 @@ public class GUnit extends GObject {
                 ShiftEvent shiftEvent = new ShiftEvent(this, nextCell);
                 shiftEvent.process();
             } else {
-                obj.takeHit(Hit.createHit(this, obj, 1, 0, DamageType.PHYSICAL));
-                this.takeHit(Hit.createHit(obj, this, 1, 0, DamageType.PHYSICAL));
+                new PushEvent(this, obj);
+
             }
         }
     }
@@ -67,7 +68,7 @@ public class GUnit extends GObject {
     public GUnit(int maxHp, int maxMp, int minDamage, int randDamage) {
         setStats(maxHp, maxMp, minDamage, randDamage);
         baseAction = new BaseUnitAction();
-        baseAction.setOwner(this);
+        baseAction.setActor(this);
         moveAction = MoveAction.getInstance();
         attackAction = AttackAction.getInstance();
         skills.add(attackAction);
@@ -181,7 +182,6 @@ public class GUnit extends GObject {
         if (healedHp > 0) {
             hp += healedHp;
             getVisualizer().changeHP(hp);
-            GameModel.MODEL.log("base", "Recover", this, healedHp);
         }
         return healedHp;
     }
@@ -243,9 +243,9 @@ public class GUnit extends GObject {
                 skill = moveAction;
             }
 
-            skill.setOwner(GUnit.this);
+            skill.setActor(GUnit.this);
             for (GFilter filter : skill.getAimFilters()) {
-                filter.setObj(getOwner());
+                filter.setObj(getActor());
                 if (!filter.check(obj)) {
                     return false;
                 }
@@ -260,7 +260,7 @@ public class GUnit extends GObject {
                 this.aims.clear();
                 skill.perform();
             } else {
-                moveAction.setOwner(GUnit.this);
+                moveAction.setActor(GUnit.this);
                 List<GameCell> cells = (List<GameCell>) moveAction.getPossibleAims();
                 cells.add(getPlace());
                 GameModel.MODEL.showSelectionPossibility(cells);

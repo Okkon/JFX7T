@@ -1,6 +1,7 @@
 package sample.Tower;
 
 import sample.Core.*;
+import sample.Events.HealEvent;
 import sample.Events.OwnerChangeEvent;
 import sample.Helpers.GameHelper;
 import sample.Skills.Crossbow;
@@ -39,8 +40,8 @@ public class Tower extends GObject {
                 }
             }
             Crossbow crossbow = new Crossbow(1, 2, XY.diagonalLength);
-            crossbow.setOwner(this);
-            GUnit enemy = GameHelper.getRandom(enemies);
+            crossbow.setActor(this);
+            GUnit enemy = GameHelper.getRandomFromCollection(enemies);
             if (enemy != null) {
                 GameModel.MODEL.log("base", "Hits", this, enemy);
                 crossbow.getAims().add(enemy);
@@ -52,7 +53,7 @@ public class Tower extends GObject {
                 final Set<GUnit> nearUnits = GameModel.MODEL.getNearUnits(getPlace());
                 friends.addAll(nearUnits.stream().filter(nearUnit -> nearUnit.isFriendlyFor(this)).collect(Collectors.toList()));
                 for (GUnit friend : friends) {
-                    friend.recover(2);
+                    new HealEvent(friend, 2).process();
                 }
             }
 

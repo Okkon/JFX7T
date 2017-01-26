@@ -53,7 +53,7 @@ public class GameModel {
     }
 
     public void press(PlaceHaving obj) {
-        selectedAction.tryToSelect(obj);
+        selectedAction.tryToSelectAction(obj);
     }
 
     public void createObj(GObject obj, GameCell cell) {
@@ -351,15 +351,6 @@ public class GameModel {
     }
 
     /*--------------------------GAME CHECKS---------------------*/
-    public boolean canAttack(GObject attacker, @SuppressWarnings("unused") Selectable aim) {
-        for (GMod mod : attacker.getMods()) {
-            if (mod.disablesAttack()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public boolean isInDanger(Selectable obj) {
         if (obj instanceof GObject) {
             GObject checkedUnit = (GObject) obj;

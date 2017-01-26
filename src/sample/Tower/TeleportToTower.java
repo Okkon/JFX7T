@@ -15,6 +15,6 @@ public class TeleportToTower extends Skill {
 
     @Override
     public void doAction() {
-        getOwner().shift((GameCell) getAim());
+       getActor().shift((GameCell) getAim());
     }
 }

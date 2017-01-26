@@ -62,7 +62,7 @@ public class GamePanel extends GridPane implements MainVisualizer {
                             : selectedObj;
                     model.select(object);
                     final EndTurnAction action = EndTurnAction.getInstance();
-                    action.setOwner(object);
+                   action.setActor(object);
                     action.perform();
                 }
             }

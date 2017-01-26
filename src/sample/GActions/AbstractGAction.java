@@ -16,7 +16,7 @@ public abstract class AbstractGAction implements GAction {
     protected List<PlaceHaving> aims = new ArrayList<>();
     protected List<GFilter> aimFilters = new ArrayList<>();
     protected List<GFilter> preferableAimFilters = new ArrayList<>();
-    protected GObject owner;
+    protected GObject actor;
     protected GameModel model = GameModel.MODEL;
     protected AimType aimType = AimType.Anything;
 
@@ -33,11 +33,11 @@ public abstract class AbstractGAction implements GAction {
     }
 
     protected void removeAimFilter(Class filterClass) {
-        getAimFilters().remove(findFilterByClass(filterClass));
+        aimFilters.remove(findAimFilterByClass(filterClass));
     }
 
-    protected GFilter findFilterByClass(Class filterClass) {
-        for (GFilter filter : getAimFilters()) {
+    protected GFilter findAimFilterByClass(Class filterClass) {
+        for (GFilter filter : aimFilters) {
             if (filterClass.isInstance(filter)) {
                 return filter;
             }
@@ -76,7 +76,7 @@ public abstract class AbstractGAction implements GAction {
     }
 
     protected void setAimFilters() {
-
+        //place to add filters
     }
 
     @Override
@@ -97,11 +97,11 @@ public abstract class AbstractGAction implements GAction {
     @Override
     public List<? extends PlaceHaving> getPossibleAims() {
         List<? extends PlaceHaving> possibleAims = Collections.EMPTY_LIST;
-        List<GFilter> aimFilters = new ArrayList<>(getAimFilters());
+        List<GFilter> aimFilters = new ArrayList<>(this.aimFilters);
         aimFilters.addAll(preferableAimFilters);
-        if (owner != null) {
+        if (actor != null) {
             for (GFilter aimFilter : aimFilters) {
-                aimFilter.setObj(owner);
+                aimFilter.setObj(actor);
             }
         }
         if (AimType.Cell.equals(aimType)) {
@@ -122,7 +122,7 @@ public abstract class AbstractGAction implements GAction {
     }
 
     @Override
-    public void tryToSelect(PlaceHaving obj) {
+    public void tryToSelectAction(PlaceHaving obj) {
         if (canSelect(obj)) {
             aims.add(obj);
             onSelect();
@@ -136,7 +136,7 @@ public abstract class AbstractGAction implements GAction {
 
     private void logActionStart() {
         if (needsLogging()) {
-            model.log("base", "ActionPerformed", owner != null ? owner : model.getActivePlayer().getName(), getName());
+            model.log("base", "ActionPerformed", actor != null ? actor : model.getActivePlayer().getName(), getName());
         }
     }
 
@@ -154,21 +154,20 @@ public abstract class AbstractGAction implements GAction {
     }
 
     @Override
-    public GObject getOwner() {
-        return owner;
+    public GObject getActor() {
+        return actor;
     }
 
-    @Override
-    public void setOwner(GObject owner) {
-        this.owner = owner;
+    public void setActor(GObject actor) {
+        this.actor = actor;
     }
 
     public abstract void doAction();
 
     @Override
     public boolean canSelect(PlaceHaving obj) {
-        for (GFilter filter : getAimFilters()) {
-            filter.setObj(getOwner());
+        for (GFilter filter : aimFilters) {
+            filter.setObj(getActor());
             if (!filter.check(obj)) {
                 return false;
             }
@@ -179,7 +178,7 @@ public abstract class AbstractGAction implements GAction {
     @Override
     public boolean canBeSelected() {
         for (GFilter filter : ownerFilters) {
-            if (!filter.check(getOwner())) {
+            if (!filter.check(getActor())) {
                 return false;
             }
         }

@@ -1,18 +1,15 @@
 package sample.Graphics;
 
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.HBoxBuilder;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import sample.Core.GUnit;
 import sample.Core.GameModel;
 import sample.Core.UnitSelector;
@@ -50,17 +47,14 @@ public class UnitSelectorImpl implements UnitSelector {
             imageView.setFitWidth(64);
             imageView.setFitHeight(64);
             imageView.setPreserveRatio(true);
-            imageView.setOnMousePressed(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    selectedUnit = unit;
-                    infoPanel.setObj(unit);
-                    if (lastSelected != null) {
-                        lastSelected.setStyle("-fx-opacity: 1;");
-                    }
-                    lastSelected = imageView;
-                    imageView.setStyle("-fx-opacity: 0.5;");
+            imageView.setOnMousePressed(mouseEvent -> {
+                selectedUnit = unit;
+                infoPanel.setObj(unit);
+                if (lastSelected != null) {
+                    lastSelected.setStyle("-fx-opacity: 1;");
                 }
+                lastSelected = imageView;
+                imageView.setStyle("-fx-opacity: 0.5;");
             });
             HBox box = new HBox();
             box.getChildren().add(imageView);
@@ -81,12 +75,9 @@ public class UnitSelectorImpl implements UnitSelector {
                 Color.GRAY
         );
 
-        dialog.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent windowEvent) {
-                UnitSelectorImpl.this.close();
-                GameModel.MODEL.cancel();
-            }
+        dialog.setOnCloseRequest(windowEvent -> {
+            UnitSelectorImpl.this.close();
+            GameModel.MODEL.cancel();
         });
         scene.getStylesheets().add(Main.class.getResource("style.css").toExternalForm());
         dialog.setScene(scene);

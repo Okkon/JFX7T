@@ -15,7 +15,7 @@ public abstract class Skill extends AbstractGAction {
             aims.remove(aims.size() - 1);
             onSelect();
         } else {
-            model.select(getOwner());
+           model.select(getActor());
         }
     }
 

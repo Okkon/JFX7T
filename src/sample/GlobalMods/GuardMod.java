@@ -26,7 +26,7 @@ public class GuardMod<T extends ShiftEvent, H extends GUnit> extends GlobalMod<T
             GObject object = event.getObject();
             if (GameModel.MODEL.isNear(unit, object) && unit.isEnemyFor(object)) {
                 AttackAction attackAction = unit.getAttackAction();
-                attackAction.setOwner(unit);
+               attackAction.setActor(unit);
 
                 final AttackEvent attackEvent =
                         new AttackEvent()
