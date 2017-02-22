@@ -11,6 +11,14 @@ public class AttackEvent extends GEvent {
     private AttackAction attackAction;
 
     @Override
+    protected void doBeforeEvent() {
+        if (attackAction == null) {
+            attackAction = attacker.getAttackAction();
+        }
+        super.doBeforeEvent();
+    }
+
+    @Override
     protected void perform() {
         if (attackAction == null) {
             attackAction = AttackAction.getInstance();

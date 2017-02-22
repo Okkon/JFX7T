@@ -15,7 +15,7 @@ public class ScoreForDeathRule<T extends UnitDeathEvent> extends GEventListener<
         }
         GUnit unit = event.getUnit();
         final GObject attacker = hit.getAttacker();
-        if (attacker != null && attacker.getPlayer() != null) {
+        if (attacker.getPlayer() != null) {
             final Player attackerPlayer = attacker.getPlayer();
             if (!attackerPlayer.equals(Player.NEUTRAL)) {
                 int score = MyConst.SCORE_FOR_UNIT;

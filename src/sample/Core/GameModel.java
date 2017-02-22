@@ -92,7 +92,9 @@ public class GameModel {
 
     public void select(Selectable obj) {
         if (obj instanceof GObject) {
-            selectedObj = null;
+            selectedObj = (GObject) obj;
+            GAction baseAction = selectedObj.getBaseAction();
+            setAction(baseAction);
         }
         showInfo(obj);
     }
@@ -116,6 +118,7 @@ public class GameModel {
             log("base", "EndsTurn", selectedObj);
         }
         selectedObj = null;
+        showInfo(null);
         log("base", "EndTurnSymbol");
         final Player nextPlayer = getNextPlayer();
         if (nextPlayer == null) {

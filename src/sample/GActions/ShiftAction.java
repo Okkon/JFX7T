@@ -12,13 +12,8 @@ public class ShiftAction extends AbstractGAction {
     protected void setAimFilters() {
         clearAimFilters();
         if (aims.isEmpty()) {
-            GObject selectedObj = model.getSelectedObj();
-            if (selectedObj != null) {
-                aims.add(selectedObj);
-            } else {
-                aimType = AimType.Object;
-                addAimFilter(FilterFactory.ClassFilter.newInstance().setClass(GObject.class));
-            }
+            aimType = AimType.Object;
+            addAimFilter(FilterFactory.ClassFilter.newInstance().setClass(GObject.class));
         }
         if (!aims.isEmpty()) {
             aimType = AimType.Cell;

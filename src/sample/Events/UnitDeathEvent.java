@@ -14,7 +14,7 @@ public class UnitDeathEvent extends GEvent {
 
     @Override
     protected void logAfterEvent() {
-        GameModel.MODEL.log("base", "Dies", this);
+        GameModel.MODEL.log("base", "Dies", unit);
     }
 
     public UnitDeathEvent(GUnit unit) {

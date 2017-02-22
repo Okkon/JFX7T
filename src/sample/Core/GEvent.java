@@ -35,13 +35,13 @@ public abstract class GEvent {
     }
 
     protected void doAfterEvent() {
+        logAfterEvent();
         List<GEventListener<GEvent>> listenerList = listenersMap.get(getClass());
         if (listenerList != null) {
             for (GEventListener<GEvent> listener : listenerList) {
                 listener.doAfterEvent(this);
             }
         }
-        logAfterEvent();
     }
 
     protected void logAfterEvent() {

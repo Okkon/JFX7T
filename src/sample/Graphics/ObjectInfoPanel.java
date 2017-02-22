@@ -30,7 +30,7 @@ public class ObjectInfoPanel extends GridPane {
             return;
         }
         setVisible(true);
-//        setGridLinesVisible(true);
+        setGridLinesVisible(true);
 
         if (obj instanceof GUnit) {
             GUnit unit = (GUnit) obj;

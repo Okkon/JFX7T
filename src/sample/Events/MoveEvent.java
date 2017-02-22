@@ -20,7 +20,7 @@ public class MoveEvent extends GEvent {
 
     @Override
     protected void logBeforeEvent() {
-        GameModel.MODEL.log("base", "UnitMove", unit.getName(), unit.getXy(), unit.getXy());
+        GameModel.MODEL.log("base", "UnitMove", unit.getName(), unit.getXy(), toCell.getXy());
     }
 
     public GUnit getUnit() {
