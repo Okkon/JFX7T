@@ -12,7 +12,6 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.*;
 import sample.Core.*;
 import sample.Helpers.ImageHelper;
-import sample.Mods.Masking;
 import sample.MyConst;
 import sample.Tower.MainTower;
 import sample.Tower.Tower;
@@ -260,7 +259,7 @@ public class GObjectVisualizerImpl implements GObjectVisualizer {
     @Override
     public void applyEffect(GMod mod) {
         Map<Class<? extends GMod>, String> map = new HashMap<>();
-        map.put(Masking.class, "hidden");
+//        map.put(Masking.class, "hidden");
         String s = map.get(mod.getClass());
         if (s != null) {
             token.getStyleClass().remove(s);

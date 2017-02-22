@@ -32,7 +32,6 @@ public abstract class ShotAction extends Skill {
         addAimFilter(FilterFactory.ClassFilter.newInstance().setClass(GUnit.class).setError("NotUnit"));
         addAimFilter(NOT_ME, "NotMe");
         addAimFilter(IS_ON_ONE_LINE, "NotOnOneLine");
-        addAimFilter(CAN_SEE, "CantSee");
         addAimFilter(OBSTACLE_ON_ONE_LINE, "ObstacleOnLine");
         addAimFilter(DISTANCE_CHECK, "AimIsTooFar", distance);
         aimType = AimType.Object;

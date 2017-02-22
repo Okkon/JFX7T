@@ -4,7 +4,7 @@ package sample;
 import sample.Core.GUnit;
 import sample.GActions.RoundAttackAction;
 import sample.GActions.SwingAttackAction;
-import sample.GlobalMods.*;
+import sample.GlobalMods.MaskingMod;
 import sample.Mods.*;
 import sample.Skills.AstralBow;
 import sample.Skills.Crossbow;
@@ -49,7 +49,7 @@ public class GUnitFactory {
                 unit.setAttackAction(SwingAttackAction.getInstance());
                 unit.addMod(new Armor(2));
                 unit.addMod(new Shield(2));
-                unit.addGlobalMod(GuardMod.getInstance());
+//                unit.addGlobalMod(GuardMod.getInstance());
                 break;
             }
             case "Inquisitor": {
@@ -71,9 +71,9 @@ public class GUnitFactory {
             case "Assassin": {
                 unit = new GUnit(4, 36, 1, 2);
                 unit.setAttackAction(RoundAttackAction.getInstance());
-                unit.addMod(Masking.getInstance());
                 unit.addMod(Sabotage.getInstance());
-                unit.addGlobalMod(PushAttackMod.getInstance());
+//                unit.addGlobalMod(PushAttackMod.getInstance());
+                unit.addGlobalMod(MaskingMod.getInstance());
                 break;
             }
             case "AstralArcher": {

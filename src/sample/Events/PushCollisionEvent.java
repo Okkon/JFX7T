@@ -5,11 +5,11 @@ import sample.Core.*;
 /**
  * Created by olko1016 on 01/26/2017.
  */
-public class PushEvent extends GEvent {
+public class PushCollisionEvent extends GEvent {
    private final GUnit pushedUnit;
    private final GObject objPushedTo;
 
-   public PushEvent(GUnit pushedUnit, GObject objPushedTo) {
+   public PushCollisionEvent(GUnit pushedUnit, GObject objPushedTo) {
       this.pushedUnit = pushedUnit;
       this.objPushedTo = objPushedTo;
    }

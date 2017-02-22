@@ -7,10 +7,6 @@ import sample.Tower.Tower;
 public abstract class AbstractGMod implements GMod {
     protected int value;
 
-    @Override
-    public boolean canHideUnit(GObject observer, GObject aim) {
-        return false;
-    }
 
     @Override
     public boolean blocksTower(Tower tower) {

@@ -1,10 +1,10 @@
 package sample.GActions;
 
 import sample.Core.*;
+import sample.Events.FilterSelectionEvent;
 import sample.Helpers.NameHelper;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static sample.Filters.FilterFactory.FilterType;
@@ -57,7 +57,9 @@ public abstract class AbstractGAction implements GAction {
     }
 
     public List<GFilter> getAimFilters() {
-        return aimFilters;
+        ArrayList<GFilter> filters = new ArrayList<>(aimFilters);
+        new FilterSelectionEvent(this, filters).process();
+        return filters;
     }
 
     @Override
@@ -96,24 +98,20 @@ public abstract class AbstractGAction implements GAction {
 
     @Override
     public List<? extends PlaceHaving> getPossibleAims() {
-        List<? extends PlaceHaving> possibleAims = Collections.EMPTY_LIST;
-        List<GFilter> aimFilters = new ArrayList<>(this.aimFilters);
+        List<GFilter> aimFilters = getAimFilters();
         aimFilters.addAll(preferableAimFilters);
         if (actor != null) {
-            for (GFilter aimFilter : aimFilters) {
-                aimFilter.setObj(actor);
-            }
+            aimFilters.forEach(gFilter -> gFilter.setObj(actor));
         }
-        if (AimType.Cell.equals(aimType)) {
-            possibleAims = model.getCells(aimFilters);
+        switch (aimType) {
+            case Cell:
+                return model.getCells(aimFilters);
+            case Object:
+                return model.getObjects(aimFilters);
+            default:
+                return model.getAll(aimFilters);
         }
-        if (AimType.Object.equals(aimType)) {
-            possibleAims = model.getObjects(aimFilters);
-        }
-        if (AimType.ObjectAndCells.equals(aimType)) {
-            possibleAims = model.getAll(aimFilters);
-        }
-        return possibleAims;
+
     }
 
     @Override
@@ -166,7 +164,7 @@ public abstract class AbstractGAction implements GAction {
 
     @Override
     public boolean canSelect(PlaceHaving obj) {
-        for (GFilter filter : aimFilters) {
+        for (GFilter filter : getAimFilters()) {
             filter.setObj(getActor());
             if (!filter.check(obj)) {
                 return false;

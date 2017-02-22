@@ -16,9 +16,6 @@ public class FilterFactory {
     public static GFilter getFilter(FilterType type, String error, Object... params) {
         GFilter gFilter = null;
         switch (type) {
-            case CAN_SEE:
-                gFilter = new CanSeeFilter();
-                break;
             case IS_ON_ONE_LINE:
                 gFilter = new OneLineFilter();
                 break;
@@ -57,7 +54,7 @@ public class FilterFactory {
     }
 
     public enum FilterType {
-        CAN_SEE, IS_ON_ONE_LINE, OBSTACLE_ON_ONE_LINE, DISTANCE_CHECK, NOT_IN_DANGER, CLASS_FILTER, NOT_ME
+        IS_ON_ONE_LINE, OBSTACLE_ON_ONE_LINE, DISTANCE_CHECK, NOT_IN_DANGER, CLASS_FILTER, NOT_ME
     }
 
     public static class ClassFilter extends AbstractGFilter {
@@ -75,13 +72,6 @@ public class FilterFactory {
 
         public static ClassFilter newInstance() {
             return new ClassFilter();
-        }
-    }
-
-    private static class CanSeeFilter extends AbstractGFilter {
-        @Override
-        public boolean isOk(PlaceHaving obj) {
-            return model.canSee(getObj(), (GObject) obj);
         }
     }
 

@@ -1,7 +1,7 @@
 package sample.Core;
 
 import sample.Direction;
-import sample.Events.PushEvent;
+import sample.Events.PushCollisionEvent;
 import sample.Events.ShiftEvent;
 import sample.Events.UnitDeathEvent;
 import sample.Events.UnitEndTurnEvent;
@@ -59,8 +59,7 @@ public class GUnit extends GObject {
                 ShiftEvent shiftEvent = new ShiftEvent(this, nextCell);
                 shiftEvent.process();
             } else {
-                new PushEvent(this, obj);
-
+                new PushCollisionEvent(this, obj);
             }
         }
     }

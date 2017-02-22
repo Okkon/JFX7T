@@ -7,8 +7,6 @@ public interface GMod {
 
     void onTakeHit(Hit hit);
 
-    boolean canHideUnit(GObject observer, GObject aim);
-
     boolean blocksTower(Tower tower);
 
     void onTakeShot(Shell shell);

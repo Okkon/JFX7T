@@ -11,6 +11,7 @@ import java.util.List;
 
 public class AttackAction extends Skill {
     private static final AttackAction INSTANCE = new AttackAction();
+    private Hit hit;
 
     protected AttackAction() {
         super();
@@ -28,14 +29,14 @@ public class AttackAction extends Skill {
         final AttackEvent attackEvent =
                 new AttackEvent()
                         .setAttackAction(this)
-                      .setAttacker((GUnit) getActor())
+                        .setAttacker((GUnit) getActor())
                         .setAim(getAim());
         attackEvent.process();
     }
 
     public void attack(GUnit attacker, PlaceHaving aim) {
         for (GObject aimToHit : getAimsToHit(aim)) {
-            Hit hit = Hit.createHit(attacker, aimToHit);
+            hit = Hit.createHit(attacker, aimToHit);
             final List<GMod> mods = attacker.getMods();
             for (GMod mod : mods) {
                 mod.onHit(hit);

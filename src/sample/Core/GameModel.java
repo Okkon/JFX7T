@@ -6,6 +6,7 @@ import sample.Core.Phase.GPhase;
 import sample.*;
 import sample.Events.EndHourEvent;
 import sample.GActions.*;
+import sample.GlobalMods.MaskingMod;
 import sample.Graphics.GraphicsHelper;
 
 import java.util.*;
@@ -238,15 +239,6 @@ public class GameModel {
         return unitList;
     }
 
-    public boolean canSee(GObject observer, GObject aim) {
-        for (GMod mod : aim.getMods()) {
-            if (mod.canHideUnit(observer, aim)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public boolean onOneLine(GObject obj, GObject obj1) {
         return XY.isOnOneLine(obj.getXy(), obj1.getXy());
     }
@@ -270,12 +262,7 @@ public class GameModel {
 
     public boolean seesObstacle(GObject observer, GObject aim) {
         List<GObject> gObjects = getObjBetween(observer, aim);
-        for (GObject object : gObjects) {
-            if (canSee(observer, object)) {
-                return true;
-            }
-        }
-        return false;
+        return gObjects.stream().anyMatch(gObject -> !gObject.hasGmod(MaskingMod.class));
     }
 
     private List<GObject> getObjBetween(GObject observer, GObject aim) {

@@ -3,9 +3,7 @@ package sample.Filters;
 import sample.Core.GameCell;
 import sample.Core.PlaceHaving;
 
-/**
- * Created by kondrashov on 05.08.2016.
- */
+
 public class VacantCellFilter extends AbstractGFilter {
     private static final VacantCellFilter INSTANCE = new VacantCellFilter();
 

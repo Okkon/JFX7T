@@ -168,4 +168,8 @@ public abstract class GObject implements Selectable, PlaceHaving {
     public List<GlobalMod> getGlobalMods() {
         return globalMods;
     }
+
+    public boolean hasGmod(Class<? extends GlobalMod> modClass) {
+        return globalMods.stream().anyMatch(modClass::isInstance);
+    }
 }

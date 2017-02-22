@@ -19,7 +19,9 @@ public class HealEvent extends GEvent {
 
    @Override
    protected void logAfterEvent() {
-      GameModel.MODEL.log("base", "Recover", this, recoveredHp);
+      if (recoveredHp > 0) {
+         GameModel.MODEL.log("base", "Recover", this, recoveredHp);
+      }
    }
 
    @Override
